@@ -1,5 +1,5 @@
 import React from 'react'
-import LoginForm from '../../react-admin-ui/components/Login/LoginForm'
+import LoginForm from '../../../react-admin-ui/components/Login/LoginForm'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {login} from '../actions/Security'

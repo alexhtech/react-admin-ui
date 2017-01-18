@@ -1,9 +1,9 @@
 import React from 'react'
 import Drawler from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
-import {getEntities} from '../../../react-admin-ui'
+import {getEntities} from '../../../../react-admin-ui'
 import {Link} from 'react-router'
-import {getPrefix} from '../../../react-admin-ui'
+import {getPrefix} from '../../../../react-admin-ui'
 
 export default class Panel extends React.Component{
     componentDidMount = () =>{

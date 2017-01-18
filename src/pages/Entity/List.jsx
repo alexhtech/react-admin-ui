@@ -2,7 +2,7 @@ import React from 'react'
 import {preload} from 'react-isomorphic-render/redux'
 import {connect} from 'react-redux'
 import List from '../../components/Entity/List'
-import {getEntity} from '../../../react-admin-ui'
+import {getEntity} from '../../../../react-admin-ui'
 
 @preload(({fetchData, dispatch, parameters, location})=>{
         const {url, actions:{ list: {url: listUrl, params}}} = getEntity(parameters.name)
@@ -17,7 +17,9 @@ export default class ListPage extends React.Component{
         const entity = getEntity(entityName)
         const data = this.props.fetchData[`${entityName}List`]
         return (
-            <List data={data} entity={entity}/>
+            <div className='block'>
+                <List data={data} entity={entity}/>
+            </div>
         )
     }
 }

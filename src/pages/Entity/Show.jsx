@@ -1,7 +1,7 @@
 import React from 'react'
 import {preload} from 'react-isomorphic-render/redux'
 import {connect} from 'react-redux'
-import {getEntity} from '../../../react-admin-ui'
+import {getEntity} from '../../../../react-admin-ui'
 import Show from '../../components/Entity/Show'
 
 
@@ -18,7 +18,9 @@ export default class ShowPage extends React.Component{
         const entity = getEntity(entityName)
         const data = this.props.fetchData[`${entityName}Show`].response
         return (
-            <Show data={data} entity={entity}/>
+            <div className='block'>
+                <Show data={data} entity={entity}/>
+            </div>
         )
     }
 }

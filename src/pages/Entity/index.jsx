@@ -18,7 +18,7 @@ export default class Entity extends React.Component{
     const {panel} = this.props.modals
     const {routes, params} = this.props
         return (
-            <div style={{position: 'absolute', left: panel ? '256px': 0, top: '64px', transition: '450ms', padding: '20px'}}>
+            <div style={{position: 'absolute', left: panel ? '256px': 0, top: '45px', transition: '450ms', padding: '20px', width: `calc(100% - ${panel ? '296px': '40px'})`}}>
                 <Breadcrumbs routes={routes} params={params}/>
                 {this.props.children}
             </div>

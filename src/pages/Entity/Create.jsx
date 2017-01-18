@@ -1,6 +1,6 @@
 import React from 'react'
 import EntityForm from '../../components/Entity/Form'
-import {getEntity} from '../../../react-admin-ui'
+import {getEntity} from '../../../../react-admin-ui'
 import {fetchData} from 'react-security-fetcher'
 import {goto} from 'react-isomorphic-render/redux'
 import {connect} from 'react-redux'
@@ -35,7 +35,7 @@ export default class CreatePage extends React.Component{
         }
 
         return(
-            <div>
+            <div className='block'>
                 {Component ? <Component form={form} onSubmit={handleSubmit}/>: <EntityForm form={form} fields={fields} onSubmit={handleSubmit} onSubmitSuccess={onSubmitSuccess||handleSubmitSuccess} initialValues={initialValues}/>}
             </div>
         )

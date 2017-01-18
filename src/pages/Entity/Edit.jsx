@@ -1,6 +1,6 @@
 import React from 'react'
 import EntityForm from '../../components/Entity/Form'
-import {getEntity} from '../../../react-admin-ui'
+import {getEntity, getPrefix} from '../../../../react-admin-ui'
 import {fetchData} from 'react-security-fetcher'
 import {goto} from 'react-isomorphic-render/redux'
 import {connect} from 'react-redux'
@@ -18,47 +18,61 @@ import {preload} from 'react-isomorphic-render/redux'
     actions: bindActionCreators({goto}, dispatch)
 }))
 export default class EditPage extends React.Component{
-    render(){
-        const {name: entityName} = this.props.params
-        const entity = getEntity(entityName)
-        const {actions:{edit:{form, fields, formFields, component: Component, wrapper, url, params = {}, onSubmitSuccess}}} = entity
-        const {goto} = this.props.actions
-        const data = this.props.fetchData[`${entityName}Edit`].response
+    constructor(props){
+        super(props);
+        this.entity = getEntity(props.params.name) 
+    }
+    handleDelete = async () => {
+        if(this.entity.actions.del && (typeof this.entity.actions.del.url == 'function')){
+            await fetchData(this.entity.actions.del.url(this.props.params), 'DELETE')
+        }
+        this.props.actions.goto(`/${getPrefix()}/${this.props.params.name}`)
+    }
+    getInitialValues = (formFields = this.entity.actions.edit.formFields, data = this.props.fetchData[`${this.entity.name}Edit`].response) =>{
+        let values = {}
+        for(let i in formFields){
+            if(formFields.hasOwnProperty(i)){
+                let {name} = formFields[i]
+                values[name] = showField(name, data)
+            }
+        }
+        return values
+    }
 
-        const getInitialValues = () =>{
-            let values = {}
-            for(let i in formFields){
-                if(formFields.hasOwnProperty(i)){
-                    let {name} = formFields[i]
-                    values[name] = showField(name, data)
+
+    handleSubmit = async (form) =>{
+        const {actions:{edit:{wrapper, params = {}, url}}} = this.entity
+        let _params = wrapper ? Object.assign(params, {[wrapper]: form}): Object.assign(form, params)
+        const {result} = this.entity.actions.create
+        if(typeof (result) == 'function'){
+            _params = result(_params)
+        }
+        try{
+            return await fetchData(url(this.props.params), 'PUT', {params: _params})
+        }
+        catch (e){
+            throw e
+        }
+    }
+
+
+    handleSubmitSuccess = () =>{
+        this.props.actions.goto(`/${getPrefix()}/${this.props.params.name}`)
+    }
+    
+    render(){
+        const {
+            entity: {
+                actions:{
+                    edit:{form, fields, component: Component, onSubmitSuccess}
                 }
             }
-            return values
-        }
-
-        const handleSubmit = async (form) =>{
-            let _params = wrapper ? Object.assign(params, {[wrapper]: form}): Object.assign(form, params)
-            const {result} = getEntity(entityName).actions.create
-            if(typeof (result) == 'function'){
-                _params = result(_params)
-            }
-            try{
-                return await fetchData(url(this.props.params), 'PUT', {params: _params})
-            }
-            catch (e){
-                throw e
-            }
-        }
-
-        const handleSubmitSuccess = () =>{
-            goto(`/entity/${entityName}`)
-        }
-
+        } = this
         return(
-            <div>
+            <div className='block'>
                 {Component ?
-                    <Component form={form} onSubmit={handleSubmit} initialValues={getInitialValues()}/>:
-                    <EntityForm form={form} fields={fields} onSubmit={handleSubmit} onSubmitSuccess={onSubmitSuccess||handleSubmitSuccess} initialValues={getInitialValues()}/>
+                    <Component form={form} onSubmit={this.handleSubmit} initialValues={this.getInitialValues()}/>:
+                    <EntityForm form={form} fields={fields} onSubmit={this.handleSubmit} onSubmitSuccess={onSubmitSuccess||this.handleSubmitSuccess} initialValues={this.getInitialValues()} onDelete={this.handleDelete} entity={this.entity}/>
                 }
             </div>
         )

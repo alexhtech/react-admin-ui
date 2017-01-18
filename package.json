@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/aleksdp/react-admin-ui/issues"
   },
-  "homepage": "https://github.com/aleksdp/react-admin-ui#readme"
+  "homepage": "https://github.com/aleksdp/react-admin-ui#readme",
+  "dependencies": {
+    "feature-components": "0.0.3"
+  }
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import onClickOutside from 'react-onclickoutside-decorator'
 import List, {showField} from './list'
-import './style.sass'
 
 export default class Export extends React.Component{
     constructor(){

@@ -2,11 +2,14 @@ import React from 'react'
 import {reduxForm, Field, FieldArray} from 'redux-form'
 import * as widgets from '../../Widgets'
 import {showField} from '../../../utils/utility'
+import {RaisedButton} from 'material-ui'
+import ActionButton from '../../Common/ActionButton'
 
 @reduxForm()
 export default class EntityForm extends React.Component{
+
     render(){
-        const {handleSubmit, submitting, fields} = this.props
+        const {handleSubmit, submitting, fields, entity:{actions:{del}}} = this.props
         return(
             <form onSubmit={handleSubmit} className='entity-form'>
                 {fields.map(({type = 'field', ...item}, key)=>{
@@ -25,7 +28,10 @@ export default class EntityForm extends React.Component{
                         </div>
                     )
                 })}
-                <button type='submit' disabled={submitting}>save</button>
+                <div className='controls'>
+                    {del && <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}/>}
+                    <RaisedButton label='Save' type='submit' primary={true} disabled={submitting}/>
+                </div>
             </form>
         )
     }
