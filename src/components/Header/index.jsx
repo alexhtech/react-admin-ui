@@ -7,8 +7,8 @@ import {logout} from '../../actions/Security'
 import UserMenu from '../UserMenu'
 
 @connect((state)=>({
-    modals: state.modals,
-    user: state.authentication.user
+    modals: state.getIn(['modals']).toJS(),
+    user: state.getIn(['authentication', 'user'])
 }), (dispatch)=>({
     actions: bindActionCreators({
         show: (name)=>openModal(name),

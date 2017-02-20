@@ -1,25 +1,25 @@
 import React from 'react'
-import {preload} from 'react-isomorphic-render/redux'
+import {preload} from 'react-isomorphic-tools'
 import {connect} from 'react-redux'
 import {getEntity} from '../../../../react-admin-ui'
 import Show from '../../components/Entity/Show'
 
 
-@preload(({fetchData, dispatch, parameters, location})=>{
-    const entity = getEntity(parameters.name)
-    return dispatch(fetchData(typeof (entity.actions.show.url) == 'function' ? entity.actions.show.url(parameters): `/${parameters.name}/${parameters.id}`, `${parameters.name}Show`, 'GET', {params: location.query}))
+@preload(({fetchToState, params, location})=> {
+    const entity = getEntity(params.name)
+    return fetchToState(typeof (entity.actions.show.url) == 'function' ? entity.actions.show.url(params) : `/${params.name}/${params.id}`, {
+        params: {...location.query},
+        key: `${params.name}Show`
+    })
 })
-@connect((state)=>({
-    fetchData: state.fetchData,
+@connect((state, props)=>({
+    item: state.getIn(['fetchData', `${props.params.name}Show`, 'response']),
 }))
-export default class ShowPage extends React.Component{
-    render(){
-        const {name: entityName} = this.props.params
-        const entity = getEntity(entityName)
-        const data = this.props.fetchData[`${entityName}Show`].response
+export default class ShowPage extends React.Component {
+    render() {
         return (
             <div className='block'>
-                <Show data={data} entity={entity}/>
+                <Show data={this.props.item.toJS()} entity={getEntity(this.props.params.name)}/>
             </div>
         )
     }

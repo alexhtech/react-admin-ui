@@ -3,24 +3,22 @@ import LoginForm from '../../../react-admin-ui/components/Login/LoginForm'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {login} from '../actions/Security'
-import { goto } from 'react-isomorphic-render/redux'
-import { head } from 'react-isomorphic-render'
+import {push} from 'react-router-redux'
 
 @connect((state)=>({
     user: state.authentication.user
 }), (dispatch)=>({
-    actions: bindActionCreators({login, goto}, dispatch)
+    actions: bindActionCreators({login, push}, dispatch)
 }))
-export default class Login extends React.Component{
-    render(){
+export default class Login extends React.Component {
+    render() {
         const {login, goto} = this.props.actions
         const go = () => {
-            goto('/')
+            push('/')
         }
 
         return (
             <div>
-                {head('React Admin | Login')}
                 <LoginForm onSubmit={login} onSubmitSuccess={go}/>
             </div>
         )

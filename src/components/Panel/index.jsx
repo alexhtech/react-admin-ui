@@ -7,7 +7,15 @@ import {getPrefix} from '../../../../react-admin-ui'
 
 export default class Panel extends React.Component{
     componentDidMount = () =>{
-        this.props.handleShow('panel')
+        setTimeout(()=>{
+            this.props.handleShow('panel')
+        }, 100)
+
+
+    }
+    componentWillUnmount = () => {
+        this.props.handleClose('panel')
+
     }
 
     render(){

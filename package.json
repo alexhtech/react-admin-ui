@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/aleksdp/react-admin-ui#readme",
   "dependencies": {
-    "feature-components": "0.0.3"
+    "feature-components": "0.0.3",
+    "react-isomorphic-tools": "^1.0.13"
   }
 }

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {openModal, closeModal} from 'redux-modals-state'
 import LocationComponent from './Location'
-import {redux as fetchData} from 'react-security-fetcher'
+import {fetchToState} from 'react-isomorphic-tools'
 import './style.sass'
 
 @connect(state=>{
@@ -19,7 +19,7 @@ import './style.sass'
     actions: bindActionCreators({
         openModal,
         closeModal,
-        fetchData
+        fetchToState
     }, dispatch)
 }))
 export default class Location extends React.Component{

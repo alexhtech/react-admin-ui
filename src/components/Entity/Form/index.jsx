@@ -1,5 +1,5 @@
 import React from 'react'
-import {reduxForm, Field, FieldArray} from 'redux-form'
+import {reduxForm, Field, FieldArray} from 'redux-form/immutable'
 import * as widgets from '../../Widgets'
 import {showField} from '../../../utils/utility'
 import {RaisedButton} from 'material-ui'
@@ -8,6 +8,10 @@ import ActionButton from '../../Common/ActionButton'
 @reduxForm()
 export default class EntityForm extends React.Component{
 
+    static defaultProps = {
+        del: false,
+        label: 'Save'
+    }
     render(){
         const {handleSubmit, submitting, fields, entity:{actions:{del}}} = this.props
         return(
@@ -29,8 +33,8 @@ export default class EntityForm extends React.Component{
                     )
                 })}
                 <div className='controls'>
-                    {del && <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}/>}
-                    <RaisedButton label='Save' type='submit' primary={true} disabled={submitting}/>
+                    {this.props.del && del && <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}/>}
+                    <RaisedButton label={this.props.label} type='submit' primary={true} disabled={submitting}/>
                 </div>
             </form>
         )

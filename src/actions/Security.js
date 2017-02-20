@@ -1,9 +1,11 @@
-import {fetchData, Auth} from 'react-security-fetcher'
-import {goto} from 'react-isomorphic-render/redux'
+import {fetcher, Auth, goto} from 'react-isomorphic-tools'
 
 export const login = (form) => async (dispatch) => {
     try{
-        const response = await fetchData('/login_check', 'POST', {params: form})
+        const response = await fetcher('/login_check', {
+            params: form,
+            method: 'POST'
+        })
         Auth.setToken(response.token)
         Auth.setRefreshToken(response.refreshToken)
         dispatch({
@@ -24,7 +26,7 @@ export const getAccount = () => async (dispatch) => {
         return;
     }
     try{
-        const response = await fetchData('/users-self')
+        const response = await fetcher('/users-self')
         dispatch({
             type: 'ACCOUNT_SUCCESS',
             payload: response

@@ -1,5 +1,5 @@
 import React from 'react'
-import {fetchData} from 'react-security-fetcher'
+import {fetcher} from 'react-isomorphic-tools'
 
 export default class Loader extends React.Component{
     
@@ -9,7 +9,8 @@ export default class Loader extends React.Component{
             if(e.target.files.hasOwnProperty(file)){
                 const body = new FormData()
                 body.append('file', e.target.files[file])
-                fetchData('/_uploader/gallery/upload', 'POST', {
+                fetcher('/_uploader/gallery/upload', {
+                    method: 'POST',
                     type: 'form-data',
                     params: body
                 })
