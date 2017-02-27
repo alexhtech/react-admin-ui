@@ -1,8 +1,8 @@
-import React from 'react'
-import {Router} from 'react-router'
-import {routes} from './Routes.jsx'
-import {AsyncLoader} from 'react-isomorphic-tools'
-import {Provider} from 'react-redux'
+import React from "react"
+import {Router} from "react-router"
+import {routes} from "./Routes.jsx"
+import {AsyncLoader} from "react-isomorphic-tools"
+import {Provider} from "react-redux"
 
 
 

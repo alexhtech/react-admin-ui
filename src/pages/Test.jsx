@@ -1,35 +1,35 @@
-import React from 'react'
-import {Link} from 'react-router'
-import {preload} from 'react-isomorphic-tools'
-import Helmet from 'react-helmet'
-import Test2 from './Test2'
+import React from "react"
+import {Link} from "react-router"
+import {preload} from "react-isomorphic-tools"
+import Helmet from "react-helmet"
+import Test2 from "./Test2"
 
 
 @preload(({fetchToState})=>{
-    return fetchToState('/events', {
-        key: 'eventsList',
+    return fetchToState("/events", {
+        key: "eventsList",
         params:{
             page: 22
         }
     })
 })
 export default class Test extends React.Component {
-    static displayName = 'TestPage'
+    static displayName = "TestPage"
 
     componentDidMount = () =>{
-        console.log('mount component')
+        console.log("mount component")
 
     }
     componentWillUnmount = () => {
 
-        console.log('unmount component')
+        console.log("unmount component")
     }
     render() {
         return (
             <div>Test component
 
                 <Helmet title="test page"/>
-                <div className='test'>test</div>
+                <div className="test">test</div>
 
                 <div>
                     <Link to="/">to asdasdasd</Link>

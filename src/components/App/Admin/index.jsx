@@ -1,16 +1,15 @@
-import React from 'react'
+import React from "react"
 
-import {setEntities, setPrefix} from '../../../../react-admin-ui'
+import {setEntities, setPrefix} from "../../../../react-admin-ui/src"
+import "../../../../react-admin-ui/assets/styles/style.sass"
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {grey500, blueGrey800, grey700} from 'material-ui/styles/colors'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-
-import Admin from './Admin'
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import {grey500, blueGrey800, grey700} from "material-ui/styles/colors"
+import getMuiTheme from "material-ui/styles/getMuiTheme"
 
 
-setEntities(require('../../../entities'))
-setPrefix('admin/entity')
+setEntities(require("../../../entities"))
+setPrefix("admin/entity")
 
 
 export default class index extends React.Component {
@@ -29,9 +28,7 @@ export default class index extends React.Component {
                     borderColor: null,
                 }
             })}>
-                <Admin>
                     {this.props.children}
-                </Admin>
             </MuiThemeProvider>
         )
     }
