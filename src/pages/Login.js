@@ -1,9 +1,9 @@
-import React from 'react'
-import LoginForm from '../../../react-admin-ui/components/Login/LoginForm'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {login} from '../actions/Security'
-import {push} from 'react-router-redux'
+import React from "react"
+import LoginForm from "../components/Login/LoginForm"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {login} from "../actions/Security"
+import {push} from "react-router-redux"
 
 @connect((state)=>({
     user: state.authentication.user
@@ -12,14 +12,11 @@ import {push} from 'react-router-redux'
 }))
 export default class Login extends React.Component {
     render() {
-        const {login, goto} = this.props.actions
-        const go = () => {
-            push('/')
-        }
+        const {login, push} = this.props.actions
 
         return (
             <div>
-                <LoginForm onSubmit={login} onSubmitSuccess={go}/>
+                <LoginForm onSubmit={login} onSubmitSuccess={()=>push("/")}/>
             </div>
         )
     }

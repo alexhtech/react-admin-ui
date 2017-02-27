@@ -1,21 +1,21 @@
-import React from 'react'
-import EntityForm from '../../components/Entity/Form'
-import {getEntity, getPrefix} from '../../../../react-admin-ui'
-import {connect} from 'react-redux'
-import {showField} from '../../utils/utility'
-import {preload, fetcher} from 'react-isomorphic-tools'
-import {push} from 'react-router-redux'
-import {open} from '../../actions/Snackbar'
+import React from "react"
+import EntityForm from "../../components/Entity/Form"
+import {getEntity, getPrefix} from "../.."
+import {connect} from "react-redux"
+import {showField} from "../../utils/utility"
+import {preload, fetcher} from "react-isomorphic-tools"
+import {push} from "react-router-redux"
+import {open} from "../../actions/Snackbar"
 
 @preload(({fetchToState, params, location})=> {
     const entity = getEntity(params.name)
-    return fetchToState(typeof (entity.actions.show.url) == 'function' ? entity.actions.show.url(params) : `/${params.name}/${params.id}`, {
+    return fetchToState(typeof (entity.actions.show.url) == "function" ? entity.actions.show.url(params, location.query) : `/${params.name}/${params.id}`, {
         params: {...location.query},
         key: `${params.name}Edit`
     })
 })
 @connect((state, props)=>({
-    item: state.getIn(['fetchData', `${props.params.name}Edit`, 'response']).toJS(),
+    item: state.getIn(["fetchData", `${props.params.name}Edit`, "response"]).toJS(),
 }), {push, open})
 export default class EditPage extends React.Component {
     constructor(props) {
@@ -23,18 +23,18 @@ export default class EditPage extends React.Component {
         this.entity = getEntity(props.params.name)
     }
 
-    static displayName = 'AdminEditPage'
+    static displayName = "AdminEditPage"
 
     async handleDelete() {
         try {
-            await fetcher(this.entity.actions.del.url(this.props.params), {
-                method: 'DELETE'
+            await fetcher(this.entity.actions.del.url(this.props.params, this.props.location.query), {
+                method: "DELETE"
             })
-            this.props.open('default', 'Successfully deleted')
+            this.props.open("default", "Successfully deleted")
             this.props.push(`/${getPrefix()}/${this.props.params.name}`)
         }
         catch (e) {
-            this.props.open('default', 'Error deleting')
+            this.props.open("default", "Error deleting")
         }
     }
 
@@ -54,24 +54,24 @@ export default class EditPage extends React.Component {
         const {actions:{edit:{wrapper, params = {}, url}}} = this.entity
         let _params = wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params)
         const {result} = this.entity.actions.create
-        if (typeof (result) == 'function') {
+        if (typeof (result) == "function") {
             _params = result(_params)
         }
 
-        return fetcher(url(this.props.params), {
+        return fetcher(url(this.props.params, this.props.location.query), {
             params: _params,
-            method: 'PUT'
+            method: "PUT"
         })
     }
 
 
     handleSubmitSuccess = () => {
-        this.props.open('default', 'Successfully saved')
+        this.props.open("default", "Successfully saved")
         this.props.push(`/${getPrefix()}/${this.props.params.name}`)
     }
 
     handleSubmitFail = () => {
-        this.props.open('default', 'Error saving')
+        this.props.open("default", "Error saving")
     }
 
     render() {
@@ -83,7 +83,7 @@ export default class EditPage extends React.Component {
             }
         } = this
         return (
-            <div className='block'>
+            <div className="block">
                 {Component ?
                     <Component form={form} onSubmit={this.handleSubmit}
                                onSubmitError={this.handleSubmitFail}

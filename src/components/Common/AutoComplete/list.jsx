@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react"
 export const showField = (itemName, data) => {
-    const field = itemName.split('.')
+    const field = itemName.split(".")
     let name
     for(let i in field){
         if(field.hasOwnProperty(i)){

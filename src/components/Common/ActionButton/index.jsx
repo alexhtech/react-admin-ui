@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 export default class ActionButton extends React.Component {
     constructor(){
@@ -23,13 +23,13 @@ export default class ActionButton extends React.Component {
         const {className, action, onSuccess, onError, component: Component, ...props} = this.props
         return (
             <div>
-                {!this.state.loading ? <Component type='button' className={className} onClick={async (e)=>{
+                {!this.state.loading ? <Component type="button" className={className} onClick={async (e)=>{
                     try{
                         this.setState({
                             loading: true
                         })
                         const response = await action(e)
-                        if(typeof (onSuccess) == 'function'){
+                        if(typeof (onSuccess) == "function"){
                             onSuccess(response)
                         }
                         if(this.mount){
@@ -45,15 +45,15 @@ export default class ActionButton extends React.Component {
                                 e
                             })
                         }
-                        if(typeof (onError) == 'function'){
+                        if(typeof (onError) == "function"){
                             onError(e)
                         }
                     }
                 }} {...props}>
                     {this.props.children}
                 </Component>:
-                    <div className='loader-wrap'>
-                        <div className='loader'>
+                    <div className="loader-wrap">
+                        <div className="loader">
                         </div>
                     </div>
                 }

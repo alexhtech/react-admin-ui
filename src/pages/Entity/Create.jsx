@@ -1,10 +1,10 @@
-import React from 'react'
-import EntityForm from '../../components/Entity/Form'
-import {getEntity} from '../../../../react-admin-ui'
-import {fetcher} from 'react-isomorphic-tools'
-import {push} from 'react-router-redux'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import React from "react"
+import EntityForm from "../../components/Entity/Form"
+import {getEntity} from "../.."
+import {fetcher} from "react-isomorphic-tools"
+import {push} from "react-router-redux"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
 
 @connect(null, (dispatch)=>({
     actions: bindActionCreators({push}, dispatch)
@@ -22,13 +22,13 @@ export default class CreatePage extends React.Component {
         const handleSubmit = async(form) => {
             let _params = wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params)
             const {result} = getEntity(entityName).actions.create
-            if (typeof (result) == 'function') {
+            if (typeof (result) == "function") {
                 _params = result(_params)
             }
             try {
-                return await fetcher(url(), {
+                return await fetcher(url(this.props.params, this.props.location.query), {
                     params: _params,
-                    method: 'POST'
+                    method: "POST"
                 })
             }
             catch (e) {
@@ -41,12 +41,12 @@ export default class CreatePage extends React.Component {
         }
 
         return (
-            <div className='block'>
+            <div className="block">
                 {Component ? <Component form={form} onSubmit={handleSubmit}/> :
                     <EntityForm
                         form={form} fields={fields} onSubmit={handleSubmit}
                         onSubmitSuccess={onSubmitSuccess || handleSubmitSuccess}
-                        initialValues={initialValues} entity={getEntity(this.props.params.name)} label='Create'/>}
+                        initialValues={initialValues} entity={getEntity(this.props.params.name)} label="Create"/>}
             </div>
         )
     }

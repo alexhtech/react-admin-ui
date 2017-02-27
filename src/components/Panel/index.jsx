@@ -1,30 +1,29 @@
-import React from 'react'
-import Drawler from 'material-ui/Drawer'
-import MenuItem from 'material-ui/MenuItem'
-import {getEntities} from '../../../../react-admin-ui'
-import {Link} from 'react-router'
-import {getPrefix} from '../../../../react-admin-ui'
+import React from "react"
+import Drawler from "material-ui/Drawer"
+import MenuItem from "material-ui/MenuItem"
+import {getEntities, getPrefix} from "../.."
+import {Link} from "react-router"
 
-export default class Panel extends React.Component{
-    componentDidMount = () =>{
-        setTimeout(()=>{
-            this.props.handleShow('panel')
+export default class Panel extends React.Component {
+    componentDidMount = () => {
+        setTimeout(()=> {
+            this.props.handleShow("panel")
         }, 100)
 
 
     }
     componentWillUnmount = () => {
-        this.props.handleClose('panel')
+        this.props.handleClose("panel")
 
     }
 
-    render(){
+    render() {
         const {open} = this.props
         const entities = getEntities()
-        return(
-            <Drawler open={open==true} containerStyle={{top: '64px'}}>
+        return (
+            <Drawler open={open == true} containerStyle={{top: "64px"}}>
                 {Object.values(entities).map((item, index)=>(
-                    <Link key={index} to={`/${getPrefix()}/${item.name}`}><MenuItem>{item.title||item.name}</MenuItem></Link>
+                    <Link key={index} to={`/${getPrefix()}/${item.name}`}><MenuItem>{item.title || item.name}</MenuItem></Link>
                 ))}
             </Drawler>
         )

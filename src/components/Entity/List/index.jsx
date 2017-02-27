@@ -1,20 +1,20 @@
-import React from 'react'
-import Pagination from '../../Pagination'
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
-import ContentAdd from 'material-ui/svg-icons/content/add'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import {Link} from 'react-router'
-import {showField} from '../../../utils/utility'
-import * as widgets from '../../Widgets'
-import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
-import Edit from 'material-ui/svg-icons/image/edit'
+import React from "react"
+import Pagination from "../../Pagination"
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui/Table"
+import ContentAdd from "material-ui/svg-icons/content/add"
+import FloatingActionButton from "material-ui/FloatingActionButton"
+import {Link} from "react-router"
+import {showField} from "../../../utils/utility"
+import * as widgets from "../../Widgets"
+import ChevronRight from "material-ui/svg-icons/navigation/chevron-right"
+import Edit from "material-ui/svg-icons/image/edit"
 
 @Pagination()
 export default class List extends React.Component {
     render() {
-        const {data: {response: {items}}, entity: {actions: {list: {fields}, create, show, edit}}, location: {pathname}} = this.props
+        const {data: {response: {items}}, entity: {actions: {list: {fields}, create, show, edit}}, location: {pathname, query}} = this.props
         const style = {
-            float: 'right'
+            float: "right"
         }
         return (
             <div>
@@ -28,7 +28,7 @@ export default class List extends React.Component {
                                 )
                             })}
                             {create ?
-                                <TableHeaderColumn><Link to={`${pathname}/create`}><FloatingActionButton mini={true}
+                                <TableHeaderColumn><Link to={{pathname: `${pathname}/create`, query }}><FloatingActionButton mini={true}
                                                                                                          style={style}><ContentAdd /></FloatingActionButton></Link></TableHeaderColumn> : null}
                         </TableRow>
                     </TableHeader>
@@ -39,7 +39,7 @@ export default class List extends React.Component {
                                 <TableRow key={key} hoverable={true}>
                                     {fields.map((field, key)=> {
                                         let {component} = item
-                                        if (typeof (component) == 'string') {
+                                        if (typeof (component) == "string") {
                                             let widget = showField(component, widgets)
                                             if (widget) {
                                                 item = {...item, component: widget, id: `__${item.name}`}
@@ -53,10 +53,10 @@ export default class List extends React.Component {
                                         )
                                     })}
                                     <TableRowColumn>
-                                        <div style={{float: 'right'}}>
-                                            {edit ? <Link to={`${pathname}/edit/${item.id}`}><Edit/></Link> : null}
+                                        <div style={{float: "right"}}>
+                                            {edit ? <Link to={{pathname: `${pathname}/edit/${item.id}`, query}}><Edit/></Link> : null}
                                             {show ?
-                                                <Link to={`${pathname}/show/${item.id}`}><ChevronRight/></Link> : null}
+                                                <Link to={{pathname: `${pathname}/show/${item.id}`, query}}><ChevronRight/></Link> : null}
                                         </div>
                                     </TableRowColumn>
                                 </TableRow>
@@ -64,7 +64,6 @@ export default class List extends React.Component {
                         })}
                     </TableBody>
                 </Table>
-
             </div>
         )
     }

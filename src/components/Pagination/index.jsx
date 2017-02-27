@@ -1,14 +1,14 @@
-import React from 'react'
-import {Link} from 'react-router'
-import {connect} from 'react-redux'
+import React from "react"
+import {Link} from "react-router"
+import {connect} from "react-redux"
 
 @connect((state)=>({
-    location: state.getIn(['routing', 'locationBeforeTransitions'])
+    location: state.getIn(["routing", "locationBeforeTransitions"])
 }))
 export default ({itemsPerPage = 10, visible = 4} = {})=> {
     return (Component) => class Pagination extends React.Component {
         render() {
-            const name = this.props.name || 'page'
+            const name = this.props.name || "page"
             const {location} = this.props
             const {request: {params: {[name]: currentPage = 1}}, response:{totalItems}} = this.props.data
 
@@ -20,7 +20,7 @@ export default ({itemsPerPage = 10, visible = 4} = {})=> {
                 if (i >= currentPage - 1 && pages.length < visible) {
                     pages.push(
                         <Link to={{pathname: location.pathname, query: {...query, [name]: i}}} key={i}>
-                            <p className={i == currentPage && 'active'}>{i}</p>
+                            <p className={i == currentPage && "active"}>{i}</p>
                         </Link>
                     )
                 }
@@ -30,17 +30,17 @@ export default ({itemsPerPage = 10, visible = 4} = {})=> {
 
                 <div>
                     <Component {...this.props}/>
-                    <div className='paginator'>
+                    <div className="paginator">
                         {countPages && currentPage != 1 &&
                         <Link to={{
                             pathname: location.pathname, query: {
                                 ...query, [name]: currentPage - 1 == 0 ? 1 : currentPage - 1
                             }
-                        }} className='paginator__arrows'><i className='fa fa-angle-double-left'/></Link>}
+                        }} className="paginator__arrows"><i className="fa fa-angle-double-left"/></Link>}
                         {pages}
                         {countPages != currentPage &&
                         <Link to={{pathname: location.pathname, query: {...query, [name]: currentPage - 1 + 2}}}
-                              className='paginator__arrows'><i className='fa fa-angle-double-right'/></Link>}
+                              className="paginator__arrows"><i className="fa fa-angle-double-right"/></Link>}
                     </div>
                 </div>
             )

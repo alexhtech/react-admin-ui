@@ -1,6 +1,6 @@
 const open = (key, message) => dispatch => {
     dispatch({
-        type: '@@snackbar/open',
+        type: "@@snackbar/open",
         meta: key,
         payload: message
     })
@@ -8,7 +8,7 @@ const open = (key, message) => dispatch => {
 
 const close = (key, message) => dispatch => {
     dispatch({
-        type: '@@snackbar/close',
+        type: "@@snackbar/close",
         meta: key,
         message: message
     })

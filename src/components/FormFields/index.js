@@ -1,6 +1,6 @@
-export * as material from 'redux-form-material-ui'
-export image from './Image'
-export richEditor from './RichEditor'
-export locations from './Locations'
-export timePicker from './TimePicker'
-export datePicker from './DatePicker'
+export * as material from "redux-form-material-ui"
+export image from "./Image"
+export richEditor from "./RichEditor"
+export locations from "./Locations"
+export timePicker from "./TimePicker"
+export datePicker from "./DatePicker"

@@ -1,21 +1,21 @@
-import {fetcher, Auth, goto} from 'react-isomorphic-tools'
+import {fetcher, Auth, goto} from "react-isomorphic-tools"
 
 export const login = (form) => async (dispatch) => {
     try{
-        const response = await fetcher('/login_check', {
+        const response = await fetcher("/login_check", {
             params: form,
-            method: 'POST'
+            method: "POST"
         })
         Auth.setToken(response.token)
         Auth.setRefreshToken(response.refreshToken)
         dispatch({
-            type: 'LOGIN_SUCCESS',
+            type: "LOGIN_SUCCESS",
             payload: await dispatch(getAccount())
         })
     }
     catch (e){
         dispatch({
-            type: 'LOGIN_ERROR'
+            type: "LOGIN_ERROR"
         })
         throw e
     }
@@ -26,16 +26,16 @@ export const getAccount = () => async (dispatch) => {
         return;
     }
     try{
-        const response = await fetcher('/users-self')
+        const response = await fetcher("/users-self")
         dispatch({
-            type: 'ACCOUNT_SUCCESS',
+            type: "ACCOUNT_SUCCESS",
             payload: response
         })
         return response
     }
     catch (e){
         dispatch({
-            type: 'ACCOUNT_ERROR'
+            type: "ACCOUNT_ERROR"
         })
         throw e
     }
@@ -44,7 +44,7 @@ export const getAccount = () => async (dispatch) => {
 export const logout = () => (dispatch) => {
     Auth.logout()
     dispatch({
-        type: 'LOGOUT_SUCCESS'
+        type: "LOGOUT_SUCCESS"
     })
-    dispatch(goto('/login'))
+    dispatch(goto("/login"))
 }

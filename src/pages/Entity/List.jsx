@@ -1,8 +1,8 @@
-import React from 'react'
-import {preload} from 'react-isomorphic-tools'
-import {connect} from 'react-redux'
-import List from '../../components/Entity/List'
-import {getEntity} from '../../../../react-admin-ui'
+import React from "react"
+import {preload} from "react-isomorphic-tools"
+import {connect} from "react-redux"
+import List from "../../components/Entity/List"
+import {getEntity} from "../.."
 
 @preload(({fetchToState, params, location})=>{
         const {url, actions:{ list: {url: listUrl, params: listParams}}} = getEntity(params.name)
@@ -13,13 +13,13 @@ import {getEntity} from '../../../../react-admin-ui'
         })
 })
 @connect((state, props)=>({
-    list: state.getIn(['fetchData', `${props.params.name}List`])
+    list: state.getIn(["fetchData", `${props.params.name}List`])
 }))
 export default class ListPage extends React.Component{
-    static displayName = 'AdminListPage'
+    static displayName = "AdminListPage"
     render(){
         return (
-            <div className='block'>
+            <div className="block">
                 <List data={this.props.list.toJS()} entity={getEntity(this.props.params.name)}/>
             </div>
         )
