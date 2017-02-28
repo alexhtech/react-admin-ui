@@ -1,7 +1,7 @@
 import React from "react"
-import {preload} from "react-isomorphic-tools"
+import {preload, fetcher} from "react-isomorphic-tools"
 import {connect} from "react-redux"
-import {getEntity} from "../.."
+import {getEntity, getPrefix} from "../.."
 import Show from "../../components/Entity/Show"
 
 
@@ -16,10 +16,28 @@ import Show from "../../components/Entity/Show"
     item: state.getIn(["fetchData", `${props.params.name}Show`, "response"]),
 }))
 export default class ShowPage extends React.Component {
+    constructor(props){
+        super(props);
+        this.entity = getEntity(props.params.name)
+    }
+
+    async handleDelete() {
+        try {
+            await fetcher(this.entity.actions.del.url(this.props.params, this.props.location.query), {
+                method: "DELETE"
+            })
+            this.props.open("default", "Successfully deleted")
+            this.props.push(`/${getPrefix()}/${this.props.params.name}`)
+        }
+        catch (e) {
+            this.props.open("default", "Error deleting")
+        }
+    }
+
     render() {
         return (
             <div className="block">
-                <Show data={this.props.item.toJS()} entity={getEntity(this.props.params.name)}/>
+                <Show data={this.props.item.toJS()} entity={this.entity} onDelete={::this.handleDelete}/>
             </div>
         )
     }

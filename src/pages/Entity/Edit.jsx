@@ -27,6 +27,7 @@ export default class EditPage extends React.Component {
 
     async handleDelete() {
         try {
+            console.log(this.entity.actions.del.url(this.props.params, this.props.location.query))
             await fetcher(this.entity.actions.del.url(this.props.params, this.props.location.query), {
                 method: "DELETE"
             })

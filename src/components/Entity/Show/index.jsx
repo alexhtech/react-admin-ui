@@ -45,6 +45,7 @@ export default class Show extends React.Component {
                                 <item.component data={showField(item.name, data)}/> : showField(item.name, data)}
                             <Children children={children}/>
                             <div className="controls">
+                                {del && <ActionButton component={RaisedButton} label="Delete" action={this.props.onDelete}/>}
                                 {edit && <RaisedButton label="Edit" type="submit" primary={true}
                                                        containerElement={<Link
                                                            to={{pathname: `/${getPrefix()}/${name}/edit/${id}`, query}}/>}/>}
