@@ -5,7 +5,7 @@ import ContentAdd from "material-ui/svg-icons/content/add"
 import FloatingActionButton from "material-ui/FloatingActionButton"
 import {Link} from "react-router"
 import {showField} from "../../../utils/utility"
-import * as widgets from "../../Widgets"
+import {getWidgets} from "../../.."
 import ChevronRight from "material-ui/svg-icons/navigation/chevron-right"
 import Edit from "material-ui/svg-icons/image/edit"
 
@@ -40,7 +40,7 @@ export default class List extends React.Component {
                                     {fields.map((field, key)=> {
                                         let {component} = item
                                         if (typeof (component) == "string") {
-                                            let widget = showField(component, widgets)
+                                            let widget = showField(component, getWidgets())
                                             if (widget) {
                                                 item = {...item, component: widget, id: `__${item.name}`}
                                             }

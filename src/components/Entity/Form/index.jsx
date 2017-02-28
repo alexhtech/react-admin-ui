@@ -1,8 +1,8 @@
 import React from "react"
 import {reduxForm, Field, FieldArray} from "redux-form/immutable"
-import * as widgets from "../../Widgets"
+import {getFormFields} from "../../.."
 import {showField} from "../../../utils/utility"
-import {RaisedButton} from "material-ui"
+import RaisedButton from "material-ui/RaisedButton"
 import ActionButton from "../../Common/ActionButton"
 
 @reduxForm()
@@ -19,7 +19,7 @@ export default class EntityForm extends React.Component{
                 {fields.map(({type = "field", ...item}, key)=>{
                     let {component} = item
                     if(typeof (component) == "string"){
-                        let widget = showField(`formFields.${component}`, widgets)
+                        let widget = showField(`formFields.${component}`, getFormFields())
                         if(widget){
                             item = {...item, component: widget, id:`__${item.name}`}
                         }

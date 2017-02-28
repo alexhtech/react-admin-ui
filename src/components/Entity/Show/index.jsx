@@ -1,6 +1,6 @@
 import React from "react"
 import {showField} from "../../../utils/utility"
-import * as widgets from "../../Widgets"
+import {getWidgets} from "../../.."
 import ActionButton from "../../Common/ActionButton"
 import RaisedButton from "material-ui/RaisedButton"
 import {Link} from 'react-router'
@@ -31,7 +31,7 @@ export default class Show extends React.Component {
                 {fields.map((item, key)=> {
                     let {component} = item
                     if (typeof (component) == "string") {
-                        let widget = showField(component, widgets)
+                        let widget = showField(component, getWidgets())
                         if (widget) {
                             item = {...item, component: widget, id: `__${item.name}`}
                         }

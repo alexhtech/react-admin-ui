@@ -24,4 +24,23 @@ let prefix
 const getPrefix = () => prefix || "entity"
 const setPrefix = (name) => prefix = name
 
-export {setEntities, getEntities, getEntity, getPrefix, setPrefix}
+let widgets
+const setWidgets = (_widgets) => widgets = _widgets
+const getWidgets = () => widgets
+
+let formFields
+let setFormFields = (_formFields) => formFields = _formFields
+let getFormFields = () => formFields
+
+
+export {
+    setEntities,
+    getEntities,
+    getEntity,
+    getPrefix,
+    setPrefix,
+    setFormFields,
+    getFormFields,
+    setWidgets,
+    getWidgets
+}
