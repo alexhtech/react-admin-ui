@@ -26,7 +26,7 @@ export const getAccount = () => async (dispatch) => {
         return;
     }
     try{
-        const response = await fetcher("/accounts")
+        const response = await fetcher("/accounts/")
         dispatch({
             type: "ACCOUNT_SUCCESS",
             payload: response

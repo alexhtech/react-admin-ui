@@ -1,6 +1,6 @@
 import React from "react"
 import Paper from "material-ui/Paper"
-import {Field, reduxForm} from "redux-form"
+import {Field, reduxForm} from "redux-form/immutable"
 import {TextField} from "redux-form-material-ui"
 import RaisedButton from "material-ui/RaisedButton"
 

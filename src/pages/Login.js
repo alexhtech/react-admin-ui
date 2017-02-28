@@ -10,7 +10,7 @@ export default class Login extends React.Component {
         const {login, push} = this.props
         return (
             <div>
-                <LoginForm onSubmit={login} onSubmitSuccess={()=>push("/")}/>
+                <LoginForm onSubmit={login} onSubmitSuccess={()=>push("/admin")}/>
             </div>
         )
     }
