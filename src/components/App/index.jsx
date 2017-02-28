@@ -17,7 +17,7 @@ class App extends React.Component {
                     zIndex: "10000",
                     position: "fixed",
                     boxShadow: "1px 1px 4px 0px rgba(50, 50, 50, 0.75)"
-                }}/>
+                }} updateTime={100} maxProgress={95} progressIncrease={10}/>
                 <Helmet
                     title="App"
 

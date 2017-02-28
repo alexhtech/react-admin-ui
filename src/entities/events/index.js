@@ -75,6 +75,9 @@ export default{
                             component: null,
                             url: ({id})=>`/events/${id}`,
                             params: {type: "user_event"}
+                        },
+                        del: {
+                            url: (params)=>(`/events/${params.id}`)
                         }
                     }
                 },
@@ -98,6 +101,9 @@ export default{
                             ],
                             url: "/events",
                             params: {}
+                        },
+                        del: {
+                            url: (params)=>(`/events/${params.id}`)
                         }
                     }
                 },
