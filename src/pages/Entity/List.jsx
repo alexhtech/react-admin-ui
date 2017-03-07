@@ -3,15 +3,9 @@ import {preload} from "react-isomorphic-tools"
 import {connect} from "react-redux"
 import List from "../../components/Entity/List"
 import {getEntity} from "../.."
+import {list} from '../../actions'
 
-@preload(({fetchToState, params, location})=>{
-        const {url, actions:{ list: {url: listUrl, params: listParams}}} = getEntity(params.name)
-        return fetchToState(listUrl||url, {
-            params: Object.assign({...location.query}, listParams)
-            ,
-            key: `${params.name}List`
-        })
-})
+@preload(list)
 @connect((state, props)=>({
     list: state.getIn(["fetchData", `${props.params.name}List`])
 }))

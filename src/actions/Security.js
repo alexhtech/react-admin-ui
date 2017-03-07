@@ -1,4 +1,5 @@
-import {fetcher, Auth, goto} from "react-isomorphic-tools"
+import {fetcher, Auth} from "react-isomorphic-tools"
+import {push} from "react-router-redux"
 
 export const login = (form) => async (dispatch) => {
     try{
@@ -46,5 +47,5 @@ export const logout = () => (dispatch) => {
     dispatch({
         type: "LOGOUT_SUCCESS"
     })
-    dispatch(goto("/login"))
+    dispatch(push("/login"))
 }

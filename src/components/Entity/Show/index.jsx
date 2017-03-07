@@ -7,7 +7,13 @@ import {Link} from 'react-router'
 import Children from '../Children'
 import {getPrefix} from '../../..'
 import withRouter from 'react-router/lib/withRouter'
+import {connect} from 'react-redux'
+import {openModal, closeModal} from 'react-isomorphic-tools'
+import Dialog from "material-ui/Dialog"
 
+@connect(state=>({
+    "confirmDelete": state.getIn(["modals", "confirmDelete"]) || false
+}), {openModal, closeModal})
 @withRouter
 export default class Show extends React.Component {
     render() {
@@ -44,15 +50,26 @@ export default class Show extends React.Component {
                             {item.component ?
                                 <item.component data={showField(item.name, data)}/> : showField(item.name, data)}
                             <Children children={children}/>
-                            <div className="controls">
-                                {del && <ActionButton component={RaisedButton} label="Delete" action={this.props.onDelete}/>}
-                                {edit && <RaisedButton label="Edit" type="submit" primary={true}
-                                                       containerElement={<Link
-                                                           to={{pathname: `/${getPrefix()}/${name}/edit/${id}`, query}}/>}/>}
-                            </div>
                         </div>
                     )
                 })}
+                <div className="controls">
+                    {del && <span>
+                                    <RaisedButton label="Delete" onClick={()=>this.props.openModal("confirmDelete")}/>
+                        <Dialog open={this.props.confirmDelete} actions={
+                            <div className="controls">
+                                <RaisedButton label="Cancel" onClick={()=>this.props.closeModal("confirmDelete")}/>
+                                <ActionButton component={RaisedButton} label="Delete" action={this.props.onDelete}
+                                              primary={true}/>
+                            </div>}>Are you sure to delete?</Dialog>
+                                </span>}
+                    {edit && <RaisedButton label="Edit" type="submit" primary={true}
+                                           containerElement={<Link
+                                               to={{
+                                                   pathname: `/${getPrefix()}/${name}/edit/${id}`,
+                                                   query
+                                               }}/>}/>}
+                </div>
             </div>
         )
     }

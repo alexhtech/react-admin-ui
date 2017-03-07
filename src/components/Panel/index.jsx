@@ -1,7 +1,7 @@
 import React from "react"
 import Drawler from "material-ui/Drawer"
 import MenuItem from "material-ui/MenuItem"
-import {getEntities, getPrefix} from "../.."
+import {getEntities, getPrefix} from "../../"
 import {Link} from "react-router"
 
 export default class Panel extends React.Component {

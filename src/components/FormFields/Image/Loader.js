@@ -2,6 +2,10 @@ import React from "react"
 import {fetcher} from "react-isomorphic-tools"
 
 export default class Loader extends React.Component{
+
+    static defaultProps = {
+        album: 'gallery'
+    }
     
     load = (e) => {
         if(!e.target.value) return false
@@ -9,7 +13,7 @@ export default class Loader extends React.Component{
             if(e.target.files.hasOwnProperty(file)){
                 const body = new FormData()
                 body.append("file", e.target.files[file])
-                fetcher("/_uploader/gallery/upload", {
+                fetcher(`/_uploader/${this.props.album}/upload`, {
                     method: "POST",
                     type: "form-data",
                     params: body

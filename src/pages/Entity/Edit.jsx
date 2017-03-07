@@ -1,22 +1,18 @@
 import React from "react"
 import EntityForm from "../../components/Entity/Form"
-import {getEntity, getPrefix} from "../.."
+import {getEntity, getPrefix} from "react-admin-ui"
 import {connect} from "react-redux"
 import {showField} from "../../utils/utility"
-import {preload, fetcher} from "react-isomorphic-tools"
+import {preload, fetcher, fetchToState, closeModal} from "react-isomorphic-tools"
 import {push} from "react-router-redux"
 import {open} from "../../actions/Snackbar"
+import {edit, list} from '../../actions'
+import Immutable from "immutable"
 
-@preload(({fetchToState, params, location})=> {
-    const entity = getEntity(params.name)
-    return fetchToState(typeof (entity.actions.show.url) == "function" ? entity.actions.show.url(params, location.query) : `/${params.name}/${params.id}`, {
-        params: {...location.query},
-        key: `${params.name}Edit`
-    })
-})
+@preload(edit)
 @connect((state, props)=>({
     item: state.getIn(["fetchData", `${props.params.name}Edit`, "response"]).toJS(),
-}), {push, open})
+}), {push, open, fetchToState, closeModal})
 export default class EditPage extends React.Component {
     constructor(props) {
         super(props);
@@ -27,12 +23,14 @@ export default class EditPage extends React.Component {
 
     async handleDelete() {
         try {
-            console.log(this.entity.actions.del.url(this.props.params, this.props.location.query))
+            const {fetchToState, params, location, push, open, closeModal} = this.props
             await fetcher(this.entity.actions.del.url(this.props.params, this.props.location.query), {
                 method: "DELETE"
             })
-            this.props.open("default", "Successfully deleted")
-            this.props.push(`/${getPrefix()}/${this.props.params.name}`)
+            closeModal("confirmDelete")
+            open("default", "Successfully deleted")
+            await list({fetchToState, params, location})
+            push(`/${getPrefix()}/${this.props.params.name}`)
         }
         catch (e) {
             this.props.open("default", "Error deleting")
@@ -53,8 +51,8 @@ export default class EditPage extends React.Component {
 
     handleSubmit = (form) => {
         const {actions:{edit:{wrapper, params = {}, url}}} = this.entity
-        let _params = wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params)
-        const {result} = this.entity.actions.create
+        let _params = Immutable.fromJS(wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params))
+        const {result} = this.entity.actions.edit
         if (typeof (result) == "function") {
             _params = result(_params)
         }
@@ -66,9 +64,12 @@ export default class EditPage extends React.Component {
     }
 
 
-    handleSubmitSuccess = () => {
+    async handleSubmitSuccess() {
         this.props.open("default", "Successfully saved")
-        this.props.push(`/${getPrefix()}/${this.props.params.name}`)
+        const {fetchToState, location, params} = this.props
+        await edit({fetchToState, location, params})
+        await list({fetchToState, location, params})
+        if (this.entity.goToListAfterSave) this.props.push(`/${getPrefix()}/${this.props.params.name}`)
     }
 
     handleSubmitFail = () => {
@@ -90,7 +91,7 @@ export default class EditPage extends React.Component {
                                onSubmitError={this.handleSubmitFail}
                                initialValues={this.getInitialValues()}/> :
                     <EntityForm form={form} fields={fields} onSubmit={this.handleSubmit}
-                                onSubmitSuccess={onSubmitSuccess || this.handleSubmitSuccess}
+                                onSubmitSuccess={onSubmitSuccess || ::this.handleSubmitSuccess}
                                 onSubmitFail={this.handleSubmitFail}
                                 initialValues={this.getInitialValues()} onDelete={::this.handleDelete}
                                 entity={this.entity} del={true}/>

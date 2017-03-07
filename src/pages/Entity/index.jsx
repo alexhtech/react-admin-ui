@@ -25,7 +25,6 @@ export default class Entity extends React.Component {
         return (
             <div>
                 <Header/>
-
                 <div className="body">
                     <Panel open={this.props.panel} handleShow={this.props.openModal}
                            handleClose={this.props.closeModal}/>

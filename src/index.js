@@ -1,10 +1,12 @@
-let _entities
-const getEntities = () => _entities
-const setEntities = (entities) => {
-    _entities = entities
+let _entities = {}
+function getEntities() {
+    return _entities
+}
+function setEntities(entities) {
+    return _entities = entities
 }
 
-const getEntity = (name, entities = _entities) => {
+function getEntity(name, entities = _entities) {
     let entity
     for (let i in entities) {
         if (i == name) {
@@ -21,16 +23,28 @@ const getEntity = (name, entities = _entities) => {
 }
 
 let prefix
-const getPrefix = () => prefix || "entity"
-const setPrefix = (name) => prefix = name
+function getPrefix() {
+    return prefix || "entity"
+}
+function setPrefix(name) {
+    return prefix = name
+}
 
-let widgets
-const setWidgets = (_widgets) => widgets = _widgets
-const getWidgets = () => widgets
+let widgets = {}
+function setWidgets(_widgets) {
+    widgets = _widgets
+}
+function getWidgets() {
+    return widgets
+}
 
-let formFields
-let setFormFields = (_formFields) => formFields = _formFields
-let getFormFields = () => formFields
+let formFields = {}
+function setFormFields(_formFields) {
+    formFields = _formFields
+}
+function getFormFields() {
+    return formFields
+}
 
 
 export {

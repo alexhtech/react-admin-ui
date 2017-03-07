@@ -1,52 +1,62 @@
 import React from "react"
 import EntityForm from "../../components/Entity/Form"
-import {getEntity} from "../.."
-import {fetcher} from "react-isomorphic-tools"
+import {getEntity, getPrefix} from "../.."
+import {fetcher, fetchToState} from "react-isomorphic-tools"
 import {push} from "react-router-redux"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
+import {list} from '../../actions'
+import {open} from "../../actions/Snackbar"
+import Immutable from "immutable"
 
-@connect(null, (dispatch)=>({
-    actions: bindActionCreators({push}, dispatch)
-}))
+@connect(null, {push, open, fetchToState})
 export default class CreatePage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.entity = getEntity(props.params.name)
+    }
+
+
+    async handleSubmitSuccess() {
+        try {
+            const {fetchToState, params, location, push, open} = this.props
+            open("default", "Successfully created")
+            await list({fetchToState, params, location})
+            push(`/${getPrefix()}/${this.props.params.name}`)
+        }
+        catch (e) {
+            this.props.open("default", "Error creating")
+        }
+    }
+
+    handleSubmit = (form) => {
+        const {wrapper, url, params = {}, result} = this.entity.actions.create
+        let _params = Immutable.fromJS(wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params))
+        if (typeof (result) == "function") {
+            _params = result(_params)
+        }
+        return fetcher(url(this.props.params, this.props.location.query), {
+            params: _params,
+            method: "POST"
+        })
+    }
+
     render() {
         const {
-            actions:{
-                create:{form, fields, component: Component, wrapper, url, params = {}, onSubmitSuccess, initialValues}
+            entity:{
+                actions:{
+                    create:{form, fields, component: Component, onSubmitSuccess, initialValues}
+                }
             }
-        } = getEntity(this.props.params.name)
-        const {name: entityName} = this.props.params
-        const {push} = this.props.actions
-
-        const handleSubmit = async(form) => {
-            let _params = wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params)
-            const {result} = getEntity(entityName).actions.create
-            if (typeof (result) == "function") {
-                _params = result(_params)
-            }
-            try {
-                return await fetcher(url(this.props.params, this.props.location.query), {
-                    params: _params,
-                    method: "POST"
-                })
-            }
-            catch (e) {
-                throw e
-            }
-        }
-
-        const handleSubmitSuccess = () => {
-            push(`/entity/${entityName}`)
-        }
+        } = this
 
         return (
             <div className="block">
-                {Component ? <Component form={form} onSubmit={handleSubmit}/> :
+                {Component ? <Component form={form} onSubmit={this.handleSubmit}/> :
                     <EntityForm
-                        form={form} fields={fields} onSubmit={handleSubmit}
-                        onSubmitSuccess={onSubmitSuccess || handleSubmitSuccess}
-                        initialValues={initialValues} entity={getEntity(this.props.params.name)} label="Create"/>}
+                        form={form} fields={fields} onSubmit={this.handleSubmit}
+                        onSubmitSuccess={onSubmitSuccess || ::this.handleSubmitSuccess}
+                        initialValues={initialValues || {}} entity={this.entity} label="Create"/>}
             </div>
         )
     }

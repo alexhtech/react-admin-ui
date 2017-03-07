@@ -22,7 +22,7 @@ export default class ActionButton extends React.Component {
     render() {
         const {className, action, onSuccess, onError, component: Component, ...props} = this.props
         return (
-            <div>
+            <span>
                 {!this.state.loading ? <Component type="button" className={className} onClick={async (e)=>{
                     try{
                         this.setState({
@@ -57,7 +57,7 @@ export default class ActionButton extends React.Component {
                         </div>
                     </div>
                 }
-            </div>
+            </span>
         )
     }
 }
