@@ -7,7 +7,7 @@ import Home from "./components/App/Home"
 
 
 import Admin from "./components/App/Admin"
-import {Layout as AdminLayout, Create, Edit, Show, List} from "../react-admin-ui/src/pages"
+import {Layout as AdminLayout, Create, Edit, Show, List, Login} from "../react-admin-ui/src/pages"
 
 export const routes = (
     <Route path="/" component={App} name="Head">
@@ -15,6 +15,7 @@ export const routes = (
         <Route path="/test:id" component={Test}>
         </Route>
         <Route component={Admin}>
+            <Route path="login" component={Login}/>
             <Route path="/admin" component={AdminLayout} name="React Admin">
                 <Route path="entity/:name">
                     <IndexRoute component={List}/>

@@ -1,3 +1,3 @@
 export default {
-    baseUrl: "http://api.itboost.org:82/app_dev.php/api"
+    baseUrl: "http://smartkid.k-3soft.com:88/app_dev.php/api"
 }

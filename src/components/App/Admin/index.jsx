@@ -3,7 +3,7 @@ import React from "react"
 import {setEntities, setPrefix} from "../../../../react-admin-ui/src"
 import "../../../../react-admin-ui/assets/styles/style.sass"
 
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import {grey500, blueGrey800, grey700} from "material-ui/styles/colors"
 import getMuiTheme from "material-ui/styles/getMuiTheme"
 
