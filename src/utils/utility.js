@@ -1,5 +1,4 @@
 export const showField = (itemName, data) => {
-    console.log(itemName, data)
     const field = itemName.split(".")
     let name
     for(let i in field){

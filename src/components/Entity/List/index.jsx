@@ -38,12 +38,11 @@ export default class List extends React.Component {
                             return (
                                 <TableRow key={key} hoverable={true}>
                                     {fields.map((field, key)=> {
-                                        let {component} = item
+                                        let {component} = field
                                         if (typeof (component) == "string") {
                                             let widget = showField(component, getWidgets())
-                                            console.log('widget', widget)
                                             if (widget) {
-                                                item = {...item, component: widget, id: `__${item.name}`}
+                                                field = {...field, component: widget, id: `__${item.name}`}
                                             }
                                         }
                                         return (
