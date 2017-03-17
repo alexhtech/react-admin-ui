@@ -10,9 +10,8 @@ const edit = ({fetchToState, params, location})=> {
 
 const list = ({fetchToState, params, location})=> {
     const {url, actions:{list: {url: listUrl, params: listParams}}} = getEntity(params.name)
-    return fetchToState(listUrl || url, {
-        params: Object.assign({...location.query}, listParams)
-        ,
+    return fetchToState(typeof (listUrl) == "function" ? listUrl(params, location.query) : listUrl || url, {
+        params: Object.assign({...location.query}, listParams),
         key: `${params.name}List`
     })
 }
