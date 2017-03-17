@@ -41,6 +41,7 @@ export default class List extends React.Component {
                                         let {component} = item
                                         if (typeof (component) == "string") {
                                             let widget = showField(component, getWidgets())
+                                            console.log('widget', widget)
                                             if (widget) {
                                                 item = {...item, component: widget, id: `__${item.name}`}
                                             }
