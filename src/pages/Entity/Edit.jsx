@@ -42,7 +42,8 @@ export default class EditPage extends React.Component {
         for (let i in formFields) {
             if (formFields.hasOwnProperty(i)) {
                 let {name} = formFields[i]
-                values[name] = showField(name, data)
+                const deepName = name.split('.')
+                values[deepName[deepName.length - 1]] = showField(name, data)
             }
         }
         return values
