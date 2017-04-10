@@ -12,7 +12,8 @@ import Edit from "material-ui/svg-icons/image/edit"
 @Pagination()
 export default class List extends React.Component {
     render() {
-        const {data: {response: {items}}, entity: {actions: {list: {fields}, create, show, edit}}, location: {pathname, query}} = this.props
+        const {data: {response}, entity: {actions: {list: {fields}, create, show, edit}}, location: {pathname, query}} = this.props
+        const items = response.items||response.Items
         const style = {
             float: "right"
         }
