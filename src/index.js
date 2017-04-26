@@ -22,9 +22,9 @@ function getEntity(name, entities = _entities) {
     return entity || false
 }
 
-let prefix
+let prefix = false
 function getPrefix() {
-    return prefix || "entity"
+    return prefix == false ?  "entity": prefix
 }
 function setPrefix(name) {
     return prefix = name
