@@ -22,12 +22,12 @@ function getEntity(name, entities = _entities) {
     return entity || false
 }
 
-let prefix = false
+let prefix = 'entity'
 function getPrefix() {
-    return prefix == false ?  "entity": prefix
+    return prefix
 }
 function setPrefix(name) {
-    return prefix = name
+    prefix = name
 }
 
 let widgets = {}
