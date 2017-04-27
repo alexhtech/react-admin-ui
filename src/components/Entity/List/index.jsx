@@ -1,13 +1,13 @@
-import React from "react"
-import Pagination from "../../Pagination"
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui/Table"
-import ContentAdd from "material-ui/svg-icons/content/add"
-import FloatingActionButton from "material-ui/FloatingActionButton"
-import {Link} from "react-router"
-import {showField} from "../../../utils/utility"
-import {getWidgets} from "../../.."
-import ChevronRight from "material-ui/svg-icons/navigation/chevron-right"
-import Edit from "material-ui/svg-icons/image/edit"
+import React from 'react'
+import Pagination from '../../Pagination'
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import {Link} from 'react-router'
+import {showField} from '../../../utils/utility'
+import {getWidgets} from '../../..'
+import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
+import Edit from 'material-ui/svg-icons/image/edit'
 
 @Pagination()
 export default class List extends React.Component {
@@ -15,7 +15,7 @@ export default class List extends React.Component {
         const {data: {response}, entity: {actions: {list: {fields}, create, show, edit}}, location: {pathname, query}} = this.props
         const items = response.items||response.Items
         const style = {
-            float: "right"
+            float: 'right'
         }
         return (
             <div>
@@ -40,7 +40,7 @@ export default class List extends React.Component {
                                 <TableRow key={key} hoverable={true}>
                                     {fields.map((field, key)=> {
                                         let {component} = field
-                                        if (typeof (component) == "string") {
+                                        if (typeof (component) == 'string') {
                                             let widget = showField(component, getWidgets())
                                             if (widget) {
                                                 field = {...field, component: widget, id: `__${item.name}`}
@@ -54,7 +54,7 @@ export default class List extends React.Component {
                                         )
                                     })}
                                     <TableRowColumn>
-                                        <div style={{float: "right"}}>
+                                        <div style={{float: 'right'}}>
                                             {edit ? <Link to={{pathname: `${pathname}/edit/${item.id}`, query}}><Edit/></Link> : null}
                                             {show ?
                                                 <Link to={{pathname: `${pathname}/show/${item.id}`, query}}><ChevronRight/></Link> : null}

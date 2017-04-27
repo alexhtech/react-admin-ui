@@ -1,8 +1,8 @@
-import React from "react"
-import RaisedButton from "material-ui/RaisedButton"
-import Link from "react-router/lib/Link"
-import withRouter from "react-router/lib/withRouter"
-import {getPrefix} from "../../.."
+import React from 'react'
+import RaisedButton from 'material-ui/RaisedButton'
+import Link from 'react-router/lib/Link'
+import withRouter from 'react-router/lib/withRouter'
+import {getPrefix} from '../../..'
 
 @withRouter
 export default class Actions extends React.Component {
@@ -14,11 +14,11 @@ export default class Actions extends React.Component {
                 {create && <RaisedButton containerElement={<Link to={{
                     pathname:`/${getPrefix()}/${name}/create`,
                     query: this.props.params
-                }} />} label="Create"/>}
+                }} />} label='Create'/>}
                 {list && <RaisedButton containerElement={<Link to={{
                     pathname:`/${getPrefix()}/${name}`,
                     query: this.props.params
-                }} />} label="List"/>}
+                }} />} label='List'/>}
             </div>
         )
     }

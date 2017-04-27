@@ -1,6 +1,6 @@
-import React from "react"
-import onClickOutside from "react-onclickoutside-decorator"
-import List, {showField} from "./list"
+import React from 'react'
+import onClickOutside from 'react-onclickoutside-decorator'
+import List, {showField} from './list'
 
 export default class Export extends React.Component{
     constructor(){
@@ -45,7 +45,7 @@ class AutoComplete extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            value: "",
+            value: '',
             selectedItem: props.selectedItem
         }
     }
@@ -92,20 +92,20 @@ class AutoComplete extends React.Component{
     }
 
     handleRemove = () => {
-        this.setState({selectedItem: null, value: ""})
+        this.setState({selectedItem: null, value: ''})
         this.props.onSelect(null)
     }
 
     render(){
         const {open, handleOpen, items, name} = this.props
         return(
-            <div className={`${this.props.className || "autocomplete"}`} style={this.props.style}>
-                {this.state.selectedItem != null ? <a onClick={this.handleRemove} className="remove">X</a>: null}
+            <div className={`${this.props.className || 'autocomplete'}`} style={this.props.style}>
+                {this.state.selectedItem != null ? <a onClick={this.handleRemove} className='remove'>X</a>: null}
                 <input
                     onFocus={handleOpen}
                     value={this.state.value}
                     onChange={this.handleChange}
-                    ref="q" className={`${open ? "open": ""}`}
+                    ref='q' className={`${open ? 'open': ''}`}
                     placeholder={this.props.placeholder}
                 />
                 <List

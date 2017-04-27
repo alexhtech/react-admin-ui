@@ -1,8 +1,8 @@
-import React from "react"
-import LoginForm from "../components/Login/LoginForm"
-import {connect} from "react-redux"
-import {login} from "../actions/Security"
-import {push} from "react-router-redux"
+import React from 'react'
+import LoginForm from '../components/Login/LoginForm'
+import {connect} from 'react-redux'
+import {login} from '../actions/Security'
+import {push} from 'react-router-redux'
 
 @connect(null, {login, push})
 export default class Login extends React.Component {
@@ -10,7 +10,7 @@ export default class Login extends React.Component {
         const {login, push} = this.props
         return (
             <div>
-                <LoginForm onSubmit={login} onSubmitSuccess={()=>push("/admin")}/>
+                <LoginForm onSubmit={login} onSubmitSuccess={()=>push('/admin')}/>
             </div>
         )
     }

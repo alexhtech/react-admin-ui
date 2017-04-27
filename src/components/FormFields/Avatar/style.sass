@@ -1,0 +1,27 @@
+.avatar
+  position: relative
+  .avatar--download
+    i
+      cursor: pointer
+      color: dimgrey
+      transition: .5s
+      &:hover
+        color: dodgerblue
+        transition: .5s
+  .avatar--image
+    position: relative
+    max-width: 300px
+
+    &:hover .avatar--remove
+      opacity: 1
+      transition: .5s
+      cursor: pointer
+
+    .avatar--remove
+      position: absolute
+      top: 0
+      right: 0
+      opacity: 0
+      transition: .5s
+    img
+      width: 100%

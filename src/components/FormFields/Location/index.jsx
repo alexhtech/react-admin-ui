@@ -1,11 +1,11 @@
-import React from "react"
-import Dialog from "material-ui/Dialog"
-import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
-import {openModal, closeModal} from "redux-modals-state"
-import LocationComponent from "./Location"
-import {fetchToState} from "react-isomorphic-tools"
-import "./style.sass"
+import React from 'react'
+import Dialog from 'material-ui/Dialog'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {openModal, closeModal} from 'redux-modals-state'
+import LocationComponent from './Location'
+import {fetchToState} from 'react-isomorphic-tools'
+import './style.sass'
 
 @connect(state=>{
     const {databaseCities = {response: {items: []}}, databaseCountries = {response: { items: []}}} = state.fetchData
@@ -30,10 +30,10 @@ export default class Location extends React.Component{
         }
     }
     openModal = () =>{
-        this.props.actions.openModal(this.props._key ? `location_${this.props._key}`: "location")
+        this.props.actions.openModal(this.props._key ? `location_${this.props._key}`: 'location')
     }
     closeModal = () =>{
-        this.props.actions.closeModal(this.props._key ? `location_${this.props._key}`: "location")
+        this.props.actions.closeModal(this.props._key ? `location_${this.props._key}`: 'location')
     }
 
     render(){
@@ -44,26 +44,26 @@ export default class Location extends React.Component{
                 value
             }
         } = this
-        let text = value.country ? value.country.countryName: ""
-        text += value.city ? text.length ? `, ${value.city.cityName}`: value.city.cityName: ""
-        text += value.street ? `, ${value.street}`: ""
-        text += value.place ? ` ( ${value.place} )`: ""
+        let text = value.country ? value.country.countryName: ''
+        text += value.city ? text.length ? `, ${value.city.cityName}`: value.city.cityName: ''
+        text += value.street ? `, ${value.street}`: ''
+        text += value.place ? ` ( ${value.place} )`: ''
 
         return(
             <div>
-                <a onClick={openModal}>{text.length ? text: "Select Location"}</a>
+                <a onClick={openModal}>{text.length ? text: 'Select Location'}</a>
                 <Dialog
-                    title="Select Location"
+                    title='Select Location'
                     modal={false}
-                    open={this.props.open[this.props._key ? `location_${this.props._key}`: "location"]||false}
+                    open={this.props.open[this.props._key ? `location_${this.props._key}`: 'location']||false}
                     onRequestClose={closeModal}
-                    contentStyle={{width: "600px"}}
-                    bodyStyle={{minHeight: "500px"}}
+                    contentStyle={{width: '600px'}}
+                    bodyStyle={{minHeight: '500px'}}
                 >
                     <LocationComponent
                         actions={this.props.actions}
                         database={this.props.database}
-                        handleSave={({country = {}, city = {}, place = "", street = "", marker:{lat:latitude, lng: longitude}})=>{
+                        handleSave={({country = {}, city = {}, place = '', street = '', marker:{lat:latitude, lng: longitude}})=>{
                             this.setState({value:{country, city, place, street, latitude, longitude}})
                             this.props.input.onChange({
                                 country,

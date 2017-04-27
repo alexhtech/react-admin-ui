@@ -1,22 +1,22 @@
-import React from "react"
-import {preload, fetcher, fetchToState, closeModal} from "react-isomorphic-tools"
-import {connect} from "react-redux"
-import {getEntity, getPrefix} from "../.."
-import Show from "../../components/Entity/Show"
+import React from 'react'
+import {preload, fetcher, fetchToState, closeModal} from 'react-isomorphic-tools'
+import {connect} from 'react-redux'
+import {getEntity, getPrefix} from '../..'
+import Show from '../../components/Entity/Show'
 import {list} from '../../actions'
-import {push} from "react-router-redux"
-import {open} from "../../actions/Snackbar"
+import {push} from 'react-router-redux'
+import {open} from '../../actions/Snackbar'
 
 
 @preload(({fetchToState, params, location})=> {
     const entity = getEntity(params.name)
-    return fetchToState(typeof (entity.actions.show.url) == "function" ? entity.actions.show.url(params) : `/${params.name}/${params.id}`, {
+    return fetchToState(typeof (entity.actions.show.url) == 'function' ? entity.actions.show.url(params) : `/${params.name}/${params.id}`, {
         params: {...location.query.params},
         key: `${params.name}Show`
     })
 })
 @connect((state, props)=>({
-    item: state.getIn(["fetchData", `${props.params.name}Show`, "response"]),
+    item: state.getIn(['fetchData', `${props.params.name}Show`, 'response']),
 }), {fetchToState, closeModal, push, open})
 export default class ShowPage extends React.Component {
     constructor(props){
@@ -28,21 +28,21 @@ export default class ShowPage extends React.Component {
         try {
             const {fetchToState, params, location, push, open, closeModal} = this.props
             await fetcher(this.entity.actions.del.url(this.props.params, this.props.location.query), {
-                method: "DELETE"
+                method: 'DELETE'
             })
-            closeModal("confirmDelete")
-            open("default", "Successfully deleted")
+            closeModal('confirmDelete')
+            open('default', 'Successfully deleted')
             await list({fetchToState, params, location})
             push(`/${getPrefix()}/${this.props.params.name}`)
         }
         catch (e) {
-            this.props.open("default", "Error deleting")
+            this.props.open('default', 'Error deleting')
         }
     }
 
     render() {
         return (
-            <div className="block">
+            <div className='block'>
                 <Show data={this.props.item.toJS()} entity={this.entity} onDelete={::this.handleDelete}/>
             </div>
         )

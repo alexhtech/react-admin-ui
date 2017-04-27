@@ -1,13 +1,13 @@
-import React from "react"
-import Snackbar from "material-ui/Snackbar"
-import {connect} from "react-redux"
+import React from 'react'
+import Snackbar from 'material-ui/Snackbar'
+import {connect} from 'react-redux'
 
 @connect(state=>({
-    snackbar: state.get("snackbar").findEntry(value=>value.open == true)||["key", {open: false, message: ""}]
+    snackbar: state.get('snackbar').findEntry(value=>value.open == true)||['key', {open: false, message: ''}]
 }), {
     close: (key, message)=>dispatch=> {
         dispatch({
-            type: "@@snackbar/close",
+            type: '@@snackbar/close',
             meta: key,
             message: message
         })

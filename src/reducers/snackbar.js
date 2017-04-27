@@ -1,12 +1,12 @@
-import Immutable from "immutable"
+import Immutable from 'immutable'
 
 export default (state = Immutable.Map({}), action) => {
     switch (action.type) {
 
-        case "@@snackbar/open":
+        case '@@snackbar/open':
             return state.set(action.meta, {open: true, message: action.payload})
 
-        case "@@snackbar/close":
+        case '@@snackbar/close':
             return state.set(action.meta, {open: false, message: action.payload})
         default:
             return state

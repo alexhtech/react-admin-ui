@@ -1,5 +1,5 @@
-import React from "react"
-import Actions from "./Actions"
+import React from 'react'
+import Actions from './Actions'
 
 export default class index extends React.Component {
     render() {

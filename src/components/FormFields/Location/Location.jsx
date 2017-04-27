@@ -1,7 +1,7 @@
-import React from "react"
-import {Gmaps, Marker} from "react-gmaps"
-import AutoComplete from "../../Common/AutoComplete"
-import {geoCoder, apiKey} from "../../../utils/geocoder"
+import React from 'react'
+import {Gmaps, Marker} from 'react-gmaps'
+import AutoComplete from '../../Common/AutoComplete'
+import {geoCoder, apiKey} from '../../../utils/geocoder'
 
 export default class Location extends React.Component{
     constructor(props){
@@ -9,8 +9,8 @@ export default class Location extends React.Component{
         this.state = {
             country: props.country||null,
             city: props.city||null,
-            place: props.place||"",
-            street: props.street||"",
+            place: props.place||'',
+            street: props.street||'',
             map: {
                 lat: props.latitude||null,
                 lng: props.longitude||null
@@ -25,12 +25,12 @@ export default class Location extends React.Component{
     }
 
     onMapCreated = (map) => {
-        map.addListener("zoom_changed", ()=>{
+        map.addListener('zoom_changed', ()=>{
             if(this.state.zoom != map.zoom){
                 this.setState({zoom: map.zoom})
             }
         })
-        map.addListener("dragend", ()=>{
+        map.addListener('dragend', ()=>{
             const lat = map.center.lat()
             const lng = map.center.lng()
             if(this.state.map.lat !=  lat && this.state.map.lng != lng){
@@ -42,10 +42,10 @@ export default class Location extends React.Component{
     render(){
         const {actions: {fetchData}, database} = this.props
         const countrySearch = (q) =>{
-            fetchData("/countries", "databaseCountries", "GET", {params: {q: q}})
+            fetchData('/countries', 'databaseCountries', 'GET', {params: {q: q}})
         }
         const citySearch = (q) => {
-            fetchData("/cities", "databaseCities", "GET", {params: {q: q, country_id: this.state.country.id}})
+            fetchData('/cities', 'databaseCities', 'GET', {params: {q: q, country_id: this.state.country.id}})
         }
         const handleChangePlace = () => {
             this.setState({place: this.refs.place.value})
@@ -55,8 +55,8 @@ export default class Location extends React.Component{
             this.setState({street: value})
             handleSelect({street: value, zoom: value ? 14: 10})
         }
-        const handleSelect = ({country = this.state.country, city = this.state.city, street = "", zoom = this.state.zoom}) => {
-            geoCoder.find(`${country ? country.countryName: ""} ${city ? city.cityName: ""} ${street}`, (err, res)=> {
+        const handleSelect = ({country = this.state.country, city = this.state.city, street = '', zoom = this.state.zoom}) => {
+            geoCoder.find(`${country ? country.countryName: ''} ${city ? city.cityName: ''} ${street}`, (err, res)=> {
                 let _obj = {
                     country,
                     city,
@@ -78,47 +78,47 @@ export default class Location extends React.Component{
             this.setState({marker: {lat, lng}})
         }
         return(
-            <div className="location">
-                <div className="field--country">
+            <div className='location'>
+                <div className='field--country'>
                     <AutoComplete
                         getItems={countrySearch}
                         items={database.countries.items}
                         selectedItem={this.state.country}
-                        name={"countryName"}
+                        name={'countryName'}
                         onSelect={(item)=>{handleSelect({country: item, city: null, zoom: 5})}}
-                        placeholder="Country"
+                        placeholder='Country'
                     />
                 </div>
                 {
                     this.state.country ?
-                        <div className="field--city">
+                        <div className='field--city'>
                             <AutoComplete
                                 getItems={citySearch}
                                 items={database.cities.items}
                                 selectedItem={this.state.city}
-                                name={"cityName"}
+                                name={'cityName'}
                                 onSelect={(item)=>{handleSelect({city: item, zoom: item ? 10: 5})}}
-                                placeholder="City"
+                                placeholder='City'
                             />
                         </div>: null
                 }
                 {
                     this.state.city ?
-                        <div className="field--street">
-                            <input onChange={handleChangeStreet} ref="street" value={this.state.street} placeholder="Street"/>
+                        <div className='field--street'>
+                            <input onChange={handleChangeStreet} ref='street' value={this.state.street} placeholder='Street'/>
                         </div>: null
                 }
-                <div className="field--place">
-                    <input onChange={handleChangePlace} ref="place" value={this.state.place} placeholder="Place"/>
+                <div className='field--place'>
+                    <input onChange={handleChangePlace} ref='place' value={this.state.place} placeholder='Place'/>
                 </div>
                 <Gmaps
-                    width={"552px"}
-                    height={"300px"}
+                    width={'552px'}
+                    height={'300px'}
                     lat={this.state.map.lat || 50.45}
                     lng={this.state.map.lng || 30.52}
                     zoom={this.state.zoom || 12}
-                    loadingMessage={"Be happy"}
-                    params={{v: "3.exp", key: apiKey}}
+                    loadingMessage={'Be happy'}
+                    params={{v: '3.exp', key: apiKey}}
                     onMapCreated={this.onMapCreated}>
                     {
                         (this.state.marker.lat && this.state.marker.lng) ?
@@ -130,7 +130,7 @@ export default class Location extends React.Component{
                             />: null
                     }
                 </Gmaps>
-                <div className="button">
+                <div className='button'>
                     <button onClick={this.props.handleSave.bind(null, this.state)}>Save</button>
                 </div>
             </div>
