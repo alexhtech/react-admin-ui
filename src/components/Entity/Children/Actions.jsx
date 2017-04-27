@@ -10,7 +10,7 @@ export default class Actions extends React.Component {
         const {actions:{create, list}, name, label} = this.props
         return (
             <div>
-                <p>{label}</p>
+                <p>{label || name}</p>
                 {create && <RaisedButton containerElement={<Link to={{
                     pathname:`/${getPrefix()}/${name}/create`,
                     query: this.props.params

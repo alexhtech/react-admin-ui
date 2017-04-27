@@ -49,26 +49,28 @@ export default class Show extends React.Component {
                             </div>
                             {item.component ?
                                 <item.component data={showField(item.name, data)}/> : showField(item.name, data)}
-                            <Children children={children}/>
                         </div>
                     )
                 })}
+                <Children children={children}/>
                 <div className='controls'>
-                    {del && <span>
-                                    <RaisedButton label='Delete' onClick={()=>this.props.openModal('confirmDelete')}/>
-                        <Dialog open={this.props.confirmDelete} actions={
-                            <div className='controls'>
-                                <RaisedButton label='Cancel' onClick={()=>this.props.closeModal('confirmDelete')}/>
-                                <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}
-                                              primary={true}/>
-                            </div>}>Are you sure to delete?</Dialog>
-                                </span>}
-                    {edit && <RaisedButton label='Edit' type='submit' primary={true}
-                                           containerElement={<Link
-                                               to={{
-                                                   pathname: `/${getPrefix()}/${name}/edit/${id}`,
-                                                   query
-                                               }}/>}/>}
+                    {del &&
+                    <span>
+                            <RaisedButton label='Delete' onClick={()=>this.props.openModal('confirmDelete')}/>
+                            <Dialog open={this.props.confirmDelete} actions={
+                                <div className='controls'>
+                                    <RaisedButton label='Cancel' onClick={()=>this.props.closeModal('confirmDelete')}/>
+                                    <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}
+                                                  primary={true}/>
+                                </div>
+                            }>
+                                Are you sure to delete?
+                            </Dialog>
+                        </span>
+                    }
+                    {edit && <RaisedButton label='Edit' type='submit' primary={true} containerElement={
+                        <Link to={{pathname: `/${getPrefix()}/${name}/edit/${id}`, query}}
+                        />}/>}
                 </div>
             </div>
         )
