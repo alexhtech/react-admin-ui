@@ -8,15 +8,22 @@ import {showField} from '../../../utils/utility'
 import {getWidgets} from '../../..'
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 import Edit from 'material-ui/svg-icons/image/edit'
+import Children from '../Children'
 
 @Pagination()
 export default class List extends React.Component {
     render() {
-        const {data: {response}, entity: {actions: {list: {fields}, create, show, edit}}, location: {pathname, query}} = this.props
-        const items = response.items||response.Items
+        let {data: {response}, entity: {actions: {list: {fields, children}, create, show, edit}}, location: {pathname, query}} = this.props
+        const items = response.items || response.Items
         const style = {
             float: 'right'
         }
+
+        fields = fields.push(...Object.keys(children).map((item)=> {
+            item.isChild = true
+            return item
+        }))
+
         return (
             <div>
                 <Table selectable={false}>
@@ -25,12 +32,13 @@ export default class List extends React.Component {
                             {fields.map((field, key)=> {
                                 return (
                                     <TableHeaderColumn style={field.style || {}}
-                                                       key={key}>{field.title || field.name}</TableHeaderColumn>
+                                                       key={key}>{field.title || field.name || field.label}</TableHeaderColumn>
                                 )
                             })}
                             {create ?
-                                <TableHeaderColumn><Link to={{pathname: `${pathname}/create`, query }}><FloatingActionButton mini={true}
-                                                                                                         style={style}><ContentAdd /></FloatingActionButton></Link></TableHeaderColumn> : null}
+                                <TableHeaderColumn><Link
+                                    to={{pathname: `${pathname}/create`, query}}><FloatingActionButton mini={true}
+                                                                                                       style={style}><ContentAdd /></FloatingActionButton></Link></TableHeaderColumn> : null}
                         </TableRow>
                     </TableHeader>
 
@@ -48,8 +56,9 @@ export default class List extends React.Component {
                                         }
                                         return (
                                             <TableRowColumn style={field.style || {}} key={key}>
-                                                {field.component ? <field.component
-                                                    data={showField(field.name, item)}/> : showField(field.name, item)}
+                                                {!field.isChild && (field.component ? <field.component
+                                                    data={showField(field.name, item)}/> : showField(field.name, item))}
+                                                {field.isChild && <Children children={field}/>}
                                             </TableRowColumn>
                                         )
                                     })}
@@ -57,7 +66,10 @@ export default class List extends React.Component {
                                         <div style={{float: 'right'}}>
                                             {edit ? <Link to={{pathname: `${pathname}/edit/${item.id}`, query}}><Edit/></Link> : null}
                                             {show ?
-                                                <Link to={{pathname: `${pathname}/show/${item.id}`, query}}><ChevronRight/></Link> : null}
+                                                <Link to={{
+                                                    pathname: `${pathname}/show/${item.id}`,
+                                                    query
+                                                }}><ChevronRight/></Link> : null}
                                         </div>
                                     </TableRowColumn>
                                 </TableRow>

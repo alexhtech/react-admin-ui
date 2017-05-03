@@ -1033,6 +1033,12 @@ fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
+feature-components@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/feature-components/-/feature-components-0.0.14.tgz#d95794e562407b432be5dd958105a2907275148b"
+  dependencies:
+    react-onclickoutside-decorator "^0.1.2"
+
 filename-regex@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.0.tgz#996e3e80479b98b9897f15a8a58b3d084e926775"
@@ -1670,6 +1676,10 @@ react-event-listener@^0.4.5:
     fbjs "^0.8.4"
     prop-types "^15.5.4"
     warning "^3.0.0"
+
+react-onclickoutside-decorator@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside-decorator/-/react-onclickoutside-decorator-0.1.2.tgz#e7c2786be7bd08aec9b42d479ab2a108782c0316"
 
 readable-stream@^2.0.2, readable-stream@^2.0.6, readable-stream@^2.1.4:
   version "2.2.9"

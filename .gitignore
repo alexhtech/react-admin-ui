@@ -6,3 +6,4 @@
 /utils
 /index.js
 npm-debug*.log
+/reducers

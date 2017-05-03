@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _immutable = require("immutable");
+var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
@@ -16,10 +16,10 @@ exports.default = function () {
 
     switch (action.type) {
 
-        case "@@snackbar/open":
+        case '@@snackbar/open':
             return state.set(action.meta, { open: true, message: action.payload });
 
-        case "@@snackbar/close":
+        case '@@snackbar/close':
             return state.set(action.meta, { open: false, message: action.payload });
         default:
             return state;
