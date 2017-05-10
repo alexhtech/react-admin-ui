@@ -73,6 +73,11 @@ export default class EditPage extends React.Component {
         if (this.entity.goToListAfterSave) this.props.push(`/${getPrefix()}/${this.props.params.name}`)
     }
 
+    async customOnSubmitSuccess(response, dispatch, form) {
+        await this.props.onSubmitSuccess(response, dispatch, form)
+        await this.handleSubmitSuccess()
+    }
+
     handleSubmitFail = () => {
         this.props.open('default', 'Error saving')
     }
@@ -92,7 +97,7 @@ export default class EditPage extends React.Component {
                                onSubmitError={this.handleSubmitFail}
                                initialValues={this.getInitialValues()}/> :
                     <EntityForm form={form} fields={fields} onSubmit={this.handleSubmit}
-                                onSubmitSuccess={onSubmitSuccess || ::this.handleSubmitSuccess}
+                                onSubmitSuccess={onSubmitSuccess ?  ::this.customOnSubmitSuccess ? ::this.handleSubmitSuccess}
                                 onSubmitFail={this.handleSubmitFail}
                                 initialValues={this.getInitialValues()} onDelete={::this.handleDelete}
                                 entity={this.entity} del={true}/>
