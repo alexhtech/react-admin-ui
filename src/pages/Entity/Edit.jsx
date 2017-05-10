@@ -78,7 +78,7 @@ export default class EditPage extends React.Component {
     }
 
     async customOnSubmitSuccess(response, dispatch, form) {
-        await this.props.onSubmitSuccess(response, dispatch, form)
+        await this.entity.actions.edit.onSubmitSuccess(response, dispatch, form)
         await this.handleSubmitSuccess()
     }
 

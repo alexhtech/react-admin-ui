@@ -42,7 +42,7 @@ export default class CreatePage extends React.Component {
     }
 
     async customOnSubmitSuccess(response, dispatch, form) {
-        await this.props.onSubmitSuccess(response, dispatch, form)
+        await this.entity.actions.create.onSubmitSuccess(response, dispatch, form)
         await this.handleSubmitSuccess()
     }
 
