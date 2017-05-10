@@ -12,17 +12,25 @@ import Children from '../Children'
 
 @Pagination()
 export default class List extends React.Component {
+    constructor(props) {
+        super()
+        this.fields = props.entity.actions.list.fields.slice()
+        for (let i in props.entity.actions.list.children) {
+            if (props.entity.actions.list.children.hasOwnProperty(i)) {
+                this.fields.push({...props.entity.actions.list.children[i], isChild: true})
+            }
+        }
+    }
+
     render() {
-        let {data: {response}, entity: {actions: {list: {fields, children}, create, show, edit}}, location: {pathname, query}} = this.props
+        let {data: {response}, entity: {actions: {list: create, show, edit}}, location: {pathname, query}} = this.props
         const items = response.items || response.Items
         const style = {
             float: 'right'
         }
 
-        fields = fields.push(...Object.keys(children).map((item)=> {
-            item.isChild = true
-            return item
-        }))
+        const fields = this.fields
+
 
         return (
             <div>
@@ -58,7 +66,7 @@ export default class List extends React.Component {
                                             <TableRowColumn style={field.style || {}} key={key}>
                                                 {!field.isChild && (field.component ? <field.component
                                                     data={showField(field.name, item)}/> : showField(field.name, item))}
-                                                {field.isChild && <Children children={field}/>}
+                                                {field.isChild && <Children {...field} extra={{id: item.id}}/>}
                                             </TableRowColumn>
                                         )
                                     })}

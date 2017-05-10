@@ -52,7 +52,22 @@ export default class Show extends React.Component {
                         </div>
                     )
                 })}
-                <Children children={children}/>
+
+                {
+                    Object.keys(children).map((item, index)=> {
+                            const child = children[item]
+                            return (
+                                <div key={index}>
+                                    <p>
+                                        {child.label || child.name }
+                                    </p>
+                                    <Children {...children[item]}/>
+                                </div>
+                            )
+                        }
+                    )
+                }
+
                 <div className='controls'>
                     {del &&
                     <span>

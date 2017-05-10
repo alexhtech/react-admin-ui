@@ -10,7 +10,7 @@ import {open} from '../../actions/Snackbar'
 
 @preload(({fetchToState, params, location})=> {
     const entity = getEntity(params.name)
-    return fetchToState(typeof (entity.actions.show.url) == 'function' ? entity.actions.show.url(params) : `/${params.name}/${params.id}`, {
+    return fetchToState(typeof (entity.actions.show.url) == 'function' ? entity.actions.show.url(params, location.query) : `/${params.name}/${params.id}`, {
         params: {...location.query.params},
         key: `${params.name}Show`
     })

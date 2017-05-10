@@ -49,6 +49,7 @@ export default class CreatePage extends React.Component {
     render() {
         const {
             entity:{
+                name,
                 actions:{
                     create:{form, fields, component: Component, onSubmitSuccess, initialValues}
                 }
@@ -57,10 +58,10 @@ export default class CreatePage extends React.Component {
 
         return (
             <div className='block'>
-                {Component ? <Component form={form} onSubmit={this.handleSubmit}/> :
+                {Component ? <Component form={name || form} onSubmit={this.handleSubmit}/> :
                     <EntityForm
-                        form={form} fields={fields} onSubmit={this.handleSubmit}
-                        onSubmitSuccess={onSubmitSuccess ?  ::this.customOnSubmitSuccess ? ::this.handleSubmitSuccess}
+                        form={name || form} fields={fields} onSubmit={this.handleSubmit}
+                        onSubmitSuccess={onSubmitSuccess ?  ::this.customOnSubmitSuccess : ::this.handleSubmitSuccess}
                         initialValues={initialValues || {}} entity={this.entity} label='Create'/>}
             </div>
         )

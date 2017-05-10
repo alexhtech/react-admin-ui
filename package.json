@@ -1,6 +1,6 @@
 {
   "name": "react-admin-ui",
-  "version": "1.2.11",
+  "version": "1.2.20",
   "description": "",
   "scripts": {
     "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir ./"
