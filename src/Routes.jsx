@@ -1,7 +1,6 @@
 import React from 'react'
 import {Route, IndexRoute} from 'react-router'
 
-import Test from './pages/Test'
 import App from './components/App'
 import Home from './components/App/Home'
 
@@ -17,8 +16,6 @@ import {Layout as AdminLayout,
 export const routes = (
     <Route path='/' component={App} name='Head'>
         <IndexRoute component={Home}/>
-        <Route path='/test:id' component={Test}>
-        </Route>
         <Route component={Admin}>
             <Route path='login' component={Login}/>
             <Route path='/admin' component={AdminLayout} name='React Admin'>

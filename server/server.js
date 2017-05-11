@@ -27,10 +27,10 @@ if (process.env.NODE_ENV == 'development') {
         publicPath: webpackConfig.output.publicPath,
         hot: true,
         stats: {
-
             colors: true
         },
-        noInfo: true
+        noInfo: true,
+        inline: false
     }))
 
     app.use(require('webpack-hot-middleware')(compiler))

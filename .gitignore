@@ -3,3 +3,12 @@ node_modules
 /public
 /build
 .DS_Store
+
+/react-admin-ui/src
+/react-admin-ui/assets
+
+/react-admin-ui/actions
+/react-admin-ui/components
+/react-admin-ui/pages
+/react-admin-ui/reducers
+/react-admin-ui/utils
