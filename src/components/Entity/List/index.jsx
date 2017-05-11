@@ -1,0 +1,78 @@
+import React from 'react'
+import Pagination from '../../Pagination'
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import Link from 'react-router/lib/Link'
+import {showField} from '../../../utils/utility'
+import {getWidgets, getPrefix} from '../../../utils'
+import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
+import Edit from 'material-ui/svg-icons/image/edit'
+
+@Pagination()
+export default class List extends React.Component {
+    render() {
+        let {data: {response}, entity: {name, actions: {list: {fields}, create, show, edit}}, location: {query} = {}} = this.props
+        const items = response.items || response.Items
+        const style = {
+            float: 'right'
+        }
+
+
+        return (
+            <div>
+                <Table selectable={false}>
+                    <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                        <TableRow>
+                            {fields.map((field, key)=> {
+                                return (
+                                    <TableHeaderColumn style={field.style || {}}
+                                                       key={key}>{field.title || field.name || field.label}</TableHeaderColumn>
+                                )
+                            })}
+                            {create ?
+                                <TableHeaderColumn><Link
+                                    to={{pathname: `/${getPrefix()}/${name}/create`, query}}><FloatingActionButton mini={true}
+                                                                                                       style={style}><ContentAdd /></FloatingActionButton></Link></TableHeaderColumn> : null}
+                        </TableRow>
+                    </TableHeader>
+
+                    <TableBody displayRowCheckbox={false} showRowHover={true}>
+                        {items.map((item, key)=> {
+                            return (
+                                <TableRow key={key} hoverable={true}>
+                                    {fields.map((field, key)=> {
+                                        let {component} = field
+                                        if (typeof (component) == 'string') {
+                                            let widget = showField(component, getWidgets())
+                                            if (widget) {
+                                                field = {...field, component: widget, id: `__${item.name}`}
+                                            }
+                                        }
+                                        return (
+                                            <TableRowColumn style={field.style || {}} key={key}>
+                                                {field.component ? <field.component
+                                                    data={showField(field.name, item)}/> : showField(field.name, item)}
+
+                                            </TableRowColumn>
+                                        )
+                                    })}
+                                    <TableRowColumn>
+                                        <div style={{float: 'right'}}>
+                                            {edit && show ? <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item.id}`, query}}><Edit/></Link> : null}
+                                            {show ?
+                                                <Link to={{
+                                                    pathname: `/${getPrefix()}/${name}/show/${item.id}`,
+                                                    query
+                                                }}><ChevronRight/></Link> : null}
+                                        </div>
+                                    </TableRowColumn>
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </Table>
+            </div>
+        )
+    }
+}
