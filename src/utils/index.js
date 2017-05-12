@@ -50,7 +50,9 @@ let header = 'React Admin'
 function getHeader() {
     return header
 }
-
+function setHeader(name) {
+    header = name
+}
 
 export {
     setEntities,
@@ -62,5 +64,6 @@ export {
     getFormFields,
     setWidgets,
     getWidgets,
-    getHeader
+    getHeader,
+    setHeader
 }
