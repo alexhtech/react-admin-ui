@@ -5,7 +5,7 @@ import {push} from 'react-router-redux'
 import IconButton from 'material-ui/IconButton'
 import Add from 'material-ui/svg-icons/action/note-add'
 import List from 'material-ui/svg-icons/action/list'
-import {getPrefix, getEntity} from '../../../utils'
+import {getPrefix, getEntity} from '../../../../utils'
 
 @connect(null, {
     push

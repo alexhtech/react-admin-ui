@@ -4,7 +4,7 @@ import {getWidgets, getPrefix} from '../../../utils'
 import ActionButton from '../../Common/ActionButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import Link from 'react-router/lib/Link'
-import HasMany from '../HasMany'
+import HasMany from './HasMany'
 import withRouter from 'react-router/lib/withRouter'
 import {connect} from 'react-redux'
 import {openModal, closeModal} from 'react-isomorphic-tools'
@@ -50,18 +50,20 @@ export default class Show extends React.Component {
                             {(()=> {
                                 if (item.component)
                                     return <item.component data={showField(item.name, data)} {...item}/>
-                                if (item.hasOne)
+                                if (item.hasOne && showField(item.name, data))
                                     return <Link
                                         to={`/${getPrefix()}/${item.hasOne}/show/${showField(item.name, data)}`}>
                                         id - {showField(item.name, data)} {item.hasOne}
                                     </Link>
 
-                                if (item.hasMany)
+                                if (item.hasMany && (showField(item.name, data).length <= 0))
                                     return <ul className='entity-show--field--many-items'>
                                         {
                                             showField(item.name, data).map(({id}, index)=> {
                                                 return (
-                                                    <li key={index}><Link to={`/${getPrefix()}/${item.hasMany}/show/${id}`}>ID {id}</Link></li>
+                                                    <li key={index}><Link
+                                                        to={`/${getPrefix()}/${item.hasMany}/show/${id}`}>ID {id}</Link>
+                                                    </li>
                                                 )
                                             })}
                                     </ul>

@@ -5,14 +5,16 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Link from 'react-router/lib/Link'
 import {showField} from '../../../utils/utility'
-import {getWidgets, getPrefix} from '../../../utils'
+import {getWidgets, getPrefix, getEntity} from '../../../utils'
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 import Edit from 'material-ui/svg-icons/image/edit'
+import {withRouter} from 'react-router'
 
+@withRouter
 @Pagination()
 export default class List extends React.Component {
     render() {
-        let {data: {response}, entity: {name, actions: {list: {fields}, create, show, edit}}, location: {query} = {}} = this.props
+        let {data: {response}, entity: {name, actions: {list: {fields, hasMany}, create, show, edit}}, location: {query} = {}} = this.props
         const items = response.items || response.Items
         const style = {
             float: 'right'
@@ -30,10 +32,27 @@ export default class List extends React.Component {
                                                        key={key}>{field.title || field.name || field.label}</TableHeaderColumn>
                                 )
                             })}
+
+                            {(()=> {
+                                if (typeof (hasMany) == 'object') {
+                                    return hasMany.map((item, index)=> {
+                                        const entity = getEntity(item)
+                                        return <TableHeaderColumn
+                                            key={index}>{entity.title || entity.name}</TableHeaderColumn>
+                                    })
+                                }
+                                if (typeof (hasMany) == 'string') {
+                                    const entity = getEntity(hasMany)
+                                    return <TableHeaderColumn>{entity.title || entity.name}</TableHeaderColumn>
+                                }
+                            })()}
+
+
                             {create ?
                                 <TableHeaderColumn><Link
-                                    to={{pathname: `/${getPrefix()}/${name}/create`, query}}><FloatingActionButton mini={true}
-                                                                                                       style={style}><ContentAdd /></FloatingActionButton></Link></TableHeaderColumn> : null}
+                                    to={{pathname: `/${getPrefix()}/${name}/create`, query}}><FloatingActionButton
+                                    mini={true}
+                                    style={style}><ContentAdd /></FloatingActionButton></Link></TableHeaderColumn> : null}
                         </TableRow>
                     </TableHeader>
 
@@ -57,9 +76,44 @@ export default class List extends React.Component {
                                             </TableRowColumn>
                                         )
                                     })}
+
+
+                                    {(()=> {
+                                        if (typeof (hasMany) == 'object') {
+                                            return hasMany.map((item, index)=> {
+                                                const entity = getEntity(item)
+                                                return <TableRowColumn key={index}>
+                                                    <Link to={{
+                                                        pathname: `/${getPrefix()}/${item}`,
+                                                        query: {
+                                                            ...this.props.location.query,
+                                                            id: item.id,
+                                                            name: this.props.params.name
+                                                        }
+                                                    }}>List of {entity.title || entity.name}</Link>
+                                                </TableRowColumn>
+                                            })
+                                        }
+                                        if (typeof (hasMany) == 'string') {
+                                            const entity = getEntity(hasMany)
+                                            return <TableRowColumn>
+                                                <Link to={{
+                                                    pathname: `/${getPrefix()}/${hasMany}`,
+                                                    query: {
+                                                        ...this.props.location.query,
+                                                        id: item.id,
+                                                        name: this.props.params.name
+                                                    }
+                                                }}>List of {entity.title || entity.name}</Link>
+                                            </TableRowColumn>
+                                        }
+                                    })()}
+
+
                                     <TableRowColumn>
                                         <div style={{float: 'right'}}>
-                                            {edit && show ? <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item.id}`, query}}><Edit/></Link> : null}
+                                            {edit && show ?
+                                                <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item.id}`, query}}><Edit/></Link> : null}
                                             {show ?
                                                 <Link to={{
                                                     pathname: `/${getPrefix()}/${name}/show/${item.id}`,

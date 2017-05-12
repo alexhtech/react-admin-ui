@@ -6,7 +6,8 @@ export default {
         list: {
             fields: [
                 {name: 'name'}
-            ]
+            ],
+            hasMany: 'product'
         },
         show: {
             fields: [

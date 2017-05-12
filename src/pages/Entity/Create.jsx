@@ -16,17 +16,20 @@ export default class CreatePage extends React.Component {
     }
 
 
-    async handleSubmitSuccess() {
+    async handleSubmitSuccess(result, dispatch, props) {
         try {
+            if (this.handleSubmitSuccessBeforeHook) await this.handleSubmitSuccessBeforeHook(result, dispatch, props)
             const {fetchToState, params, location, push, open} = this.props
             open('default', 'Successfully created')
             await list({fetchToState, params, location})
             push(`/${getPrefix()}/${this.props.params.name}`)
+            if (this.handleSubmitSuccessAfterHook) await this.handleSubmitSuccessAfterHook(result, dispatch, props)
         }
         catch (e) {
             this.props.open('default', 'Error creating')
         }
     }
+
 
     handleSubmit = (form) => {
         const {wrapper, url, params = {}, result} = this.entity.actions.create
@@ -34,7 +37,7 @@ export default class CreatePage extends React.Component {
         if (typeof (result) == 'function') {
             _params = result(_params)
         }
-        return fetcher(typeof (url) == 'function' ? url(this.props.params, this.props.location.query): this.entity.url, {
+        return fetcher(typeof (url) == 'function' ? url(this.props.params, this.props.location.query) : this.entity.url, {
             params: _params,
             method: 'POST'
         })
@@ -50,7 +53,10 @@ export default class CreatePage extends React.Component {
         } = this
         return (
             <div className='block'>
-                {Component ? <Component form={form} onSubmit={this.handleSubmit}/> :
+                {Component ?
+                    <Component form={form} onSubmit={this.handleSubmit}
+                               onSubmitSuccess={onSubmitSuccess || ::this.handleSubmitSuccess}
+                               initialValues={initialValues || {}} entity={this.entity}/> :
                     <EntityForm
                         form={form} fields={fields} onSubmit={this.handleSubmit}
                         onSubmitSuccess={onSubmitSuccess || ::this.handleSubmitSuccess}
