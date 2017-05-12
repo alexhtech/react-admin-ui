@@ -27,7 +27,7 @@ export default class EntityForm extends React.Component {
         return (
             <form onSubmit={handleSubmit} className='entity-form'>
                 {fields.map(({type = 'field', ...item}, key)=> {
-                    let {component} = item
+                    let {component = 'material.TextField'} = item
                     if (typeof (component) == 'string') {
                         let widget = showField(component, getFormFields())
                         if (widget) {
@@ -61,12 +61,12 @@ export default class EntityForm extends React.Component {
 
 
                     </span>}
-                    <RaisedButton label='Show' type='submit' primary={false} containerElement={
+                    {this.props.params.id && <RaisedButton label='Show' type='submit' primary={false} containerElement={
                         <Link to={{
                             pathname: `/${getPrefix()}/${this.props.params.name}/show/${this.props.params.id}`,
                             query: this.props.location.query
                         }}
-                        />}/>
+                        />}/>}
                     <RaisedButton label={this.props.label} type='submit' primary={true} disabled={submitting}/>
                 </div>
             </form>
