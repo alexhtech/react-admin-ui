@@ -28,7 +28,7 @@ export default {
                 {name: 'groupId', component: 'material.TextField'}
             ],
             initFields:[
-                'name', 'groupId'
+                'name', 'group'
             ]
         },
         // del: {}

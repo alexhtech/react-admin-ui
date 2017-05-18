@@ -36,12 +36,12 @@ export default class EntityForm extends React.Component {
                     }
                     return (
                         <div className='entity-form--field' key={key}>
-                            {item.label == 'show' && <div className='label'>{item.title || item.name}</div>}
+                            {item.label == 'show' && <div className='label'>{item.label || item.title || item.name}</div>}
                             {type == 'field' &&
                             <div className='field'>
                                 <Field {...item} id={`__${item.name}`}
-                                       floatingLabelText={item.floatingLabelText || item.label || item.name}
-                                       hintText={ item.hintText || item.label || item.name} key={key}/>
+                                       floatingLabelText={item.floatingLabelText || item.label || item.title || item.name}
+                                       hintText={ item.hintText || item.label || item.title || item.name} key={key}/>
                             </div>}
                             {type == 'array' &&
                             <div className='field'><FieldArray {...item} id={`__${item.name}`} key={key}/></div>}
