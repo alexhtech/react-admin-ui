@@ -19,7 +19,8 @@ export default {
             fields:[
                 {name: 'name', component: 'material.TextField'}
             ],
-            url: ()=>'/products'
+            url: ()=>'/products',
+            redirect: 'edit'
         },
         edit: {
             fields:[

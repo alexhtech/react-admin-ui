@@ -68,12 +68,24 @@ export default class EditPage extends React.Component {
 
 
     async handleSubmitSuccess(result, dispatch, props) {
+        let {redirect = 'list'} = this.entity.actions.create
         if (this.handleSubmitSuccessBeforeHook) await this.handleSubmitSuccessBeforeHook(result, dispatch, props)
         this.props.open('default', 'Successfully saved')
-        const {fetchToState, location, params} = this.props
+        const {fetchToState, location, params, push} = this.props
         await edit({fetchToState, location, params})
         await list({fetchToState, location, params})
-        if (this.entity.goToListAfterSave) this.props.push(`/${getPrefix()}/${this.props.params.name}`)
+        if(!result.id) redirect = 'list'
+        switch (redirect) {
+            case 'list':
+                push(`/${getPrefix()}/${this.props.params.name}`)
+                break
+            case 'show':
+                push(`/${getPrefix()}/${this.props.params.name}/show/${result.id}`)
+                break
+            case 'edit':
+                push(`/${getPrefix()}/${this.props.params.name}/edit/${result.id}`)
+                break
+        }
         if (this.handleSubmitSuccessAfterHook) await this.handleSubmitSuccessAfterHook(result, dispatch, props)
     }
 
