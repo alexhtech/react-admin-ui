@@ -21,7 +21,7 @@ export default class Panel extends React.Component {
         const {open} = this.props
         const entities = getEntities()
         return (
-            <Drawler open={open == true} containerStyle={{top: '64px'}}>
+            <Drawler open={open == true} containerStyle={{top: '64px'}} containerClassName='panel__left'>
                 {Object.values(entities).filter((item)=>!item.hidden).map((item, index)=>(
                     <Link key={index} to={`/${getPrefix()}/${item.name}`}><MenuItem>{item.title || item.name}</MenuItem></Link>
                 ))}

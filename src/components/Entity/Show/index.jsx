@@ -33,68 +33,74 @@ export default class Show extends React.Component {
         } = this.props
         return (
             <div className='entity-show--fields'>
-                {fields.map((item, key)=> {
-                    let {component} = item
-                    if (typeof (component) == 'string') {
-                        let widget = showField(component, getWidgets())
-                        if (widget) {
-                            item = {...item, component: widget, id: `__${item.name}`}
+                <div className='row'>
+                    {fields.map((item, key)=> {
+                        let {component} = item
+                        if (typeof (component) == 'string') {
+                            let widget = showField(component, getWidgets())
+                            if (widget) {
+                                item = {...item, component: widget, id: `__${item.name}`}
+                            }
                         }
-                    }
-                    return (
-                        <div key={key} className='entity-show--field'>
-                            <div className='entity-show--field-label'>
-                                {item.title || item.name}
-                            </div>
-
-                            {(()=> {
-                                if (item.component)
-                                    return <item.component data={showField(item.name, data)} {...item}/>
-                                if (item.hasOne && showField(item.name, data))
-                                    return <Link
-                                        to={`/${getPrefix()}/${item.hasOne}/show/${showField(item.name, data)}`}>
-                                        id - {showField(item.name, data)} {item.hasOne}
-                                    </Link>
-
-                                if (item.hasMany && (showField(item.name, data).length <= 0))
-                                    return <ul className='entity-show--field--many-items'>
-                                        {
-                                            showField(item.name, data).map(({id}, index)=> {
-                                                return (
-                                                    <li key={index}><Link
-                                                        to={`/${getPrefix()}/${item.hasMany}/show/${id}`}>ID {id}</Link>
-                                                    </li>
-                                                )
-                                            })}
-                                    </ul>
-
-
-                                return showField(item.name, data)
-
-                            })()}
-
-                        </div>
-                    )
-                })}
-                <HasMany hasMany={hasMany}/>
-                <div className='controls'>
-                    {del &&
-                    <span>
-                            <RaisedButton label='Delete' onClick={()=>this.props.openModal('confirmDelete')}/>
-                            <Dialog open={this.props.confirmDelete} actions={
-                                <div className='controls'>
-                                    <RaisedButton label='Cancel' onClick={()=>this.props.closeModal('confirmDelete')}/>
-                                    <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}
-                                                  primary={true}/>
+                        return (
+                            <div key={key} className={`entity-show--field col-${item.column || 12}`}>
+                                <div className='entity-show--field-label'>
+                                    {item.title || item.name}
                                 </div>
-                            }>
-                                Are you sure to delete?
-                            </Dialog>
-                        </span>
-                    }
-                    {edit && <RaisedButton label='Edit' type='submit' primary={true} containerElement={
-                        <Link to={{pathname: `/${getPrefix()}/${name}/edit/${id}`, query}}
-                        />}/>}
+
+                                {(()=> {
+                                    if (item.component)
+                                        return <item.component data={showField(item.name, data)} {...item}/>
+                                    if (item.hasOne && showField(item.name, data))
+                                        return <Link
+                                            to={`/${getPrefix()}/${item.hasOne}/show/${showField(item.name, data)}`}>
+                                            id - {showField(item.name, data)} {item.hasOne}
+                                        </Link>
+
+                                    if (item.hasMany && (showField(item.name, data).length <= 0))
+                                        return <ul className='entity-show--field--many-items'>
+                                            {
+                                                showField(item.name, data).map(({id}, index)=> {
+                                                    return (
+                                                        <li key={index}><Link
+                                                            to={`/${getPrefix()}/${item.hasMany}/show/${id}`}>ID {id}</Link>
+                                                        </li>
+                                                    )
+                                                })}
+                                        </ul>
+
+
+                                    return showField(item.name, data)
+
+                                })()}
+
+                            </div>
+                        )
+                    })}
+                    <HasMany hasMany={hasMany}/>
+                </div>
+                <div className='row'>
+                    <div className='col-12'>
+                        <div className='controls'>
+                            {del &&
+                            <span>
+                                    <RaisedButton label='Delete' onClick={()=>this.props.openModal('confirmDelete')}/>
+                                    <Dialog open={this.props.confirmDelete} actions={
+                                        <div className='controls'>
+                                            <RaisedButton label='Cancel' onClick={()=>this.props.closeModal('confirmDelete')}/>
+                                            <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}
+                                                          primary={true}/>
+                                        </div>
+                                    }>
+                                        Are you sure to delete?
+                                    </Dialog>
+                                </span>
+                            }
+                            {edit && <RaisedButton label='Edit' type='submit' primary={true} containerElement={
+                                <Link to={{pathname: `/${getPrefix()}/${name}/edit/${id}`, query}}
+                                />}/>}
+                        </div>
+                    </div>
                 </div>
             </div>
         )

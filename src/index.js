@@ -7,6 +7,7 @@ import {setBaseUrl} from 'react-isomorphic-tools'
 import Application from './Application'
 import configureStore from './store/configureStore'
 import config from '../config'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 setBaseUrl(config().baseUrl)

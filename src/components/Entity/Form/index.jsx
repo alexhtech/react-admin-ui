@@ -26,46 +26,52 @@ export default class EntityForm extends React.Component {
         const {handleSubmit, submitting, fields, entity:{actions:{del}}} = this.props
         return (
             <form onSubmit={handleSubmit} className='entity-form'>
-                {fields.map(({type = 'field', ...item}, key)=> {
-                    let {component = 'material.TextField'} = item
-                    if (typeof (component) == 'string') {
-                        let widget = showField(component, getFormFields())
-                        if (widget) {
-                            item = {...item, component: widget, id: `__${item.name}`}
+                <div className='row'>
+                    {fields.map(({type = 'field', ...item}, key)=> {
+                        let {component = 'material.TextField'} = item
+                        if (typeof (component) == 'string') {
+                            let widget = showField(component, getFormFields())
+                            if (widget) {
+                                item = {...item, component: widget, id: `__${item.name}`}
+                            }
                         }
-                    }
-                    return (
-                        <div className='entity-form--field' key={key}>
-                            <div className='label'>{item.title}</div>
-                            {type == 'field' &&
-                            <div className='field'>
-                                <Field {...item} id={`__${item.name}`}/>
-                            </div>}
-                            {type == 'array' &&
-                            <div className='field'><FieldArray {...item} id={`__${item.name}`} key={key}/></div>}
+                        return (
+                            <div className={`entity-form--field col-${item.column || 12}`} key={key}>
+                                <div className='label'>{item.title}</div>
+                                {type == 'field' &&
+                                <div className='field'>
+                                    <Field {...item} id={`__${item.name}`}/>
+                                </div>}
+                                {type == 'array' &&
+                                <div className='field'><FieldArray {...item} id={`__${item.name}`} key={key}/></div>}
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className='row'>
+                    <div className='col-12'>
+                        <div className='controls'>
+                            {this.props.del && del && <span>
+
+                                <RaisedButton label='Delete' onClick={()=>this.props.openModal('confirmDelete')}/>
+                                <Dialog open={this.props.confirmDelete} actions={
+                                    <div className='controls'>
+                                        <RaisedButton label='Cancel' onClick={()=>this.props.closeModal('confirmDelete')}/>
+                                        <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}
+                                                      primary={true}/>
+                                    </div>}>Are you sure to delete?</Dialog>
+
+
+                            </span>}
+                            {this.props.params.id && <RaisedButton label='Show' type='submit' primary={false} containerElement={
+                                <Link to={{
+                                    pathname: `/${getPrefix()}/${this.props.params.name}/show/${this.props.params.id}`,
+                                    query: this.props.location.query
+                                }}
+                                />}/>}
+                            <RaisedButton label={this.props.label} type='submit' primary={true} disabled={submitting}/>
                         </div>
-                    )
-                })}
-                <div className='controls'>
-                    {this.props.del && del && <span>
-
-                        <RaisedButton label='Delete' onClick={()=>this.props.openModal('confirmDelete')}/>
-                        <Dialog open={this.props.confirmDelete} actions={
-                            <div className='controls'>
-                                <RaisedButton label='Cancel' onClick={()=>this.props.closeModal('confirmDelete')}/>
-                                <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}
-                                              primary={true}/>
-                            </div>}>Are you sure to delete?</Dialog>
-
-
-                    </span>}
-                    {this.props.params.id && <RaisedButton label='Show' type='submit' primary={false} containerElement={
-                        <Link to={{
-                            pathname: `/${getPrefix()}/${this.props.params.name}/show/${this.props.params.id}`,
-                            query: this.props.location.query
-                        }}
-                        />}/>}
-                    <RaisedButton label={this.props.label} type='submit' primary={true} disabled={submitting}/>
+                    </div>
                 </div>
             </form>
         )
