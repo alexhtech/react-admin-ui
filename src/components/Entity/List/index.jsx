@@ -14,7 +14,8 @@ import {withRouter} from 'react-router'
 @Pagination()
 export default class List extends React.Component {
     render() {
-        let {data: {response}, entity: {name, actions: {list: {fields, hasMany}, create, show, edit}}, location: {query} = {}} = this.props
+        let {data: {response}, entity: {name, actions: {list: {fields, hasMany}, create, show, edit}}} = this.props
+        const {query} = this.props.location || {}
         const items = response.items || response.Items
         const style = {
             float: 'right'
@@ -86,7 +87,7 @@ export default class List extends React.Component {
                                                     <Link to={{
                                                         pathname: `/${getPrefix()}/${item}`,
                                                         query: {
-                                                            ...this.props.location.query,
+                                                            ...query,
                                                             id: item.id,
                                                             name: this.props.params.name
                                                         }
@@ -100,7 +101,7 @@ export default class List extends React.Component {
                                                 <Link to={{
                                                     pathname: `/${getPrefix()}/${hasMany}`,
                                                     query: {
-                                                        ...this.props.location.query,
+                                                        ...query,
                                                         id: item.id,
                                                         name: this.props.params.name
                                                     }

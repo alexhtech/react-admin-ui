@@ -54,17 +54,18 @@ app.use((req, res)=> {
         } else if (redirect) {
             res.redirect(302, redirect.pathname + redirect.search)
         } else if (renderProps) {
-            const unplug = plugToRequest(req, res)
+            // const unplug = plugToRequest(req, res)
             loadOnServer({store, renderProps}).then(
                 ()=> {
-                    // const html = ReactDOMServer.renderToString(
-                    //     <Provider store={store}>
-                    //         <RouterContext {...renderProps}/>
-                    //     </Provider>)
-                    let html = ''
-                    const head = Helmet.rewind()
-                    res.status(200).send(page({store, head, html}))
-                    unplug()
+                    // console.log(store.getState().toJS())
+                    const html = ReactDOMServer.renderToString(
+                        <Provider store={store}>
+                             <RouterContext {...renderProps}/>
+                         </Provider>)
+                    {/*let html = ''*/}
+                    // const head = Helmet.rewind()
+                    res.status(200).send(page({store, html}))
+                    // unplug()
                 }
             ).catch((error)=> {
                 if (error.code == 303) {

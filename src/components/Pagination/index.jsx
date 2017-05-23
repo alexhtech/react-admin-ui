@@ -20,7 +20,7 @@ export default ({itemsPerPage = 10, visible = 4} = {})=> {
             if (this.disable) return <Component {...this.props}/>
 
             const name = this.props.name || 'page'
-            const {location} = this.props
+            const location = this.props.location || {}
             const {request: {params: {[name]: currentPage = 1}}, response} = this.props.data
 
             const totalItems = response.totalItemCount || response.totalItems
