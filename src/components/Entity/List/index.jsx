@@ -16,7 +16,7 @@ export default class List extends React.Component {
     render() {
         let {data: {response}, entity: {name, actions: {list: {fields, hasMany}, create, show, edit}}} = this.props
         const {query} = this.props.location || {}
-        const items = response.items || response.Items
+        const items = response.items || response.Items || response.data
         const style = {
             float: 'right'
         }

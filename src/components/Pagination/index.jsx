@@ -23,7 +23,7 @@ export default ({itemsPerPage = 10, visible = 4} = {})=> {
             const location = this.props.location || {}
             const {request: {params: {[name]: currentPage = 1}}, response} = this.props.data
 
-            const totalItems = response.totalItemCount || response.totalItems
+            const totalItems = response.totalItemCount || response.totalItems || response.total
 
             const {query} = location
             const countPages = Math.ceil(totalItems / itemsPerPage)
