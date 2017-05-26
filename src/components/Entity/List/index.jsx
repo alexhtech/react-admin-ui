@@ -11,7 +11,7 @@ import Edit from 'material-ui/svg-icons/image/edit'
 import {withRouter} from 'react-router'
 
 @withRouter
-@Pagination()
+@Pagination
 export default class List extends React.Component {
     render() {
         let {data: {response}, entity: {name, actions: {list: {fields, hasMany}, create, show, edit}, id = 'id'}} = this.props
@@ -125,6 +125,9 @@ export default class List extends React.Component {
                                 </TableRow>
                             )
                         })}
+                        {
+                            items.length == 0 && <p>No {name} have been found.</p>
+                        }
                     </TableBody>
                 </Table>
             </div>
