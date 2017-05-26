@@ -10,36 +10,11 @@ import {openModal, closeModal} from 'react-isomorphic-tools'
 import withRouter from 'react-router/lib/withRouter'
 import Link from 'react-router/lib/Link'
 
-const validate = (values, {fieldsValidate}) => {
-    let errors = {}
-
-    fieldsValidate && fieldsValidate.map(field => {
-        const { isRequired = false, test = false, errorText } = field
-        const initValidate = value => {
-            if (isRequired) {
-                if (!value) {
-                    return errorText.isRequired
-                }
-            }
-
-            if (test && test(value)) {
-                return errorText.test
-            }
-
-        }
-
-        errors[field.name] = initValidate(values.get(field.name))
-
-    })
-
-    return errors
-}
-
 @withRouter
 @connect(state=>({
     'confirmDelete': state.getIn(['modals', 'confirmDelete']) || false
 }), {openModal, closeModal})
-@reduxForm({validate})
+@reduxForm()
 export default class EntityForm extends React.Component {
 
     static defaultProps = {

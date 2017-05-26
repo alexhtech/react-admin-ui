@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import {list} from '../../actions'
 import {open} from '../../actions/Snackbar'
 import Immutable from 'immutable'
+import {validate} from '../../validate'
 
 @connect(null, {push, open, fetchToState})
 export default class CreatePage extends React.Component {
@@ -88,6 +89,7 @@ export default class CreatePage extends React.Component {
                         entity={this.entity}
                         label='Create'
                         fieldsValidate={fieldsValidate}
+                        validate={validate}
                     />
                 }
             </div>
