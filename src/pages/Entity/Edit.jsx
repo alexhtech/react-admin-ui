@@ -97,7 +97,7 @@ export default class EditPage extends React.Component {
         const {
             entity: {
                 actions:{
-                    edit:{form = this.props.params.name, fields, component: Component}
+                    edit:{form = this.props.params.name, fields, component: Component, fieldsValidate}
                 }
             }
         } = this
@@ -114,7 +114,7 @@ export default class EditPage extends React.Component {
                                 onSubmitSuccess={::this.handleSubmitSuccess}
                                 onSubmitFail={this.handleSubmitFail}
                                 initialValues={this.getInitialValues()} onDelete={::this.handleDelete}
-                                entity={this.entity} del={true}/>
+                                entity={this.entity} del={true} fieldsValidate={fieldsValidate} />
                 }
             </div>
         )
