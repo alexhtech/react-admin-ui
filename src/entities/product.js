@@ -19,6 +19,17 @@ export default {
             fields:[
                 {name: 'name', component: 'material.TextField'}
             ],
+            fieldsValidate: [
+                {
+                    name: 'name',
+                    test: value => value.length > 20,
+                    isRequired: true,
+                    errorText: {
+                        isRequired: 'Обязательное поле',
+                        test: 'Не более 20 символов'
+                    }
+                }
+            ],
             url: ()=>'/products',
             redirect: 'edit'
         },

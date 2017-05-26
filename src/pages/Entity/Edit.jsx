@@ -8,6 +8,7 @@ import {push} from 'react-router-redux'
 import {open} from '../../actions/Snackbar'
 import {edit, list} from '../../actions'
 import Immutable from 'immutable'
+import {validate} from '../../validate'
 
 @preload(edit)
 @connect((state, props)=>({
@@ -97,7 +98,7 @@ export default class EditPage extends React.Component {
         const {
             entity: {
                 actions:{
-                    edit:{form = this.props.params.name, fields, component: Component}
+                    edit:{form = this.props.params.name, fields, component: Component, fieldsValidate}
                 }
             }
         } = this
@@ -110,11 +111,18 @@ export default class EditPage extends React.Component {
                                initialValues={this.getInitialValues()}
                                entity={this.entity} del={true}
                     /> :
-                    <EntityForm form={form} fields={fields} onSubmit={this.handleSubmit}
-                                onSubmitSuccess={::this.handleSubmitSuccess}
-                                onSubmitFail={this.handleSubmitFail}
-                                initialValues={this.getInitialValues()} onDelete={::this.handleDelete}
-                                entity={this.entity} del={true}/>
+                    <EntityForm
+                        form={form}
+                        fields={fields}
+                        onSubmit={this.handleSubmit}
+                        onSubmitSuccess={::this.handleSubmitSuccess}
+                        onSubmitFail={this.handleSubmitFail}
+                        initialValues={this.getInitialValues()}
+                        onDelete={::this.handleDelete}
+                        entity={this.entity} del={true}
+                        fieldsValidate={fieldsValidate}
+                        validate={validate}
+                    />
                 }
             </div>
         )
