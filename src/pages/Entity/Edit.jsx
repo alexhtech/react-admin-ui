@@ -2,6 +2,7 @@ import React from 'react'
 import EntityForm from '../../components/Entity/Form'
 import {getEntity, getPrefix} from '../../utils'
 import {connect} from 'react-redux'
+import {SubmissionError} from 'redux-form/immutable'
 import {showField} from '../../utils/utility'
 import {preload, fetcher, fetchToState, closeModal} from 'react-isomorphic-tools'
 import {push} from 'react-router-redux'
@@ -61,37 +62,39 @@ export default class EditPage extends React.Component {
             _params = result(_params)
         }
 
-        return fetcher(typeof (url) == 'function' ? url(this.props.params, this.props.location.query): `${this.entity.url}/${this.props.params.id}`, {
+        return fetcher(typeof (url) == 'function' ? url(this.props.params, this.props.location.query) : `${this.entity.url}/${this.props.params.id}`, {
             params: _params,
             method: 'PUT'
         })
+
+
     }
 
 
     async handleSubmitSuccess(result, dispatch, props) {
         let {redirect = 'list'} = this.entity.actions.create
+        const {id = 'id'} = this.entity
         if (this.handleSubmitSuccessBeforeHook) await this.handleSubmitSuccessBeforeHook(result, dispatch, props)
         this.props.open('default', 'Successfully saved')
         const {fetchToState, location, params, push} = this.props
         await edit({fetchToState, location, params})
         await list({fetchToState, location, params})
-        if(!result.id) redirect = 'list'
+        if (!result.id) redirect = 'list'
         switch (redirect) {
             case 'list':
                 push(`/${getPrefix()}/${this.props.params.name}`)
                 break
             case 'show':
-                push(`/${getPrefix()}/${this.props.params.name}/show/${result.id}`)
-                break
-            case 'edit':
-                push(`/${getPrefix()}/${this.props.params.name}/edit/${result.id}`)
+                push(`/${getPrefix()}/${this.props.params.name}/show/${result[id]}`)
                 break
         }
         if (this.handleSubmitSuccessAfterHook) await this.handleSubmitSuccessAfterHook(result, dispatch, props)
     }
 
-    handleSubmitFail = () => {
-        this.props.open('default', 'Error saving')
+    handleSubmitFail = (props, dispatch, e) => {
+        const error = e && e.error && e.error.message || 'Error saving'
+        this.props.open('default', error)
+        throw new SubmissionError({error})
     }
 
     render() {
