@@ -15,6 +15,7 @@ cp -R ./src/pages ./react-admin-ui/src/pages
 cp ./src/reducers/snackbar.js ./react-admin-ui/src/reducers/snackbar.js
 
 cp -R ./src/utils ./react-admin-ui/src/utils
+cp -R ./src/validate ./react-admin-ui/src/validate
 
 
 cd ./react-admin-ui
