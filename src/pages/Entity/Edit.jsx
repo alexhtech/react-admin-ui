@@ -55,7 +55,7 @@ export default class EditPage extends React.Component {
 
 
     handleSubmit = (form) => {
-        const {actions:{edit:{wrapper, params = {}, url}}} = this.entity
+        const {actions:{edit:{wrapper, params = {}, url, method = 'PUT'}}} = this.entity
         let _params = Immutable.fromJS(wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params))
         const {result} = this.entity.actions.edit
         if (typeof (result) == 'function') {
@@ -64,10 +64,8 @@ export default class EditPage extends React.Component {
 
         return fetcher(typeof (url) == 'function' ? url(this.props.params, this.props.location.query) : `${this.entity.url}/${this.props.params.id}`, {
             params: _params,
-            method: 'PUT'
+            method
         })
-
-
     }
 
 
