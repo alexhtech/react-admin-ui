@@ -4,6 +4,7 @@ import {getEntity, getPrefix} from '../../utils'
 import {fetcher, fetchToState} from 'react-isomorphic-tools'
 import {push} from 'react-router-redux'
 import {connect} from 'react-redux'
+import {SubmissionError} from 'redux-form/immutable'
 import {list} from '../../actions'
 import {open} from '../../actions/Snackbar'
 import Immutable from 'immutable'
@@ -22,27 +23,33 @@ export default class CreatePage extends React.Component {
     async handleSubmitSuccess(result, dispatch, props) {
         try {
             let {redirect = 'list'} = this.entity.actions.create
+            const {id = 'id'} = this.entity
             if (this.handleSubmitSuccessBeforeHook) await this.handleSubmitSuccessBeforeHook(result, dispatch, props)
             const {fetchToState, params, location, push, open} = this.props
             open('default', 'Successfully created')
             await list({fetchToState, params, location})
-            if(!result.id) redirect = 'list'
+            if (!result[id]) redirect = 'list'
             switch (redirect) {
                 case 'list':
                     push(`/${getPrefix()}/${this.props.params.name}`)
                     break
                 case 'show':
-                    push(`/${getPrefix()}/${this.props.params.name}/show/${result.id}`)
+                    push(`/${getPrefix()}/${this.props.params.name}/show/${result[id]}`)
                     break
                 case 'edit':
-                    push(`/${getPrefix()}/${this.props.params.name}/edit/${result.id}`)
+                    push(`/${getPrefix()}/${this.props.params.name}/edit/${result[id]}`)
+                    break
+                case 'create':
+                    push(`/${getPrefix()}/${this.props.params.name}/create`)
                     break
             }
             push(`/${getPrefix()}/${this.props.params.name}`)
             if (this.handleSubmitSuccessAfterHook) await this.handleSubmitSuccessAfterHook(result, dispatch, props)
         }
         catch (e) {
-            this.props.open('default', 'Error creating')
+            const error = e && e.error && e.error.message || 'Error creation'
+            this.props.open('default', error)
+            throw new SubmissionError({error})
         }
     }
 
@@ -59,6 +66,12 @@ export default class CreatePage extends React.Component {
         })
     }
 
+    handleSubmitFail = (props, dispatch, e) => {
+        const error = e && e.error && e.error.message || 'Error creation'
+        this.props.open('default', error)
+        throw new SubmissionError({error})
+    }
+
     render() {
         const {
             entity:{
@@ -69,7 +82,8 @@ export default class CreatePage extends React.Component {
                         component: Component,
                         onSubmitSuccess,
                         initialValues,
-                        fieldsValidate
+                        fieldsValidate,
+                        onSubmitFail
                     }
                 }
             }
@@ -85,6 +99,7 @@ export default class CreatePage extends React.Component {
                         fields={fields}
                         onSubmit={this.handleSubmit}
                         onSubmitSuccess={onSubmitSuccess || ::this.handleSubmitSuccess}
+                        onSubmitFail={onSubmitFail || this.handleSubmitFail}
                         initialValues={initialValues || {}}
                         entity={this.entity}
                         label='Create'

@@ -27,7 +27,7 @@ export default class EntityForm extends React.Component {
         return (
             <form onSubmit={handleSubmit} className='entity-form'>
                 <div className='row'>
-                    {fields.map(({type = 'field', ...item}, key)=> {
+                    {fields.map(({fieldType = 'field', ...item}, key)=> {
                         let {component = 'material.TextField'} = item
                         if (typeof (component) == 'string') {
                             let widget = showField(component, getFormFields())
@@ -38,11 +38,11 @@ export default class EntityForm extends React.Component {
                         return (
                             <div className={`entity-form--field col-${item.column || 12}`} key={key}>
                                 <div className='label'>{item.title}</div>
-                                {type == 'field' &&
+                                {fieldType == 'field' &&
                                 <div className='field'>
                                     <Field {...item} id={`__${item.name}`}/>
                                 </div>}
-                                {type == 'array' &&
+                                {fieldType == 'array' &&
                                 <div className='field'><FieldArray {...item} id={`__${item.name}`} key={key}/></div>}
                             </div>
                         )

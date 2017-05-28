@@ -26,7 +26,7 @@ export default class index extends React.Component {
                 <Snackbar
                     open={this.props.snackbar[1].open}
                     message={this.props.snackbar[1].message}
-                    autoHideDuration={1000}
+                    autoHideDuration={3000}
                     onRequestClose={this.handleRequestClose}
                 />
             </div>

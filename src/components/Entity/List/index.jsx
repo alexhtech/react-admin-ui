@@ -11,10 +11,10 @@ import Edit from 'material-ui/svg-icons/image/edit'
 import {withRouter} from 'react-router'
 
 @withRouter
-@Pagination()
+@Pagination
 export default class List extends React.Component {
     render() {
-        let {data: {response}, entity: {name, actions: {list: {fields, hasMany}, create, show, edit}}} = this.props
+        let {data: {response}, entity: {name, actions: {list: {fields, hasMany}, create, show, edit}, id = 'id'}} = this.props
         const {query} = this.props.location || {}
         const items = response.items || response.Items || response.data
         const style = {
@@ -88,7 +88,7 @@ export default class List extends React.Component {
                                                         pathname: `/${getPrefix()}/${item}`,
                                                         query: {
                                                             ...query,
-                                                            id: item.id,
+                                                            id: item[id],
                                                             name: this.props.params.name
                                                         }
                                                     }}>List of {entity.title || entity.name}</Link>
@@ -102,7 +102,7 @@ export default class List extends React.Component {
                                                     pathname: `/${getPrefix()}/${hasMany}`,
                                                     query: {
                                                         ...query,
-                                                        id: item.id,
+                                                        id: item[id],
                                                         name: this.props.params.name
                                                     }
                                                 }}>List of {entity.title || entity.name}</Link>
@@ -114,10 +114,10 @@ export default class List extends React.Component {
                                     <TableRowColumn>
                                         <div style={{float: 'right'}}>
                                             {edit && show ?
-                                                <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item.id}`, query}}><Edit/></Link> : null}
+                                                <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item[id]}`, query}}><Edit/></Link> : null}
                                             {show ?
                                                 <Link to={{
-                                                    pathname: `/${getPrefix()}/${name}/show/${item.id}`,
+                                                    pathname: `/${getPrefix()}/${name}/show/${item[id]}`,
                                                     query
                                                 }}><ChevronRight/></Link> : null}
                                         </div>
@@ -125,6 +125,9 @@ export default class List extends React.Component {
                                 </TableRow>
                             )
                         })}
+                        {
+                            items.length == 0 && <p>No {name} have been found.</p>
+                        }
                     </TableBody>
                 </Table>
             </div>
