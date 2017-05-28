@@ -17,21 +17,47 @@ export default {
         },
         create: {
             fields:[
-                {name: 'name', component: 'material.TextField'}
+                {name: 'name', component: 'material.TextField'},
+                {name: 'tickets', component: 'formFields.Tickets', type: 'array'}
             ],
             fieldsValidate: [
                 {
-                    name: 'name',
-                    test: value => value.length > 20,
-                    isRequired: true,
-                    errorText: {
-                        isRequired: 'Обязательное поле',
-                        test: 'Не более 20 символов'
-                    }
+                    name: 'tickets',
+                    type: 'array',
+                    fieldsForm: [
+                        {
+                            name: 'title',
+                            isRequired: true,
+                            errorText: {
+                                isRequired: 'Обязательное поле',
+                            }
+                        },
+                        {
+                            name: 'date',
+                            test: value => value.length > 10,
+                            isRequired: true,
+                            errorText: {
+                                isRequired: 'Обязательное поле',
+                                test: 'Не более 10 символов'
+                            }
+                        },
+                        // {
+                        //     name: '_error',
+                        //     test: value => value.length > 3,
+                        //     isRequired: true,
+                        //     errorText: {
+                        //         isRequired: 'Обязательное поле',
+                        //         test: 'Не более 3 символов'
+                        //     }
+                        // },
+                    ]
                 }
             ],
             url: ()=>'/products',
-            redirect: 'edit'
+            redirect: 'edit',
+            initialValues: {
+                tickets: []
+            }
         },
         edit: {
             fields:[

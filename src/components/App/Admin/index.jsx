@@ -7,12 +7,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {grey500, blueGrey800, grey700} from 'material-ui/styles/colors'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import * as material from 'redux-form-material-ui'
-
+import * as formFields from '../../FormFields'
 
 setEntities(require('../../../entities'))
 setPrefix('admin/entity')
 setFormFields({
-    material
+    material,
+    formFields
 })
 
 
