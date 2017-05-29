@@ -10,17 +10,25 @@ import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 import Edit from 'material-ui/svg-icons/image/edit'
 import {withRouter} from 'react-router'
 
+const style = {
+    float: 'right'
+}
+
 @withRouter
 @Pagination
 export default class List extends React.Component {
-    render() {
-        let {data: {response}, entity: {name, actions: {list: {fields, hasMany}, create, show, edit}, id = 'id'}} = this.props
-        const {query} = this.props.location || {}
-        const items = response.items || response.Items || response.data
-        const style = {
-            float: 'right'
-        }
 
+    static defaultProps = {
+        defaultStyle: {}
+    }
+
+    render() {
+        let {
+            items,
+            entity: {name, actions: {list: {fields, hasMany}, create, show, edit}, id = 'id'},
+            defaultStyle
+        } = this.props
+        const {query} = this.props.location || defaultStyle
 
         return (
             <div>
@@ -29,8 +37,12 @@ export default class List extends React.Component {
                         <TableRow>
                             {fields.map((field, key)=> {
                                 return (
-                                    <TableHeaderColumn style={field.style || {}}
-                                                       key={key}>{field.title || field.name || field.label}</TableHeaderColumn>
+                                    <TableHeaderColumn
+                                        style={field.style || defaultStyle}
+                                        key={key}
+                                    >
+                                        {field.title || field.name || field.label}
+                                    </TableHeaderColumn>
                                 )
                             })}
 
@@ -49,11 +61,15 @@ export default class List extends React.Component {
                             })()}
 
 
-                            {create ?
-                                <TableHeaderColumn><Link
-                                    to={{pathname: `/${getPrefix()}/${name}/create`, query}}><FloatingActionButton
-                                    mini={true}
-                                    style={style}><ContentAdd /></FloatingActionButton></Link></TableHeaderColumn> : null}
+                            {create &&
+                                <TableHeaderColumn>
+                                    <Link to={{pathname: `/${getPrefix()}/${name}/create`, query}}>
+                                        <FloatingActionButton mini={true} style={style}>
+                                            <ContentAdd />
+                                        </FloatingActionButton>
+                                    </Link>
+                                </TableHeaderColumn>
+                            }
                         </TableRow>
                     </TableHeader>
 
@@ -77,8 +93,6 @@ export default class List extends React.Component {
                                             </TableRowColumn>
                                         )
                                     })}
-
-
                                     {(()=> {
                                         if (typeof (hasMany) == 'object') {
                                             return hasMany.map((item, index)=> {
@@ -109,27 +123,27 @@ export default class List extends React.Component {
                                             </TableRowColumn>
                                         }
                                     })()}
-
-
                                     <TableRowColumn>
-                                        <div style={{float: 'right'}}>
-                                            {edit && show ?
-                                                <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item[id]}`, query}}><Edit/></Link> : null}
-                                            {show ?
+                                        <div style={style}>
+                                            {edit && show &&
+                                                <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item[id]}`, query}}>
+                                                    <Edit/>
+                                                </Link>
+                                            }
+                                            {show &&
                                                 <Link to={{
                                                     pathname: `/${getPrefix()}/${name}/show/${item[id]}`,
                                                     query
-                                                }}><ChevronRight/></Link> : null}
+                                                }}><ChevronRight/></Link>
+                                            }
                                         </div>
                                     </TableRowColumn>
                                 </TableRow>
                             )
                         })}
-                        {
-                            items.length == 0 && <p>No {name} have been found.</p>
-                        }
                     </TableBody>
                 </Table>
+                {items.length == 0 && <p>No {name} have been found.</p>}
             </div>
         )
     }

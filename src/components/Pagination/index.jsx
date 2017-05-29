@@ -51,7 +51,7 @@ export default (Component) => class Pagination extends React.Component {
                     <Link to={{pathname: location.pathname, query: {...query, [name]: currentPage - 1 + 2}}}
                           className='paginator__arrows'><i className='fa fa-angle-double-right'/></Link>}
                 </div>
-                <div>Total items: {totalItems}</div>
+                <div>Total items: {totalItems || 0}</div>
             </div>
         )
     }
