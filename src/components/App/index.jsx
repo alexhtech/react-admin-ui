@@ -1,7 +1,6 @@
 import React from 'react'
 import {ImmutableLoadingBar as LoadingBar} from 'react-redux-loading-bar'
 // import {Helmet} from 'react-helmet'
-import {Link} from 'react-router'
 import config from '../../../config'
 import {setBaseUrl} from 'react-isomorphic-tools'
 //
@@ -11,7 +10,7 @@ setBaseUrl(baseUrl)
 class App extends React.Component {
     constructor() {
         super();
-        const isDev = process.env.NODE_ENV == 'development'
+        // const isDev = process.env.NODE_ENV == 'development'
         // this.links = [{
         //     rel: 'icon',
         //     type: 'image/png',

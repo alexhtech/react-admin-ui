@@ -33,7 +33,11 @@ export default class ShowPage extends React.Component {
     render() {
         return (
             <div className='block'>
-                <Show data={this.props.item.toJS()} entity={getEntity(this.props.params.name)} onDelete={::this.handleDelete}/>
+                <Show
+                    data={this.props.item.toJS()} 
+                    entity={getEntity(this.props.params.name)}
+                    onDelete={::this.handleDelete}
+                />
             </div>
         )
     }
