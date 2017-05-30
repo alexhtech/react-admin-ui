@@ -79,5 +79,6 @@
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.16.1"
     
+    
   }
 }
