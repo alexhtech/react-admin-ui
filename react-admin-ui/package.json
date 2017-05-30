@@ -1,6 +1,6 @@
 {
   "name": "react-admin-ui",
-  "version": "2.0.0-alpha.18",
+  "version": "2.0.0-alpha.19",
   "description": "A React Admin Panel based on material-ui design",
   "scripts": {
     "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir ./"

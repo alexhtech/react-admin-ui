@@ -14,6 +14,8 @@ import {open} from '../../actions/Snackbar'
 }), {fetchToState, closeModal, push, open})
 export default class ShowPage extends React.Component {
 
+    static displayName = 'AdminShowPage'
+
     async handleDelete() {
         try {
             const {fetchToState, params, location, push, open, closeModal} = this.props
