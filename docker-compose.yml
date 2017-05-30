@@ -16,10 +16,8 @@ services:
     volumes:
       - "./:/usr/src/app"
     environment:
-      - VIRTUAL_HOST=PROJECTNAME.k-3soft.com
+      - VIRTUAL_HOST=react-admin-ui.k-3soft.com
 networks:
   nginx-proxy:
     external:
       name: serverservices_default
-      
-      
