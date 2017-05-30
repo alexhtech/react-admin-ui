@@ -2,7 +2,7 @@ version: '2'
 services:
   web:
     image: node
-    container_name: PROJECTNAME-node
+    container_name: react-admin-ui-node
     working_dir: /usr/src/app
     expose:
       - "3000"
@@ -16,7 +16,7 @@ services:
     volumes:
       - "./:/usr/src/app"
     environment:
-      - VIRTUAL_HOST=PROJECTNAME.k-3soft.com
+      - VIRTUAL_HOST=react-admin-ui.k-3soft.com
 networks:
   nginx-proxy:
     external:
