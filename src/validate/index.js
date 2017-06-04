@@ -50,7 +50,7 @@ export const validate = (values, {fieldsValidate = []}) => {
             }
         }
 
-        errors[field.name] = initValidate(values.get(field.name))
+        errors[field.name] = values.get(field.name) && initValidate(values.get(field.name))
 
     })
 
