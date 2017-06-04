@@ -1,7 +1,7 @@
 export const validate = (values, {fieldsValidate = []}) => {
     let errors = {}
 
-    const validateSingleField = (value, field) => {
+    const validateSingleField = (value, field, formValues) => {
 
         const { isRequired = false, test = false, errorText } = field
 
@@ -11,7 +11,7 @@ export const validate = (values, {fieldsValidate = []}) => {
             }
         }
 
-        if (test && test(value)) {
+        if (test && test(value, formValues)) {
             return errorText.test
         }
     }
@@ -20,7 +20,7 @@ export const validate = (values, {fieldsValidate = []}) => {
         const initValidate = value => {
 
             if (field.type !== 'array') {
-                return validateSingleField(value, field)
+                return validateSingleField(value, field, values)
             } else {
 
                 const fieldsErrors = {}
@@ -31,8 +31,9 @@ export const validate = (values, {fieldsValidate = []}) => {
 
                     fieldsForm.map(fieldForm => {
                         const {name} = fieldForm
+                        const currentValue = name != '_error' ? item.get(name): item
 
-                        const errorText = validateSingleField( name != '_error' ? item.get(name): item, fieldForm)
+                        const errorText = validateSingleField( currentValue, fieldForm, values)
 
                         if (errorText) {
                             fieldsErrors[name] = errorText
