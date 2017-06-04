@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "description": "A React Admin Panel based on material-ui design",
   "scripts": {
-    "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir ./"
+    "build": "node_modules/babel-cli/bin/babel.js src --out-dir ./"
   },
   "repository": {
     "type": "git",
@@ -35,8 +35,8 @@
     "feature-components": "^0.0.14",
     "material-ui": "^0.17.4",
     "moment": "^2.18.1",
-    "redux-form-material-ui": "^4.2.0",
     "react-breadcrumbs": "^1.6.6",
+    "redux-form-material-ui": "^4.2.0",
     "reselect": "^3.0.1"
   }
 }

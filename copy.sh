@@ -21,5 +21,3 @@ cp -R ./src/validate ./react-admin-ui/src/validate
 cd ./react-admin-ui
 
 rm -rf ./react-admin-ui/node_modules
-
-npm publish
