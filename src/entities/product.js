@@ -7,6 +7,9 @@ export default {
             fields: [
                 {name: 'name', title: 'Name', style: {width: '600px'}}
             ],
+            filters: [
+                {name: 'name', component: 'material.TextField', underlineShow: false, hintText: 'Search...'}
+            ],
             url: '/products'
         },
         show: {
@@ -16,7 +19,7 @@ export default {
             ]
         },
         create: {
-            fields:[
+            fields: [
                 {name: 'name', component: 'material.TextField'},
                 {name: 'tickets', component: 'formFields.Tickets', fieldType: 'array'}
             ],
@@ -60,11 +63,11 @@ export default {
             }
         },
         edit: {
-            fields:[
+            fields: [
                 {name: 'name', component: 'material.TextField'},
                 {name: 'groupId', component: 'material.TextField'}
             ],
-            initFields:[
+            initFields: [
                 'name', 'group'
             ]
         },

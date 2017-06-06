@@ -9,6 +9,7 @@ import {getWidgets, getPrefix, getEntity} from '../../../utils'
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 import Edit from 'material-ui/svg-icons/image/edit'
 import {withRouter} from 'react-router'
+import Filters from './Filters'
 
 const style = {
     float: 'right'
@@ -25,13 +26,14 @@ export default class List extends React.Component {
     render() {
         let {
             items,
-            entity: {name, actions: {list: {fields, hasMany}, create, show, edit}, id = 'id'},
+            entity: {name, actions: {list: {fields, hasMany, filters}, create, show, edit}, id = 'id'},
             defaultStyle
         } = this.props
         const {query} = this.props.location || defaultStyle
 
         return (
             <div>
+                {filters && <Filters filters={filters}/>}
                 <Table selectable={false}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow>
@@ -62,13 +64,13 @@ export default class List extends React.Component {
 
 
                             {create &&
-                                <TableHeaderColumn>
-                                    <Link to={{pathname: `/${getPrefix()}/${name}/create`, query}}>
-                                        <FloatingActionButton mini={true} style={style}>
-                                            <ContentAdd />
-                                        </FloatingActionButton>
-                                    </Link>
-                                </TableHeaderColumn>
+                            <TableHeaderColumn>
+                                <Link to={{pathname: `/${getPrefix()}/${name}/create`, query}}>
+                                    <FloatingActionButton mini={true} style={style}>
+                                        <ContentAdd />
+                                    </FloatingActionButton>
+                                </Link>
+                            </TableHeaderColumn>
                             }
                         </TableRow>
                     </TableHeader>
@@ -126,15 +128,15 @@ export default class List extends React.Component {
                                     <TableRowColumn>
                                         <div style={style}>
                                             {edit && show &&
-                                                <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item[id]}`, query}}>
-                                                    <Edit/>
-                                                </Link>
+                                            <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item[id]}`, query}}>
+                                                <Edit/>
+                                            </Link>
                                             }
                                             {show &&
-                                                <Link to={{
-                                                    pathname: `/${getPrefix()}/${name}/show/${item[id]}`,
-                                                    query
-                                                }}><ChevronRight/></Link>
+                                            <Link to={{
+                                                pathname: `/${getPrefix()}/${name}/show/${item[id]}`,
+                                                query
+                                            }}><ChevronRight/></Link>
                                             }
                                         </div>
                                     </TableRowColumn>

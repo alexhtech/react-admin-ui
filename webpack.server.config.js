@@ -1,22 +1,59 @@
-const path = require("path")
-const fs = require("fs")
+//webpack server config
+
+const path = require('path')
+const fs = require('fs')
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-const config = require('./webpack.config')
+const config = require('./webpack.common.config')
+
+const isDev = process.env.NODE_ENV == 'development'
+
+//set entry point
+config.entry = './server/server.js'
+
+//output
+config.output.path = path.resolve(__dirname, 'build')
+config.output.filename = 'server.js'
+
+//set the node application
+config.target = 'node'
+
+//development
+if (isDev) {
+}
 
 
-config.entry = "./server/server.js"
+//production
+if (!isDev) {
 
-config.target = "node"
-config.externals = fs.readdirSync("node_modules")
-    .reduce(function (acc, mod) {
-        if (mod === ".bin") {
-            return acc
+}
+
+
+config.module.rules.push({
+    test: /\.(css|sass|scss)/,
+    use: ExtractTextPlugin.extract({
+            use: 'css-loader!sass-loader'
         }
+    )
+})
 
-        acc[mod] = "commonjs " + mod
-        return acc
-    }, {})
+config.plugins.push(new ExtractTextPlugin('style.css'))
+
+
+//rewrite additional plugins to JS/JSX files
+config.module.rules[0].use.options.env.development.plugins = []
+
+//remove from server.js all common dependencies
+config.externals = [
+    (context, request, callback)=> {
+        if (request.indexOf('.') != -1) {
+            return callback()
+        }
+        return callback(null, 'commonjs ' + request)
+    }
+
+]
 
 
 config.node = {
@@ -28,11 +65,5 @@ config.node = {
     __dirname: false,
 }
 
-config.output = {
-    path: path.join(__dirname, "build"),
-    filename: "server.js",
-}
-
-config.plugins.push(new webpack.IgnorePlugin(/vertx/))
 
 module.exports = config

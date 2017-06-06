@@ -1,47 +1,43 @@
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-import Helmet from 'react-helmet'
+import {renderToString} from 'react-dom/server'
+import {Helmet} from 'react-helmet'
 import {match, RouterContext} from 'react-router'
+import {IntlProvider, addLocaleData} from 'react-intl'
 import {Provider} from 'react-redux'
 import {resolve} from 'path'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import {plugToRequest} from 'react-cookie'
-import page from './page'
+import page from 'react-isomorphic-tools/server/page'
 import configureStore from './configureStore'
 import {routes} from '../src/Routes'
-import {loadOnServer} from 'react-isomorphic-tools'
+import {loadOnServer, setLocale, setUserAgent} from 'react-isomorphic-tools'
 const app = express()
 import proxy from 'express-http-proxy'
-
+import {ServerStyleSheet} from 'styled-components'
+import areIntlLocalesSupported from 'intl-locales-supported'
 import config from '../config'
 
-const {domain} = config()
+const {origin, defaultLocale, nodeLocales} = config()
 
-if (process.env.NODE_ENV == 'development') {
 
-    const webpackConfig = require('../webpack.config')
-    const compiler = require('webpack')(webpackConfig)
-
-    app.use(require('webpack-dev-middleware')(compiler, {
-        publicPath: webpackConfig.output.publicPath,
-        hot: true,
-        stats: {
-            colors: true
-        },
-        noInfo: true,
-        inline: false
-    }))
-
-    app.use(require('webpack-hot-middleware')(compiler))
+if (global.Intl) {
+    if (!areIntlLocalesSupported(nodeLocales)) {
+        require('intl')
+        Intl.NumberFormat = IntlPolyfill.NumberFormat;
+        Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+    }
+} else {
+    global.Intl = require('intl');
 }
+
 app.use(cookieParser())
 app.use('/public', express.static(resolve(__dirname, '../public')))
 app.get('/favicon:ext', (req, res)=> {
     res.sendFile(resolve(__dirname, `../assets/favicon${req.params.ext}`))
 })
-app.use('/uploads', proxy(domain, {
-    forwardPath: function (req) {
+app.use('/uploads', proxy(origin, {
+    forwardPath: (req)=> {
         return '/uploads' + require('url').parse(req.url).path
     }
 }))
@@ -54,22 +50,34 @@ app.use((req, res)=> {
         } else if (redirect) {
             res.redirect(302, redirect.pathname + redirect.search)
         } else if (renderProps) {
-            // const unplug = plugToRequest(req, res)
+            store.dispatch(setUserAgent(req.get('user-agent')))
+            store.dispatch(setLocale(req.cookies.locale || defaultLocale))
+            const unplug = plugToRequest(req, res)
             loadOnServer({store, renderProps}).then(
                 ()=> {
-                    // console.log(store.getState().toJS())
-                    const html = ReactDOMServer.renderToString(
-                        <Provider store={store}>
-                             <RouterContext {...renderProps}/>
-                         </Provider>)
-                    {/*let html = ''*/}
-                    // const head = Helmet.rewind()
-                    res.status(200).send(page({store, html}))
-                    // unplug()
+                    const locale = req.cookies.locale || config().defaultLocale
+                    const localeData = require(`react-intl/locale-data/${locale.split('-')[0]}`)
+                    const messages = require(`../src/locales/${locale.split('-')[0]}.json`)
+                    addLocaleData([...localeData])
+
+                    const sheet = new ServerStyleSheet()
+                    const html = renderToString(
+                        sheet.collectStyles(
+                            <IntlProvider locale={locale} initialNow={new Date()} messages={messages}>
+                                <Provider store={store}>
+                                    <RouterContext {...renderProps}/>
+                                </Provider>
+                            </IntlProvider>
+                        )
+                    )
+                    const helmet = Helmet.renderStatic()
+                    const css = sheet.getStyleTags()
+                    res.status(200).send(page({store, helmet, html, css}))
+                    unplug()
                 }
-            ).catch((error)=> {
-                if (error.code == 303) {
-                    res.redirect(error.location)
+            ).catch(({code, to, location, e})=> {
+                if (code == 303) {
+                    res.redirect(to == '/error' ? to + '?errorData=' + JSON.stringify({location, e}) : to)
                 }
             })
         } else {
@@ -79,5 +87,5 @@ app.use((req, res)=> {
 })
 
 app.listen(3000, ()=> {
-    console.log('Listening on port 3000!')
+    console.log('Page server is listening on port 3000!')
 })
