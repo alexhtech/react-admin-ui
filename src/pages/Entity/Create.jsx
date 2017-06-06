@@ -15,8 +15,8 @@ export default class CreatePage extends React.Component {
     constructor(props) {
         super(props);
         this.entity = getEntity(props.params.name)
-        this.handleSubmitSuccessAfterHook = this.entity.actions.edit.onSubmitSuccessAfterHook
-        this.handleSubmitSuccessBeforeHook = this.entity.actions.edit.onSubmitSuccessBeforeHook
+        this.handleSubmitSuccessAfterHook = this.entity.actions.create.onSubmitSuccessAfterHook
+        this.handleSubmitSuccessBeforeHook = this.entity.actions.create.onSubmitSuccessBeforeHook
     }
 
 
