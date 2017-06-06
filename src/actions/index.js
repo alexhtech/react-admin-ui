@@ -1,5 +1,6 @@
 import {goBack} from 'react-router-redux'
 import {getEntity} from '../utils'
+import isJSON from 'is-json'
 
 const edit = async({fetchToState, params, location, dispatch})=> {
     const entity = getEntity(params.name)
@@ -14,11 +15,38 @@ const edit = async({fetchToState, params, location, dispatch})=> {
     }
 }
 
-const list = async({fetchToState, params, location, dispatch})=> {
-    const {url, actions:{list: {url: listUrl, params: listParams}}} = getEntity(params.name)
+const list = async({fetchToState, params, location:{query:{filters: queryFilters, ...query}}, dispatch})=> {
+    const {url: baseUrl, actions:{list: {url: listUrl, params: listParams}}} = getEntity(params.name)
     try {
-        await fetchToState(typeof (listUrl) == 'function' ? listUrl(params, location.query) : listUrl || url, {
-            params: Object.assign({...location.query}, listParams),
+        let args = {}
+
+        let filters = queryFilters && isJSON(queryFilters) ? JSON.parse(queryFilters) : undefined
+
+        switch (typeof listUrl) {
+            case 'function':{
+                const result = listUrl(params, {...query, filters})
+                args = typeof result == 'object' ? result : {
+                    url: result,
+                    params: Object.assign(query, listParams, {filters})
+                }
+            }
+                break;
+            case 'string':
+                args = {
+                    url: listUrl,
+                    params: Object.assign(query, listParams, {filters})
+                }
+                break;
+            default:
+                args = {
+                    url: baseUrl,
+                    params: Object.assign(query, listParams, {filters})
+                }
+                break;
+        }
+
+        await fetchToState(args.url, {
+            params: args.params,
             key: `${params.name}List`
         })
     }

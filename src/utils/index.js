@@ -54,6 +54,15 @@ function setHeader(name) {
     header = name
 }
 
+let filters = []
+function setFilters(_filters) {
+    filters = _filters
+}
+
+function getFilters() {
+    return filters
+}
+
 export {
     setEntities,
     getEntities,
@@ -65,5 +74,7 @@ export {
     setWidgets,
     getWidgets,
     getHeader,
-    setHeader
+    setHeader,
+    setFilters,
+    getFilters
 }

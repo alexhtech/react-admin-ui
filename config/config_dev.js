@@ -1,6 +1,18 @@
-const domain = 'http://127.0.0.1:3001'
+const https = process.env.HTTPS
 
+//
+const domain = '127.0.0.1:3002'
+const defaultLocale = 'en'
+const nodeLocales = [
+    'ru-RU'
+]
+
+
+const origin = `${https ? 'https' : 'http'}://${domain}`
 export default {
     domain,
-    baseUrl: `${domain}/api`
+    origin,
+    baseUrl: origin + '/api',
+    defaultLocale,
+    nodeLocales
 }
