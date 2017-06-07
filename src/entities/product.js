@@ -21,7 +21,13 @@ export default {
         create: {
             fields: [
                 {name: 'name', component: 'material.TextField'},
-                {name: 'tickets', component: 'formFields.Tickets', fieldType: 'array'}
+                {name: 'tickets', component: 'formFields.Tickets', fieldType: 'array'},
+                {name: 'tab1', fieldType: 'tab', fields:[
+                    {name: 'name1', component: 'material.TextField'},
+                ]},
+                {name: 'tab2', fieldType: 'tab', fields:[
+                    {name: 'name2', component: 'material.TextField'},
+                ]}
             ],
             fieldsValidate: [
                 {

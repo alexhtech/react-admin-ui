@@ -12,10 +12,15 @@ export default {
         show: {
             fields: [
                 {name: 'name'},
-                {name: 'products', hasMany: 'product'}
+                {
+                    name: 'Products', fieldType: 'tab',
+                    fields: [
+                        {name: 'products', hasMany: 'product'}
+                    ]
+                }
             ],
             params: {
-                filter:{
+                filter: {
                     include: 'products'
                 }
             },
@@ -28,10 +33,10 @@ export default {
 
         },
         edit: {
-            fields:[
+            fields: [
                 {name: 'name', component: 'material.TextField'}
             ],
-            initFields:[
+            initFields: [
                 'name'
             ]
         },

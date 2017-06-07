@@ -1,14 +1,16 @@
 import React from 'react'
 import {reduxForm, Field, FieldArray} from 'redux-form/immutable'
-import {getFormFields, getPrefix} from '../../../utils'
-import {showField} from '../../../utils/utility'
-import RaisedButton from 'material-ui/RaisedButton'
+import {getPrefix} from '../../../utils'
+import {groupFields} from '../../../utils/utility'
+import {RaisedButton, Tabs, Tab} from 'material-ui'
 import Dialog from 'material-ui/Dialog'
 import ActionButton from '../../Common/ActionButton'
 import {connect} from 'react-redux'
 import {openModal, closeModal} from 'react-isomorphic-tools'
 import withRouter from 'react-router/lib/withRouter'
 import Link from 'react-router/lib/Link'
+import Fields from './Fields'
+import Wrapper from './Wrapper'
 
 @withRouter
 @connect(state=>({
@@ -16,61 +18,63 @@ import Link from 'react-router/lib/Link'
 }), {openModal, closeModal})
 @reduxForm()
 export default class EntityForm extends React.Component {
+    constructor() {
+        super();
+        this.tabsStyle = {
+            margin: '-15px'
+        }
+    }
 
     static defaultProps = {
         del: false,
         label: 'Save'
     }
 
+
     render() {
         const {handleSubmit, submitting, fields, entity:{actions:{del}}} = this.props
+        const tabs = groupFields(fields)
         return (
-            <form onSubmit={handleSubmit} className='entity-form'>
+            <form onSubmit={handleSubmit}>
                 <div className='row'>
-                    {fields.map(({fieldType = 'field', ...item}, key)=> {
-                        let {component = 'material.TextField'} = item
-                        if (typeof (component) == 'string') {
-                            let widget = showField(component, getFormFields())
-                            if (widget) {
-                                item = {...item, component: widget, id: `__${item.name}`}
-                            }
-                        }
-                        return (
-                            <div className={`entity-form--field col-${item.column || 12}`} key={key}>
-                                <div className='label'>{item.title}</div>
-                                {fieldType == 'field' &&
-                                <div className='field'>
-                                    <Field {...item} id={`__${item.name}`}/>
-                                </div>}
-                                {fieldType == 'array' &&
-                                <div className='field'><FieldArray {...item} id={`__${item.name}`} key={key}/></div>}
-                            </div>
-                        )
-                    })}
+                    {tabs.length > 1 ?
+                        <Tabs>
+                            {tabs.map((item, index)=>
+                                <Tab label={item.name || 'noName'} key={index}>
+                                    <Fields fields={item.fields}/>
+                                </Tab>
+                            )}
+                        </Tabs> :
+                        <Fields fields={tabs[0].fields}/>
+                    }
+
                 </div>
                 <div className='row'>
                     <div className='col-12'>
-                        <div className='controls'>
+                        <Wrapper className='controls'>
                             {this.props.del && del && <span>
 
                                 <RaisedButton label='Delete' onClick={()=>this.props.openModal('confirmDelete')}/>
                                 <Dialog open={this.props.confirmDelete} actions={
                                     <div className='controls'>
-                                        <RaisedButton label='Cancel' onClick={()=>this.props.closeModal('confirmDelete')}/>
-                                        <ActionButton component={RaisedButton} label='Delete' action={this.props.onDelete}
+                                        <RaisedButton label='Cancel'
+                                                      onClick={()=>this.props.closeModal('confirmDelete')}/>
+                                        <ActionButton component={RaisedButton} label='Delete'
+                                                      action={this.props.onDelete}
                                                       primary={true}/>
                                     </div>}>Are you sure to delete?</Dialog>
 
 
                             </span>}
-                            {this.props.params.id && <RaisedButton label='Show' type='submit' primary={false} containerElement={
+                            {this.props.params.id &&
+                            <RaisedButton label='Show' type='submit' primary={false} containerElement={
                                 <Link to={{
                                     pathname: `/${getPrefix()}/${this.props.params.name}/show/${this.props.params.id}`,
                                     query: this.props.location.query
                                 }}
                                 />}/>}
                             <RaisedButton label={this.props.label} type='submit' primary={true} disabled={submitting}/>
-                        </div>
+                        </Wrapper>
                     </div>
                 </div>
             </form>
