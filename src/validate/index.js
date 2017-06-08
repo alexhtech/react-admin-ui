@@ -26,7 +26,7 @@ export const validate = (values, {fieldsValidate = []}) => {
                 const fieldsErrors = {}
                 const fieldsArrayErrors = []
 
-                value.forEach((item, index) => {
+                value && value.forEach((item, index) => {
                     const {fieldsForm} = field
 
                     fieldsForm.map(fieldForm => {
@@ -50,7 +50,7 @@ export const validate = (values, {fieldsValidate = []}) => {
             }
         }
 
-        errors[field.name] = values.get(field.name) && initValidate(values.get(field.name))
+        errors[field.name] = initValidate(values.get(field.name))
 
     })
 
