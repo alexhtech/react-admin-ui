@@ -4,14 +4,15 @@
   "description": "react",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all --parallel start-dev-server build-dev-server start-webpack-dev-server",
+    "start": "npm-run-all --parallel start-dev-server build-dev-server start-webpack-dev-server api",
     "prod": "node build/server.js",
     "build": "npm run build-server; npm run build-client",
     "build-client": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --display-error-details --colors --optimize-minimize",
     "build-server": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --display-error-details --colors --optimize-minimize --config webpack.server.config.js",
     "build-dev-server": "cross-env NODE_ENV=development ./node_modules/.bin/webpack --display-error-details --colors --config webpack.server.config.js --watch",
     "start-dev-server": "cross-env NODE_ENV=development nodemon ./build/server.js --watch ./build",
-    "start-webpack-dev-server": "cross-env NODE_ENV=development node ./server/webpackDevServer"
+    "start-webpack-dev-server": "cross-env NODE_ENV=development node ./server/webpackDevServer",
+    "api": "node ./api"
   },
   "author": "",
   "license": "ISC",

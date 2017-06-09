@@ -16,7 +16,8 @@ export default {
             fields: [
                 {name: 'name'},
                 {name: 'groupId', hasOne: 'group'}
-            ]
+            ],
+            url: ()=>'/product/2'
         },
         create: {
             fields: [
