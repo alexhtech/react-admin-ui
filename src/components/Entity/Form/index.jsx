@@ -36,7 +36,7 @@ export default class EntityForm extends React.Component {
         const tabs = groupFields(fields)
         return (
             <form onSubmit={handleSubmit}>
-                <div className='row'>
+                <Wrapper>
                     {tabs.length > 1 ?
                         <Tabs>
                             {tabs.map((item, index)=>
@@ -48,7 +48,7 @@ export default class EntityForm extends React.Component {
                         <Fields fields={tabs[0].fields}/>
                     }
 
-                </div>
+                </Wrapper>
                 <div className='row'>
                     <div className='col-12'>
                         <Wrapper className='controls'>

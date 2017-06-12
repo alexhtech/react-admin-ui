@@ -2,11 +2,9 @@ import React from 'react'
 import {Field, FieldArray} from 'redux-form/immutable'
 import {getFormFields} from '../../../utils'
 import {showField} from '../../../utils/utility'
-import Wrapper from './Wrapper'
-
 
 export default ({fields})=>
-    <Wrapper>
+    <div className='row'>
         {fields.map(({fieldType = 'field', ...item}, key)=> {
             let {component = 'material.TextField'} = item
             if (typeof (component) == 'string') {
@@ -27,4 +25,4 @@ export default ({fields})=>
                 </div>
             )
         })}
-    </Wrapper>
+    </div>

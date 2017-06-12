@@ -17,7 +17,7 @@ export default {
                 {name: 'name'},
                 {name: 'groupId', hasOne: 'group'}
             ],
-            url: ()=>'/product/2'
+            url: ()=>'/will400error'
         },
         create: {
             fields: [
