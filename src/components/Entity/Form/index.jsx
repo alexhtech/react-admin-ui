@@ -10,6 +10,7 @@ import {openModal, closeModal} from 'react-isomorphic-tools'
 import withRouter from 'react-router/lib/withRouter'
 import Link from 'react-router/lib/Link'
 import Fields from './Fields'
+import Wrapper from './Wrapper'
 
 @withRouter
 @connect(state=>({
