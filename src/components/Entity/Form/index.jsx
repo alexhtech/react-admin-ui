@@ -36,19 +36,16 @@ export default class EntityForm extends React.Component {
         const tabs = groupFields(fields)
         return (
             <form onSubmit={handleSubmit}>
-                <div className='row'>
-                    {tabs.length > 1 ?
-                        <Tabs>
-                            {tabs.map((item, index)=>
-                                <Tab label={item.name || 'noName'} key={index}>
-                                    <Fields fields={item.fields}/>
-                                </Tab>
-                            )}
-                        </Tabs> :
-                        <Fields fields={tabs[0].fields}/>
-                    }
-
-                </div>
+                {tabs.length > 1 ?
+                    <Tabs>
+                        {tabs.map((item, index)=>
+                            <Tab label={item.name || 'noName'} key={index}>
+                                <Fields fields={item.fields}/>
+                            </Tab>
+                        )}
+                    </Tabs> :
+                    <Fields fields={tabs[0].fields}/>
+                }
                 <div className='row'>
                     <div className='col-12'>
                         <Wrapper className='controls'>

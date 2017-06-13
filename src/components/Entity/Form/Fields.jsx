@@ -4,10 +4,9 @@ import {getFormFields} from '../../../utils'
 import {showField} from '../../../utils/utility'
 import Wrapper from './Wrapper'
 
-
 export default ({fields})=>
-    <Wrapper>
-        {fields.map(({fieldType = 'field', ...item}, key)=> {
+    <Wrapper className='row'>
+        {fields.map(({fieldType = 'field', column = 12, ...item}, key)=> {
             let {component = 'material.TextField'} = item
             if (typeof (component) == 'string') {
                 let widget = showField(component, getFormFields())
@@ -16,7 +15,7 @@ export default ({fields})=>
                 }
             }
             return (
-                <div className={`entity-form--field col-${item.column || 12}`} key={key}>
+                <div className={`entity-form--field col-${column}`} key={key}>
                     <div className='label'>{item.title}</div>
                     {fieldType == 'field' &&
                     <div className='field'>

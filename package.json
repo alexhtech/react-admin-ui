@@ -17,7 +17,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "4.0.0-alpha.6",
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.26.1",
     "es6-promise": "^4.0.5",
