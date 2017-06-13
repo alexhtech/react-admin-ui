@@ -7,6 +7,10 @@ require('babel-polyfill');
 
 var app = module.exports = loopback();
 
+app.use('/api/will400error', (req, res)=>{
+  res.sendStatus(400)
+})
+
 app.start = function() {
   // start the web server
   return app.listen(function() {
@@ -19,6 +23,7 @@ app.start = function() {
     }
   });
 };
+
 
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.

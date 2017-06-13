@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.5",
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.26.1",
     "es6-promise": "^4.0.5",

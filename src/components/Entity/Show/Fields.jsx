@@ -1,11 +1,10 @@
 import React from 'react'
 import {showField} from '../../../utils/utility'
 import {getWidgets} from '../../../utils'
-import Wrapper from '../Form/Wrapper'
 import Item from './Item'
 
 const Fields = ({fields, data}) =>
-    <Wrapper>
+    <div className='row'>
         {fields.map((item, key)=> {
             let {component} = item
             if (typeof (component) == 'string') {
@@ -22,7 +21,7 @@ const Fields = ({fields, data}) =>
                 />
             )
         })}
-    </Wrapper>
+    </div>
 
 
 export default Fields

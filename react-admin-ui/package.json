@@ -1,6 +1,6 @@
 {
   "name": "react-admin-ui",
-  "version": "2.2.1",
+  "version": "2.2.3",
   "description": "A React Admin Panel based on material-ui design",
   "scripts": {
     "build": "node_modules/babel-cli/bin/babel.js src --out-dir ./"
@@ -32,6 +32,7 @@
     "react-isomorphic-tools": "^1.4.3"
   },
   "dependencies": {
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.5",
     "feature-components": "^0.0.14",
     "material-ui": "^0.17.4",
     "moment": "^2.18.1",

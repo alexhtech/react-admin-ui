@@ -49,7 +49,7 @@ export default class Show extends React.Component {
 
         return (
             <div className='entity-show--fields'>
-                <div className='row'>
+                <Wrapper>
                     {tabs.length > 1 ?
                         <Tabs>
                             {tabs.map((item, index)=>
@@ -63,10 +63,8 @@ export default class Show extends React.Component {
                     }
 
 
-                    <Wrapper>
-                        <HasMany hasMany={hasMany}/>
-                    </Wrapper>
-                </div>
+                    <HasMany hasMany={hasMany}/>
+                </Wrapper>
                 <div className='row'>
                     <div className='col-12'>
                         <Wrapper className='controls'>
