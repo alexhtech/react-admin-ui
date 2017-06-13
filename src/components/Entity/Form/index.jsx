@@ -10,7 +10,6 @@ import {openModal, closeModal} from 'react-isomorphic-tools'
 import withRouter from 'react-router/lib/withRouter'
 import Link from 'react-router/lib/Link'
 import Fields from './Fields'
-import Wrapper from './Wrapper'
 
 @withRouter
 @connect(state=>({
@@ -36,19 +35,16 @@ export default class EntityForm extends React.Component {
         const tabs = groupFields(fields)
         return (
             <form onSubmit={handleSubmit}>
-                <Wrapper>
-                    {tabs.length > 1 ?
-                        <Tabs>
-                            {tabs.map((item, index)=>
-                                <Tab label={item.name || 'noName'} key={index}>
-                                    <Fields fields={item.fields}/>
-                                </Tab>
-                            )}
-                        </Tabs> :
-                        <Fields fields={tabs[0].fields}/>
-                    }
-
-                </Wrapper>
+                {tabs.length > 1 ?
+                    <Tabs>
+                        {tabs.map((item, index)=>
+                            <Tab label={item.name || 'noName'} key={index}>
+                                <Fields fields={item.fields}/>
+                            </Tab>
+                        )}
+                    </Tabs> :
+                    <Fields fields={tabs[0].fields}/>
+                }
                 <div className='row'>
                     <div className='col-12'>
                         <Wrapper className='controls'>
