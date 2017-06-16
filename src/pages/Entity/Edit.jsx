@@ -7,7 +7,7 @@ import {showField} from '../../utils/utility'
 import {preload, fetcher, fetchToState, closeModal} from 'react-isomorphic-tools'
 import {push} from 'react-router-redux'
 import {open} from '../../actions/Snackbar'
-import {edit, list} from '../../actions'
+import {edit, list, show} from '../../actions'
 import Immutable from 'immutable'
 import {validate} from '../../validate'
 
@@ -83,6 +83,7 @@ export default class EditPage extends React.Component {
                 push(`/${getPrefix()}/${this.props.params.name}`)
                 break
             case 'show':
+                await show({fetchToState, location, params})
                 push(`/${getPrefix()}/${this.props.params.name}/show/${result[id]}`)
                 break
             case 'stay':
