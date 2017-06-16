@@ -77,13 +77,15 @@ export default class EditPage extends React.Component {
         const {fetchToState, location, params, push} = this.props
         await edit({fetchToState, location, params})
         await list({fetchToState, location, params})
-        if (!result.id) redirect = 'list'
+        if (!result[id]) redirect = 'list'
         switch (redirect) {
             case 'list':
                 push(`/${getPrefix()}/${this.props.params.name}`)
                 break
             case 'show':
                 push(`/${getPrefix()}/${this.props.params.name}/show/${result[id]}`)
+                break
+            case 'stay':
                 break
         }
         if (this.handleSubmitSuccessAfterHook) await this.handleSubmitSuccessAfterHook(result, dispatch, props)
