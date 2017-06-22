@@ -3,8 +3,23 @@ import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Person from 'material-ui/svg-icons/social/person'
+import styled from 'styled-components'
 
-export default class UserMenu extends React.Component {
+const UserMenu = styled.div`
+    a {
+        line-height: 48px;
+        padding: 10px;
+        font-weight: 100;
+        color: whitesmoke;
+        cursor: pointer;
+        svg {
+            color: white !important;
+            margin: -5px 0;
+        }
+    }
+`
+
+export default class UserMenuComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -21,7 +36,7 @@ export default class UserMenu extends React.Component {
             handleShow('userMenu')
         }
         return (
-            <div className='user-menu'>
+            <UserMenu>
                 <a onClick={show}>
                     <Person/> {user.get('username') || user.get('email')}
                 </a>
@@ -34,7 +49,7 @@ export default class UserMenu extends React.Component {
                         <MenuItem primaryText='Sign out' onClick={logout}/>
                     </Menu>
                 </Popover>
-            </div>
+            </UserMenu>
         )
     }
 }

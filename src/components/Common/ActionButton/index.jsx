@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import Loader from './Loader'
 export default class ActionButton extends React.Component {
     constructor(){
         super();
@@ -53,10 +53,7 @@ export default class ActionButton extends React.Component {
                 }} {...props}>
                     {this.props.children}
                 </Component>:
-                    <div className='loader-wrap'>
-                        <div className='loader'>
-                        </div>
-                    </div>
+                <Loader />
                 }
             </span>
         )
