@@ -1,8 +1,5 @@
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
-import {connect} from 'react-redux'
-import {openModal, closeModal} from 'react-isomorphic-tools'
-import {logout} from '../../actions/Security'
 import UserMenu from '../UserMenu'
 import {getHeader} from '../../utils'
 
@@ -10,47 +7,42 @@ const styleAppBar = {
     position: 'fixed'
 }
 
-@connect((state)=>({
-    userMenu:  state.getIn(['modals', 'userMenu']) || false,
-    panel: state.getIn(['modals', 'panel']) || false,
-    user: state.getIn(['authentication', 'user'])
-}), {
-    openModal, closeModal, logout
-})
-
 export default class Header extends React.Component {
 
     constructor(props) {
         super(props)
 
+        this.state = {
+            isOpenUserMenu: false
+        }
+
         this.title = getHeader()
     }
 
-    togglePanel = () => {
-        const { panel, openModal, closeModal} = this.props
-        !panel ? openModal('panel') : closeModal('panel')
+    toggleUserMenu = () => {
+        this.setState(prevState => ({
+            isOpenUserMenu: !prevState.isOpenUserMenu
+        }))
     }
 
     render() {
-        const {openModal, closeModal, logout, userMenu, user} = this.props
+        const {logout, user, togglePanel} = this.props
         const Menu = user ?
                         <UserMenu
-                            handleShow={openModal}
-                            handleClose={closeModal}
+                            handleShow={this.toggleUserMenu}
+                            handleClose={this.toggleUserMenu}
                             logout={logout}
                             user={user}
-                            open={userMenu}
+                            open={this.state.isOpenUserMenu}
                           />:
                           null
         return (
-            <div>
-                <AppBar
-                    title={this.title}
-                    onLeftIconButtonTouchTap={this.togglePanel}
-                    iconElementRight={Menu}
-                    style={styleAppBar}
-                />
-            </div>
+            <AppBar
+                title={this.title}
+                onLeftIconButtonTouchTap={togglePanel}
+                iconElementRight={Menu}
+                style={styleAppBar}
+            />
         )
     }
 }

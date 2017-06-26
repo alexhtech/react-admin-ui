@@ -9,6 +9,12 @@ import {list} from '../../actions'
 import {open} from '../../actions/Snackbar'
 import Immutable from 'immutable'
 import {validate} from '../../validate'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+    background: white;
+    box-shadow: 0 0 10px -3px black;
+`
 
 @connect(null, {push, open, fetchToState})
 export default class CreatePage extends React.Component {
@@ -89,7 +95,7 @@ export default class CreatePage extends React.Component {
             }
         } = this
         return (
-            <div className='block'>
+            <Wrapper>
                 {Component ?
                     <Component form={form} onSubmit={this.handleSubmit}
                                onSubmitSuccess={onSubmitSuccess || ::this.handleSubmitSuccess}
@@ -107,7 +113,7 @@ export default class CreatePage extends React.Component {
                         validate={validate}
                     />
                 }
-            </div>
+            </Wrapper>
         )
     }
 }

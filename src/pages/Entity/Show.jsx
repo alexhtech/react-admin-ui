@@ -6,7 +6,12 @@ import Show from '../../components/Entity/Show'
 import {list, show} from '../../actions'
 import {push} from 'react-router-redux'
 import {open} from '../../actions/Snackbar'
+import styled from 'styled-components'
 
+const Wrapper = styled.div`
+    background: white;
+    box-shadow: 0 0 10px -3px black;
+`
 
 @preload(show)
 @connect((state, props)=>({
@@ -34,13 +39,13 @@ export default class ShowPage extends React.Component {
 
     render() {
         return (
-            <div className='block'>
+            <Wrapper>
                 <Show
-                    data={this.props.item.toJS()} 
+                    data={this.props.item.toJS()}
                     entity={getEntity(this.props.params.name)}
                     onDelete={::this.handleDelete}
                 />
-            </div>
+            </Wrapper>
         )
     }
 }

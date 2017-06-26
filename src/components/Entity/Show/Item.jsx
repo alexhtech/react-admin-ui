@@ -2,13 +2,23 @@ import React from 'react'
 import {showField} from '../../../utils/utility'
 import {Link} from 'react-router'
 import {getPrefix} from '../../../utils'
+import styled from 'styled-components'
+
+const Label = styled.div`
+    color: grey;
+    margin-bottom: 5px;
+`
+
+const ShowField = styled.div`
+    padding-bottom: 15px;
+`
 
 const Item = ({item, data}) => {
     return (
-        <div className={`entity-show--field col-${item.column || 12}`}>
-            <div className='entity-show--field-label'>
+        <ShowField className={`col-${item.column || 12}`}>
+            <Label>
                 {item.title || item.name}
-            </div>
+            </Label>
 
             {(()=> {
                 if (item.component)
@@ -36,7 +46,7 @@ const Item = ({item, data}) => {
 
             })()}
 
-        </div>
+        </ShowField>
     )
 }
 

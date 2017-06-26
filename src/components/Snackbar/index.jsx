@@ -9,10 +9,11 @@ import {connect} from 'react-redux'
         dispatch({
             type: '@@snackbar/close',
             meta: key,
-            message: message
+            message
         })
     }
 })
+
 export default class index extends React.Component {
     handleRequestClose = () => {
         const [key, obj] = this.props.snackbar
@@ -22,14 +23,12 @@ export default class index extends React.Component {
 
     render() {
         return (
-            <div>
-                <Snackbar
-                    open={this.props.snackbar[1].open}
-                    message={this.props.snackbar[1].message}
-                    autoHideDuration={3000}
-                    onRequestClose={this.handleRequestClose}
-                />
-            </div>
+            <Snackbar
+                open={this.props.snackbar[1].open}
+                message={this.props.snackbar[1].message}
+                autoHideDuration={3000}
+                onRequestClose={this.handleRequestClose}
+            />
         );
     }
 }

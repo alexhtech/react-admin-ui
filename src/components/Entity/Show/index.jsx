@@ -1,6 +1,6 @@
 import React from 'react'
-import {showField, groupFields} from '../../../utils/utility'
-import {getWidgets, getPrefix} from '../../../utils'
+import {groupFields} from '../../../utils/utility'
+import {getPrefix} from '../../../utils'
 import {RaisedButton, Tabs, Tab} from 'material-ui'
 import Link from 'react-router/lib/Link'
 import HasMany from './HasMany'

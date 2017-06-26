@@ -1,5 +1,5 @@
 import React from 'react'
-import {reduxForm, Field, FieldArray} from 'redux-form/immutable'
+import {reduxForm} from 'redux-form/immutable'
 import {getPrefix} from '../../../utils'
 import {groupFields} from '../../../utils/utility'
 import {RaisedButton, Tabs, Tab} from 'material-ui'
