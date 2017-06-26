@@ -1,11 +1,16 @@
 {
   "presets": [
     "es2015",
-    "stage-0",
+    "stage-2",
     "react"
   ],
   "plugins": [
+    "syntax-dynamic-import",
+    "transform-decorators-legacy",
+    "transform-async-to-generator",
+    "transform-regenerator",
     "transform-runtime",
-    "transform-decorators-legacy"
+    "transform-export-extensions",
+    "transform-function-bind"
   ]
 }

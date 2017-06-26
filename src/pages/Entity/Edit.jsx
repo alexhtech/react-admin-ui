@@ -4,21 +4,20 @@ import {getEntity, getPrefix} from '../../utils'
 import {connect} from 'react-redux'
 import {SubmissionError} from 'redux-form/immutable'
 import {showField} from '../../utils/utility'
-import {preload, fetcher, fetchToState, closeModal} from 'react-isomorphic-tools'
+import {fetcher, fetchToState, closeModal} from 'react-isomorphic-tools'
 import {push} from 'react-router-redux'
 import {open} from '../../actions/Snackbar'
 import {edit, list, show} from '../../actions'
 import Immutable from 'immutable'
 import {validate} from '../../validate'
 
-@preload(edit)
 @connect((state, props)=>({
-    item: state.getIn(['fetchData', `${props.params.name}Edit`, 'response']).toJS(),
+    item: state.getIn(['fetchData', `${props.match.params.name}Edit`, 'response']).toJS(),
 }), {push, open, fetchToState, closeModal})
 export default class EditPage extends React.Component {
     constructor(props) {
         super(props);
-        this.entity = getEntity(props.params.name)
+        this.entity = getEntity(props.match.params.name)
         this.handleSubmitSuccessAfterHook = this.entity.actions.edit.onSubmitSuccessAfterHook
         this.handleSubmitSuccessBeforeHook = this.entity.actions.edit.onSubmitSuccessBeforeHook
     }
@@ -27,14 +26,14 @@ export default class EditPage extends React.Component {
 
     async handleDelete() {
         try {
-            const {fetchToState, params, location, push, open, closeModal} = this.props
-            await fetcher(this.entity.actions.del.url(this.props.params, this.props.location.query), {
+            const {fetchToState, match:{params}, location, push, open, closeModal} = this.props
+            await fetcher(this.entity.actions.del.url(params, this.props.location.query), {
                 method: 'DELETE'
             })
             closeModal('confirmDelete')
             open('default', 'Successfully deleted')
             await list({fetchToState, params, location})
-            push(`/${getPrefix()}/${this.props.params.name}`)
+            push(`${getPrefix()}/${params.name}`)
         }
         catch (e) {
             this.props.open('default', 'Error deleting')
@@ -62,7 +61,7 @@ export default class EditPage extends React.Component {
             _params = result(_params)
         }
 
-        return fetcher(typeof (url) == 'function' ? url(this.props.params, this.props.location.query) : `${this.entity.url}/${this.props.params.id}`, {
+        return fetcher(typeof (url) == 'function' ? url(this.props.match.params, this.props.location.query) : `${this.entity.url}/${this.props.match.params.id}`, {
             params: _params,
             method
         })
@@ -80,11 +79,11 @@ export default class EditPage extends React.Component {
         if (!result[id]) redirect = 'list'
         switch (redirect) {
             case 'list':
-                push(`/${getPrefix()}/${this.props.params.name}`)
+                push(`${getPrefix()}/${this.props.match.params.name}`)
                 break
             case 'show':
                 await show({fetchToState, location, params})
-                push(`/${getPrefix()}/${this.props.params.name}/show/${result[id]}`)
+                push(`${getPrefix()}/${this.props.match.params.name}/show/${result[id]}`)
                 break
             case 'stay':
                 break
@@ -102,7 +101,7 @@ export default class EditPage extends React.Component {
         const {
             entity: {
                 actions:{
-                    edit:{form = this.props.params.name, fields, component: Component, fieldsValidate}
+                    edit:{form = this.props.match.params.name, fields, component: Component, fieldsValidate}
                 }
             }
         } = this

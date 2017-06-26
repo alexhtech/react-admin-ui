@@ -1,67 +1,20 @@
-let _entities = {}
-function getEntities() {
-    return _entities
-}
-function setEntities(entities) {
-    return _entities = entities
-}
+import {Map} from 'immutable'
 
-function getEntity(name, entities = _entities) {
-    let entity
-    for (let i in entities) {
-        if (i == name) {
-            entity = entities[name]
-        }
-        // let child
-        // if (entities[i].children) {
-        //     child = getEntity(name, entities[i].children)
-        // }
-        // if (child) entity = child
+class ReactAdmin {
+    constructor(){
+        super();
+        this.entities = {}
     }
 
-    return entity || false
+    setEntities
+
 }
 
-let prefix = 'entity'
-function getPrefix() {
-    return prefix
-}
-function setPrefix(name) {
-    prefix = name
-}
 
-let widgets = {}
-function setWidgets(_widgets) {
-    widgets = _widgets
-}
-function getWidgets() {
-    return widgets
-}
 
-let formFields = {}
-function setFormFields(_formFields) {
-    formFields = _formFields
-}
-function getFormFields() {
-    return formFields
-}
 
-let header = 'React Admin'
-function getHeader() {
-    return header
-}
-function setHeader(name) {
-    header = name
-}
 
-let filters = []
-function setFilters(_filters) {
-    filters = _filters
-}
 
-function getFilters() {
-    return filters
-}
 
 export {
     setEntities,

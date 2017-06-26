@@ -1,43 +1,48 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Router, match} from 'react-router'
-import {routes} from './Routes.jsx'
-import {AsyncLoader} from 'react-isomorphic-tools'
+import {ConnectedRouter} from 'react-router-redux'
+import {routes} from './routes'
+import {resolveRoutes} from 'react-isomorphic-tools'
+import {renderRoutes} from 'react-router-config'
 import {Provider} from 'react-redux'
 import {AppContainer} from 'react-hot-loader'
 import {store, history} from './'
 import {IntlProvider, addLocaleData} from 'react-intl'
 import config from '../config'
+import '../assets/style.sass'
 
-const render = () => {
-    match({history, routes}, async (error, redirectLocation, renderProps) => {
-        const locale = store.getState().getIn(['navigator', 'locale']) || config().defaultLocale
-        const messages = await import(`./locales/${locale.split('-')[0]}.json`)
-        switch (locale){
-            case 'ru':
-                addLocaleData([...await import('react-intl/locale-data/ru')])
-                break;
-            case 'en':
-                addLocaleData([...await import('react-intl/locale-data/en')])
-                break;
-        }
 
-        ReactDOM.render(
-            <AppContainer>
-                <IntlProvider locale={locale} messages={messages}>
-                    <Provider store={store} key='provider'>
-                        <Router history={history} {...renderProps}
-                                render={(props)=><AsyncLoader {...props}/>}>
-                            {routes}
-                        </Router>
-                    </Provider>
-                </IntlProvider>
-            </AppContainer>,
-            document.getElementById('react-root')
-        )
-    })
+const render = async() => {
+    await resolveRoutes({routes, location: history.location, store})
+
+    const locale = store.getState().getIn(['navigator', 'locale']) || config().defaultLocale
+    const messages = await import(`./locales/${locale.split('-')[0]}.json`)
+    switch (locale){
+        case 'ru':
+            addLocaleData([...await import('react-intl/locale-data/ru')])
+            break;
+        case 'en':
+            addLocaleData([...await import('react-intl/locale-data/en')])
+            break;
+    }
+
+
+    ReactDOM.render(
+        <AppContainer>
+            <IntlProvider locale={locale} messages={messages}>
+            <Provider store={store} key='provider'>
+                <ConnectedRouter history={history}>
+                    {renderRoutes(routes)}
+                </ConnectedRouter>
+            </Provider>
+            </IntlProvider>
+        </AppContainer>,
+        document.getElementById('react-root')
+    )
 }
 
+
 export {
-    render
+    render,
+    routes
 }

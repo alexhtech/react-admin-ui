@@ -3,6 +3,7 @@ import {ImmutableLoadingBar as LoadingBar} from 'react-redux-loading-bar'
 import {Helmet} from 'react-helmet'
 import config from '../../../config'
 import {setBaseUrl} from 'react-isomorphic-tools'
+import {renderRoutes} from 'react-router-config'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin()
@@ -10,7 +11,7 @@ injectTapEventPlugin()
 const {baseUrl} = config()
 setBaseUrl(baseUrl)
 
-export default class    App extends React.Component {
+export default class App extends React.Component {
     constructor() {
         super();
         const isDev = process.env.NODE_ENV == 'development'
@@ -46,7 +47,7 @@ export default class    App extends React.Component {
                     {this.links.map((item, index)=><link {...item} key={index}/>)}
                 </Helmet>
 
-                {this.props.children}
+                {renderRoutes(this.props.route.routes)}
             </div>
         )
     }

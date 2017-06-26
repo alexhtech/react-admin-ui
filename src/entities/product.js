@@ -10,7 +10,9 @@ export default {
             filters: [
                 {name: 'name', component: 'material.TextField', underlineShow: false, hintText: 'Search...'}
             ],
-            url: '/products'
+            url: ({filters})=>{
+                return '/products'
+            }
         },
         show: {
             fields: [

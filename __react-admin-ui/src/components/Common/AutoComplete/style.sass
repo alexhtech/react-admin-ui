@@ -1,0 +1,42 @@
+.autocomplete
+  width: 100%
+  position: relative
+  &:hover .remove
+    opacity: 1
+    transition: .4s
+  input
+    border-radius: 5px
+    padding: 10px 0 10px 0
+    text-indent: 10px
+    background: transparent
+    border: 1px solid #ccc
+    width: 100%
+    &:focus
+      outline: 0
+  .open
+    border-bottom: 0
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+
+
+  .remove
+    position: absolute
+    top: 12px
+    right: 8px
+    opacity: 0
+    transition: .4s
+  ul
+    border: 1px solid #ccc
+    border-radius: 0 0 5px 5px
+    position: absolute
+    background-color: white
+    width: 100%
+    z-index: 10000
+    margin: 0
+    padding-left: 0
+    li
+      display: block
+      padding: 10px
+      cursor: pointer
+      &:hover
+        background-color: lightgrey

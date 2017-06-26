@@ -9,12 +9,14 @@ import {list} from '../../actions'
 import {open} from '../../actions/Snackbar'
 import Immutable from 'immutable'
 import {validate} from '../../validate'
+import {withRouter} from 'react-router'
 
+@withRouter
 @connect(null, {push, open, fetchToState})
 export default class CreatePage extends React.Component {
     constructor(props) {
         super(props);
-        this.entity = getEntity(props.params.name)
+        this.entity = getEntity(props.match.params.name)
         this.handleSubmitSuccessAfterHook = this.entity.actions.create.onSubmitSuccessAfterHook
         this.handleSubmitSuccessBeforeHook = this.entity.actions.create.onSubmitSuccessBeforeHook
     }
@@ -25,25 +27,25 @@ export default class CreatePage extends React.Component {
             let {redirect = 'list'} = this.entity.actions.create
             const {id = 'id'} = this.entity
             if (this.handleSubmitSuccessBeforeHook) await this.handleSubmitSuccessBeforeHook(result, dispatch, props)
-            const {fetchToState, params, location, push, open} = this.props
+            const {fetchToState, match:{params}, location, push, open} = this.props
             open('default', 'Successfully created')
             await list({fetchToState, params, location})
             if (!result[id]) redirect = 'list'
             switch (redirect) {
                 case 'list':
-                    push(`/${getPrefix()}/${this.props.params.name}`)
+                    push(`${getPrefix()}/${params.name}`)
                     break
                 case 'show':
-                    push(`/${getPrefix()}/${this.props.params.name}/show/${result[id]}`)
+                    push(`${getPrefix()}/${params.name}/show/${result[id]}`)
                     break
                 case 'edit':
-                    push(`/${getPrefix()}/${this.props.params.name}/edit/${result[id]}`)
+                    push(`${getPrefix()}/${params.name}/edit/${result[id]}`)
                     break
                 case 'create':
-                    push(`/${getPrefix()}/${this.props.params.name}/create`)
+                    push(`${getPrefix()}/${params.name}/create`)
                     break
             }
-            push(`/${getPrefix()}/${this.props.params.name}`)
+            push(`${getPrefix()}/${params.name}`)
             if (this.handleSubmitSuccessAfterHook) await this.handleSubmitSuccessAfterHook(result, dispatch, props)
         }
         catch (e) {
@@ -60,16 +62,16 @@ export default class CreatePage extends React.Component {
         if (typeof (result) == 'function') {
             _params = result(_params)
         }
-        return fetcher(typeof (url) == 'function' ? url(this.props.params, this.props.location.query) : this.entity.url, {
+        return fetcher(typeof (url) == 'function' ? url(this.props.match.params, this.props.location.query) : this.entity.url, {
             params: _params,
             method: 'POST'
         })
     }
 
-    handleSubmitFail = (props, dispatch, e) => {
-        const error = e && e.error && e.error.message || 'Error creation'
-        this.props.open('default', error)
-        throw new SubmissionError({error})
+    handleSubmitFail = (props, dispatch, {error}) => {
+        const message = error && error.error && error.error.message || 'Error creation'
+        this.props.open('default', message)
+        throw new SubmissionError(error)
     }
 
     render() {
@@ -77,7 +79,7 @@ export default class CreatePage extends React.Component {
             entity:{
                 actions:{
                     create:{
-                        form = this.props.params.name,
+                        form = this.props.match.params.name,
                         fields,
                         component: Component,
                         onSubmitSuccess,

@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {renderRoutes} from 'react-router-config'
 
 import {setEntities, setPrefix, setFormFields, setFilters} from '../../../utils'
 import '../../../../assets/styles/style.sass'
@@ -12,7 +13,7 @@ import * as formFields from '../../FormFields'
 import * as filters from '../../Filters'
 
 setEntities(require('../../../entities'))
-setPrefix('admin/entity')
+setPrefix('/admin/entity')
 setFormFields({
     material,
     formFields
@@ -42,7 +43,7 @@ export default class index extends React.Component {
                 },
                 userAgent: this.props.userAgent
             })}>
-                {this.props.children}
+                {renderRoutes(this.props.route.routes)}
             </MuiThemeProvider>
         )
     }

@@ -29,8 +29,8 @@ export default {
         create: {
             fields: [
                 {name: 'name', component: 'material.TextField'}
-            ]
-
+            ],
+            url:()=>'/groups'
         },
         edit: {
             fields: [
