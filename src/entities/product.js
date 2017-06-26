@@ -16,19 +16,22 @@ export default {
             fields: [
                 {name: 'name'},
                 {name: 'groupId', hasOne: 'group'}
-            ],
-            url: ()=>'/will400error'
+            ]
         },
         create: {
             fields: [
                 {name: 'name', component: 'material.TextField'},
                 {name: 'tickets', component: 'formFields.Tickets', fieldType: 'array'},
-                {name: 'tab1', fieldType: 'tab', fields:[
+                {
+                    name: 'tab1', fieldType: 'tab', fields: [
                     {name: 'name1', component: 'material.TextField'},
-                ]},
-                {name: 'tab2', fieldType: 'tab', fields:[
+                ]
+                },
+                {
+                    name: 'tab2', fieldType: 'tab', fields: [
                     {name: 'name2', component: 'material.TextField'},
-                ]}
+                ]
+                }
             ],
             fieldsValidate: [
                 {
@@ -78,6 +81,8 @@ export default {
                 'name', 'group'
             ]
         },
-        // del: {}
+        del: {
+            url: ({id})=>'/products/' + id
+        }
     }
 }

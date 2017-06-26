@@ -40,7 +40,9 @@ export default {
                 'name'
             ]
         },
-        // del: {}
+        del: {
+            url: ({id})=>'/groups/' + id
+        }
     },
     // hidden: true
 }

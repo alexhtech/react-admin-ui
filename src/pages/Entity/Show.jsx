@@ -19,7 +19,7 @@ export default class ShowPage extends React.Component {
     async handleDelete() {
         try {
             const {fetchToState, params, location, push, open, closeModal} = this.props
-            await fetcher(this.entity.actions.del.url(this.props.params, this.props.location.query), {
+            await fetcher(getEntity(this.props.params.name).actions.del.url(this.props.params, this.props.location.query), {
                 method: 'DELETE'
             })
             closeModal('confirmDelete')
