@@ -6,7 +6,7 @@ import PrevIcon from 'material-ui/svg-icons/image/navigate-before'
 import NextIcon from 'material-ui/svg-icons/image/navigate-next'
 import styled from 'styled-components'
 
-const pageLimit = 1
+const pageLimit = 10
 
 const Wrapper = styled.div`
     background: white;
