@@ -6,7 +6,7 @@ import PrevIcon from 'material-ui/svg-icons/image/navigate-before'
 import NextIcon from 'material-ui/svg-icons/image/navigate-next'
 import styled from 'styled-components'
 
-const pageLimit = 5
+const pageLimit = 1
 
 const Wrapper = styled.div`
     background: white;
@@ -82,11 +82,13 @@ export default (Component) => class Pagination extends React.Component {
             }
         }
 
-        pages.push(
-            <Link to={{pathname: location.pathname, query: {...query, [name]: countPages}}} key={countPages}>
-                <PaginationItem active={countPages == currentPage}>{countPages}</PaginationItem>
-            </Link>
-        )
+        if (countPages > 2) {
+            pages.push(
+                <Link to={{pathname: location.pathname, query: {...query, [name]: countPages}}} key={countPages}>
+                    <PaginationItem active={countPages == currentPage}>{countPages}</PaginationItem>
+                </Link>
+            )
+        }
 
         if (countPages > 5 && (currentPage < (countPages - visible + 2))) {
             pages.splice(4, 0, <PaginationSpace key={countPages + 1}>...</PaginationSpace>)
@@ -97,41 +99,43 @@ export default (Component) => class Pagination extends React.Component {
         }
 
         return (
-            <Wrapper>
-                <Component {...this.props}/>
-                <PaginationWrapper>
-                    <p>{(currentPage - 1)*pageLimit + 1}-{currentPage != countPages ? currentPage*pageLimit:totalItems} of {totalItems}</p>
-                    <div>
-                        {countPages && currentPage != 1 &&
-                        <PaginationArrow
-                             to={{
-                                pathname: location.pathname, query: {
-                                    ...query, [name]: currentPage - 1 == 0 ? 1 : currentPage - 1
+                <Wrapper>
+                    <Component {...this.props}/>
+                    {totalItems > 0 &&
+                        <PaginationWrapper>
+                            <p>{(currentPage - 1)*pageLimit + 1}-{currentPage != countPages ? currentPage*pageLimit:totalItems} of {totalItems}</p>
+                            <div>
+                                {countPages && currentPage != 1 &&
+                                <PaginationArrow
+                                     to={{
+                                        pathname: location.pathname, query: {
+                                            ...query, [name]: currentPage - 1 == 0 ? 1 : currentPage - 1
+                                        }
+                                    }}
+                                >
+                                    <FlatButton
+                                      label='Prev'
+                                      primary={true}
+                                      icon={<PrevIcon />}
+                                    />
+                                </PaginationArrow>}
+                                {pages}
+                                {countPages != currentPage &&
+                                    <PaginationArrow
+                                        to={{pathname: location.pathname, query: {...query, [name]: currentPage - 1 + 2}}}
+                                    >
+                                        <FlatButton
+                                          label='Next'
+                                          labelPosition='before'
+                                          primary={true}
+                                          icon={<NextIcon />}
+                                        />
+                                    </PaginationArrow>
                                 }
-                            }}
-                        >
-                            <FlatButton
-                              label='Prev'
-                              primary={true}
-                              icon={<PrevIcon />}
-                            />
-                        </PaginationArrow>}
-                        {pages}
-                        {countPages != currentPage &&
-                            <PaginationArrow
-                                to={{pathname: location.pathname, query: {...query, [name]: currentPage - 1 + 2}}}
-                            >
-                                <FlatButton
-                                  label='Next'
-                                  labelPosition='before'
-                                  primary={true}
-                                  icon={<NextIcon />}
-                                />
-                            </PaginationArrow>
-                        }
-                    </div>
-                </PaginationWrapper>
-            </Wrapper>
+                            </div>
+                        </PaginationWrapper>
+                    }
+                </Wrapper>
         )
     }
 }
