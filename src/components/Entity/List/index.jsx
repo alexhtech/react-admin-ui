@@ -10,6 +10,11 @@ import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 import Edit from 'material-ui/svg-icons/image/edit'
 import {withRouter} from 'react-router'
 import Filters from './Filters'
+import styled from 'styled-components'
+
+const NoItems = styled.p`
+    padding-left: 24px;
+`
 
 const style = {
     float: 'right'
@@ -145,7 +150,7 @@ export default class List extends React.Component {
                         })}
                     </TableBody>
                 </Table>
-                {items.length == 0 && <p>No {name} have been found.</p>}
+                {items.length == 0 && <NoItems>No {name} have been found.</NoItems>}
             </div>
         )
     }
