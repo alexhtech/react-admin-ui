@@ -1,6 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router'
 import {connect} from 'react-redux'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+    background: white;
+    box-shadow: 0 0 10px -3px black;
+`
 
 @connect((state)=>({
     location: state.getIn(['routing', 'locationBeforeTransitions'])
@@ -36,8 +42,7 @@ export default (Component) => class Pagination extends React.Component {
         }
 
         return (
-
-            <div>
+            <Wrapper>
                 <Component {...this.props}/>
                 <div className='paginator'>
                     {countPages && currentPage != 1 &&
@@ -52,7 +57,7 @@ export default (Component) => class Pagination extends React.Component {
                           className='paginator__arrows'><i className='fa fa-angle-double-right'/></Link>}
                 </div>
                 <div>Total items: {totalItems || 0}</div>
-            </div>
+            </Wrapper>
         )
     }
 }

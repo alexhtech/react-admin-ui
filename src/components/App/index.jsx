@@ -10,6 +10,15 @@ injectTapEventPlugin()
 const {baseUrl} = config()
 setBaseUrl(baseUrl)
 
+const styleLoadingBar = {
+    backgroundColor: '#f00',
+    top: 0,
+    height: '2px',
+    zIndex: '10000',
+    position: 'fixed',
+    boxShadow: '1px 1px 4px 0px rgba(50, 50, 50, 0.75)'
+}
+
 export default class    App extends React.Component {
     constructor() {
         super();
@@ -33,19 +42,11 @@ export default class    App extends React.Component {
     render() {
         return (
             <div>
-                <LoadingBar style={{
-                    backgroundColor: '#f00',
-                    top: 0,
-                    height: '2px',
-                    zIndex: '10000',
-                    position: 'fixed',
-                    boxShadow: '1px 1px 4px 0px rgba(50, 50, 50, 0.75)'
-                }}/>
+                <LoadingBar style={styleLoadingBar}/>
                 <Helmet>
                     <title>App</title>
                     {this.links.map((item, index)=><link {...item} key={index}/>)}
                 </Helmet>
-
                 {this.props.children}
             </div>
         )

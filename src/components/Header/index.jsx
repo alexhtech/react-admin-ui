@@ -1,35 +1,48 @@
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
-import {connect} from 'react-redux'
-import {openModal, closeModal} from 'react-isomorphic-tools'
-import {logout} from '../../actions/Security'
 import UserMenu from '../UserMenu'
 import {getHeader} from '../../utils'
 
-@connect((state)=>({
-    modals: state.getIn(['modals']).toJS(),
-    user: state.getIn(['authentication', 'user'])
-}), {
-    openModal, closeModal, logout
-})
+const styleAppBar = {
+    position: 'fixed'
+}
+
 export default class Header extends React.Component {
-    render() {
-        const {userMenu, panel} = this.props.modals
-        const {user} = this.props
-        const {openModal, closeModal, logout} = this.props
-        const togglePanel = () => {
-            !panel ? openModal('panel') : closeModal('panel')
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            isOpenUserMenu: false
         }
+
+        this.title = getHeader()
+    }
+
+    toggleUserMenu = () => {
+        this.setState(prevState => ({
+            isOpenUserMenu: !prevState.isOpenUserMenu
+        }))
+    }
+
+    render() {
+        const {logout, user, togglePanel} = this.props
+        const Menu = user ?
+                        <UserMenu
+                            handleShow={this.toggleUserMenu}
+                            handleClose={this.toggleUserMenu}
+                            logout={logout}
+                            user={user}
+                            open={this.state.isOpenUserMenu}
+                          />:
+                          null
         return (
-            <div>
-                <AppBar
-                    title={getHeader()}
-                    onLeftIconButtonTouchTap={togglePanel}
-                    iconElementRight={user ? <UserMenu handleShow={openModal} handleClose={closeModal} logout={logout} user={user}
-                                                       open={userMenu}/> : null}
-                    style={{position: 'fixed'}}
-                />
-            </div>
+            <AppBar
+                title={this.title}
+                onLeftIconButtonTouchTap={togglePanel}
+                iconElementRight={Menu}
+                style={styleAppBar}
+            />
         )
     }
 }

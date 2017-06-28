@@ -34,13 +34,11 @@ export default class ListPage extends React.Component{
     static displayName = 'AdminListPage'
     render(){
         return (
-            <div className='block'>
-                <List
-                    data={this.props.list}
-                    items={this.props.items}
-                    entity={getEntity(this.props.params.name)}
-                />
-            </div>
+            <List
+                data={this.props.list}
+                items={this.props.items}
+                entity={getEntity(this.props.params.name)}
+            />
         )
     }
 }

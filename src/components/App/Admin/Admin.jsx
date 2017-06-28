@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {openModal, closeModal} from 'react-isomorphic-tools'
 
 @connect(state=>({
-    panel: state.getIn(['modals', 'panel'])
+    panel: state.getIn(['modals', 'panel']) || false
 }), {openModal, closeModal})
 
 export default class Admin extends React.Component {

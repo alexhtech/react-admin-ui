@@ -10,6 +10,12 @@ import {open} from '../../actions/Snackbar'
 import {edit, list, show} from '../../actions'
 import Immutable from 'immutable'
 import {validate} from '../../validate'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+    background: white;
+    box-shadow: 0 0 10px -3px black;
+`
 
 @preload(edit)
 @connect((state, props)=>({
@@ -107,7 +113,7 @@ export default class EditPage extends React.Component {
             }
         } = this
         return (
-            <div className='block'>
+            <Wrapper>
                 {Component ?
                     <Component form={form} onSubmit={this.handleSubmit}
                                onSubmitSuccess={::this.handleSubmitSuccess}
@@ -128,7 +134,7 @@ export default class EditPage extends React.Component {
                         validate={validate}
                     />
                 }
-            </div>
+            </Wrapper>
         )
     }
 }
