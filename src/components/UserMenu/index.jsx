@@ -20,15 +20,21 @@ const UserMenu = styled.div`
 `
 
 export default class UserMenuComponent extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
+
     render() {
-        const {user, logout, handleShow, handleClose, open} = this.props
+        const {user, logout, handleToggle, open} = this.props
 
         const close = () => {
-            handleClose()
+            handleToggle()
         }
         const show = (e) => {
             this.setState({anchorEl: e.currentTarget})
-            handleShow()
+            handleToggle()
         }
         return (
             <UserMenu>
