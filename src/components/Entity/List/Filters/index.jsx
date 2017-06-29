@@ -8,10 +8,10 @@ import isJSON from 'is-json'
 @withRouter
 export default class index extends React.Component {
     render() {
-        const {filters, location: {query}} = this.props
+        const {filters, location: {query}, location} = this.props
         return (
             <div>
-                <Form filters={filters} onSubmit={async(form, dispatch)=> {
+                <Form filters={filters} location={location} onSubmit={async(form, dispatch)=> {
 
                     const filters = form.filter((item)=>item != '')
 

@@ -8,9 +8,20 @@ import withRouter from 'react-router/lib/withRouter'
 import {connect} from 'react-redux'
 import {openModal, closeModal} from 'react-isomorphic-tools'
 import DeleteAction from './Delete'
-
 import Fields from './Fields'
 import Wrapper from '../Form/Wrapper'
+
+import styled from 'styled-components'
+
+const styleButtonMargin = {
+    marginRight: '15px'
+}
+
+const ControlsButtonWrapper = styled(Wrapper)`
+    display: flex;
+    justify-content: flex-end;
+`
+
 
 @connect(state=>({
     confirmDelete: state.getIn(['modals', 'confirmDelete']) || false
@@ -67,12 +78,13 @@ export default class Show extends React.Component {
                 </Wrapper>
                 <div className='row'>
                     <div className='col-12'>
-                        <Wrapper className='controls'>
+                        <ControlsButtonWrapper>
                             {del &&
                             <DeleteAction
                                 toggleConfirmDelete={this.toggleConfirmDelete}
                                 confirmDelete={this.props.confirmDelete}
                                 onDelete={this.props.onDelete}
+                                style={styleButtonMargin}
                             />
                             }
                             {edit &&
@@ -85,7 +97,7 @@ export default class Show extends React.Component {
                                 }
                             />
                             }
-                        </Wrapper>
+                        </ControlsButtonWrapper>
                     </div>
                 </div>
             </div>

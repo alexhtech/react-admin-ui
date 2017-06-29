@@ -26,7 +26,7 @@ const BreadcrumbsWrapper = styled.div`
             color: black;
             text-decoration: none;
         }
-    } 
+    }
 `
 
 moment.locale('en')

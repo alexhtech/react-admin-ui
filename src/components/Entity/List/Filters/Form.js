@@ -9,6 +9,13 @@ import {getFilters} from '../../../../utils'
 
 @reduxForm()
 export default class FiltersForm extends React.Component {
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location.pathname != this.props.location.pathname) {
+            this.props.destroy()
+        }
+    }
+
     render() {
         const {filters, handleSubmit} = this.props
         return (
