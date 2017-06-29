@@ -2,15 +2,26 @@ import React from 'react'
 import ActionButton from '../../Common/ActionButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
+import styled from 'styled-components'
+
+const styleButtonMargin = {
+    marginRight: '15px'
+}
+
+const ControlsButton = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`
 
 const DeleteAction = ({toggleConfirmDelete, confirmDelete, onDelete}) => (
     <div>
-        <RaisedButton label='Delete' onClick={toggleConfirmDelete}/>
+        <RaisedButton label='Delete' style={styleButtonMargin} onClick={toggleConfirmDelete}/>
         <Dialog open={confirmDelete} actions={
-            <div className='controls'>
+            <ControlsButton>
                 <RaisedButton
                     label='Cancel'
                     onClick={toggleConfirmDelete}
+                    style={styleButtonMargin}
                 />
                 <ActionButton
                     component={RaisedButton}
@@ -18,7 +29,7 @@ const DeleteAction = ({toggleConfirmDelete, confirmDelete, onDelete}) => (
                     action={onDelete}
                     primary={true}
                 />
-            </div>
+            </ControlsButton>
         }>
             Are you sure to delete?
         </Dialog>

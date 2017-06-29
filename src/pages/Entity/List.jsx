@@ -1,11 +1,13 @@
 import React from 'react'
 import {preload} from 'react-isomorphic-tools'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import List from '../../components/Entity/List'
 import {getEntity} from '../../utils'
 import {list} from '../../actions'
 import { createSelector } from 'reselect'
 import Immutable from 'immutable'
+import {reset} from 'redux-form/immutable'
 
 const getList = (state, props) => state.getIn(['fetchData', `${props.params.name}List`]) || Immutable.Map({})
 
@@ -27,11 +29,22 @@ const getItemsSelector = createSelector(
 @preload(list)
 @connect((state, props)=>({
     list: getListSelector(state, props),
-    items: getItemsSelector(state, props)
+    items: getItemsSelector(state, props),
+    location: props.location
+}),  (dispatch)=>({
+    actions: bindActionCreators({reset}, dispatch)
 }))
 
 export default class ListPage extends React.Component{
     static displayName = 'AdminListPage'
+
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.location.pathname != this.props.location.pathname) {
+    //         // console.log(nextProps.location)
+    //         this.props.actions.reset('reactAdminFilters')
+    //     }
+    // }
+
     render(){
         return (
             <List
