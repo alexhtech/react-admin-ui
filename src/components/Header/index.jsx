@@ -29,8 +29,7 @@ export default class Header extends React.Component {
         const {logout, user, togglePanel} = this.props
         const Menu = user ?
                         <UserMenu
-                            handleShow={this.toggleUserMenu}
-                            handleClose={this.toggleUserMenu}
+                            handleToggle={this.toggleUserMenu}
                             logout={logout}
                             user={user}
                             open={this.state.isOpenUserMenu}
