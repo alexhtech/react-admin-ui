@@ -79,7 +79,8 @@ export default {
             ],
             initFields: [
                 'name', 'group'
-            ]
+            ],
+            redirect: 'list'
         },
         del: {
             url: ({id})=>'/products/' + id
