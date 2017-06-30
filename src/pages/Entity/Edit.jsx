@@ -76,7 +76,7 @@ export default class EditPage extends React.Component {
 
 
     async handleSubmitSuccess(result, dispatch, props) {
-        let {redirect = 'list'} = this.entity.actions.create
+        let {redirect = 'list'} = this.entity.actions.edit
         const {id = 'id'} = this.entity
         if (this.handleSubmitSuccessBeforeHook) await this.handleSubmitSuccessBeforeHook(result, dispatch, props)
         this.props.open('default', 'Successfully saved')
