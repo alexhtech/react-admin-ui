@@ -8,6 +8,7 @@ export default {
                 {name: 'name', title: 'Name', style: {width: '600px'}}
             ],
             filters: [
+                {name: 'name', component: 'material.TextField', underlineShow: false, hintText: 'Search...'},
                 {name: 'name', component: 'material.TextField', underlineShow: false, hintText: 'Search...'}
             ],
             url: '/products'
