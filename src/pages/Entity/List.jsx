@@ -38,13 +38,6 @@ const getItemsSelector = createSelector(
 export default class ListPage extends React.Component{
     static displayName = 'AdminListPage'
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.location.pathname != this.props.location.pathname) {
-    //         // console.log(nextProps.location)
-    //         this.props.actions.reset('reactAdminFilters')
-    //     }
-    // }
-
     render(){
         return (
             <List
