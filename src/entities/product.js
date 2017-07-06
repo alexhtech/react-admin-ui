@@ -9,7 +9,8 @@ export default {
             ],
             filters: [
                 {name: 'name', component: 'material.TextField', underlineShow: false, hintText: 'Search...'},
-                {name: 'name', component: 'material.TextField', underlineShow: false, hintText: 'Search...'}
+                {name: 'name', component: 'material.TextField', underlineShow: false, hintText: 'Search...'},
+                {name: 'type', component: 'material.SelectField', underlineShow: false, hintText: 'Search...'}
             ],
             url: '/products'
         },
