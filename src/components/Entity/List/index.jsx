@@ -94,9 +94,13 @@ export default class List extends React.Component {
                                         }
                                         return (
                                             <TableRowColumn style={field.style || {}} key={key}>
-                                                {field.component ? <field.component
-                                                    data={showField(field.name, item)}/> : showField(field.name, item)}
-
+                                                {field.component ?
+                                                    <field.component
+                                                        data={showField(field.name, item)}
+                                                        item={item}
+                                                    />:
+                                                    showField(field.name, item)
+                                                }
                                             </TableRowColumn>
                                         )
                                     })}
