@@ -133,14 +133,23 @@ export default class List extends React.Component {
                                     <TableRowColumn>
                                         <div style={style}>
                                             {edit && show &&
-                                            <Link to={{pathname: `/${getPrefix()}/${name}/edit/${item[id]}`, query}}>
+                                            <Link to={{
+                                                    pathname: `/${getPrefix()}/${name}/edit/${item[id]}`,
+                                                    query: {
+                                                        name: query.name,
+                                                        id: query.id
+                                                    }
+                                                }}>
                                                 <Edit/>
                                             </Link>
                                             }
                                             {show &&
                                             <Link to={{
                                                 pathname: `/${getPrefix()}/${name}/show/${item[id]}`,
-                                                query
+                                                query: {
+                                                    name: query.name,
+                                                    id: query.id
+                                                }
                                             }}><ChevronRight/></Link>
                                             }
                                         </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import {reduxForm, Field} from 'redux-form/immutable'
 import FilterWrapper from './FilterWrapper'
 import {FlatButton } from 'material-ui'
-import CleaerFilterIcon from 'material-ui/svg-icons/communication/clear-all'
+// import CleaerFilterIcon from 'material-ui/svg-icons/communication/clear-all'
 import SearchIcon from 'material-ui/svg-icons/action/search'
 import {showField} from '../../../../utils/utility'
 import {getFilters} from '../../../../utils'
@@ -10,16 +10,20 @@ import styled from 'styled-components'
 import {push} from 'react-router-redux'
 
 const Form = styled.form`
-    dispaly: flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 24px;
-
 `
 
-const styleClearButton = {
-    marginRight: '10px'
-}
+const WrapperFields = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+// const styleClearButton = {
+//     marginRight: '10px'
+// }
 
 const styleButton = {
 }
@@ -46,7 +50,7 @@ export default class FiltersForm extends React.Component {
         const {filters, handleSubmit} = this.props
         return (
             <Form onSubmit={handleSubmit}>
-                <div>
+                <WrapperFields>
                     {filters.map(({component, name, ...rest}, index)=> {
                         return <FilterWrapper key={index}>
                             <Field
@@ -56,15 +60,15 @@ export default class FiltersForm extends React.Component {
                             />
                         </FilterWrapper>
                     })}
-                </div>
+                </WrapperFields>
                 <WrapperButtons>
-                    <FlatButton
+                    {/*<FlatButton
                         type='button'
                         icon={<CleaerFilterIcon/>}
                         style={styleClearButton}
                         label='CLEAR FILTERS'
                         onClick={this.filterClear}
-                    />
+                    />*/}
                     <FlatButton
                         type='submit'
                         icon={<SearchIcon/>}
