@@ -85,11 +85,11 @@ export default class List extends React.Component {
                             return (
                                 <TableRow key={key} hoverable={true}>
                                     {fields.map((field, key)=> {
-                                        let {component} = field
+                                        let {component, name, style, ...rest} = field
                                         if (typeof (component) == 'string') {
                                             let widget = showField(component, getWidgets())
                                             if (widget) {
-                                                field = {...field, component: widget, id: `__${item.name}`}
+                                                field = {...field, name, style, component: widget, id: `__${item.name}`}
                                             }
                                         }
                                         return (
@@ -98,6 +98,7 @@ export default class List extends React.Component {
                                                     <field.component
                                                         data={showField(field.name, item)}
                                                         item={item}
+                                                        {...rest}
                                                     />:
                                                     showField(field.name, item)
                                                 }
