@@ -15,7 +15,7 @@ import '../assets/style.sass'
 const render = async() => {
     await resolveRoutes({routes, location: history.location, store})
 
-    const locale = store.getState().getIn(['navigator', 'locale']) || config().defaultLocale
+    const locale = store.getState().navigator.locale || config().defaultLocale
     const messages = await import(`./locales/${locale.split('-')[0]}.json`)
     switch (locale){
         case 'ru':

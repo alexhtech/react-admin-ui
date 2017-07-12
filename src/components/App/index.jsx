@@ -1,5 +1,5 @@
 import React from 'react'
-import {ImmutableLoadingBar as LoadingBar} from 'react-redux-loading-bar'
+import LoadingBar from 'react-redux-loading-bar'
 import {Helmet} from 'react-helmet'
 import config from '../../../config'
 import {setBaseUrl} from 'react-isomorphic-tools'

@@ -1,2 +1,2 @@
-export product from './product'
-export group from './group'
+export products from './products'
+export groups from './groups'

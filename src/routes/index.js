@@ -3,7 +3,7 @@ import Home from '../components/App/Home'
 // import Navigation from '../pages/Navigation'
 import Error from 'react-isomorphic-tools/pages/Error'
 import Admin from '../components/App/Admin'
-import admin from './admin'
+import admin from '../../react-admin-ui/src/routes'
 
 const routes = [
     {
@@ -15,8 +15,8 @@ const routes = [
                 exact: true
             },
             {
-                component: Admin,
                 path: '/admin',
+                component: Admin,
                 routes: admin
             },
             {

@@ -1,6 +1,0 @@
-export Layout from './Entity'
-export Create from './Entity/Create'
-export Edit from './Entity/Edit'
-export List from './Entity/List'
-export Show from './Entity/Show'
-export Login from './Login'
