@@ -5,6 +5,7 @@ import {openModal, closeModal, Link} from 'react-isomorphic-tools'
 import {RaisedButton, Dialog} from 'material-ui'
 import ActionButton from '../../../Common/ActionButton'
 import {handleDelete} from '../../../../actions'
+import {Controls} from '../..'
 
 @connect(state=>({
     open: state.modals.confirmDelete || false
@@ -40,10 +41,10 @@ export default class Delete extends React.Component {
                 <Dialog
                     open={open}
                     actions={
-                        <div className='controls'>
+                        <Controls>
                             <RaisedButton label='Cancel' onClick={this.handleCloseConfirmModal}/>
                             <ActionButton label='Delete' action={this.onDelete} primary={true}/>
-                        </div>
+                        </Controls>
                     }
                     onRequestClose={this.handleCloseConfirmModal}
                 >Are you sure to delete?</Dialog>

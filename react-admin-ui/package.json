@@ -1,6 +1,6 @@
 {
   "name": "react-admin-ui",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "description": "React Admin Panel based on material-ui interface Edit",
   "main": "lib/index.js",
   "scripts": {

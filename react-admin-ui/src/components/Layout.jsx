@@ -18,6 +18,10 @@ const Layout = styled.div`
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    
+    a{
+        text-decoration: none;
+    }
 `
 
 const ContentWrapper = styled.div`
