@@ -30,7 +30,7 @@ export default {
         },
         create: {
             fields: [
-                {name: 'name', component: 'material.TextField', title: 'Name'},
+                {name: 'name', title: 'Name'},
             ],
             url: ()=>'/products',
             redirect: 'list',

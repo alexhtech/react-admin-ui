@@ -9,8 +9,10 @@ import {AppContainer} from 'react-hot-loader'
 import {store, history} from './'
 import {IntlProvider, addLocaleData} from 'react-intl'
 import config from '../config'
-import '../assets/style.sass'
 
+import '../assets/styles/style.sass'
+import 'bootstrap/dist/css/bootstrap-grid.min.css'
+import 'react-json-pretty/src/JSONPretty.1337.css'
 
 const render = async() => {
     await resolveRoutes({routes, location: history.location, store})

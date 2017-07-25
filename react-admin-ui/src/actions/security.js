@@ -1,52 +1,38 @@
 import {fetcher, Auth} from 'react-isomorphic-tools'
 import {push} from 'react-router-redux'
-import {AUTH_LOGOUT_SUCCESS} from 'react-isomorphic-tools/constants'
+import {AUTH_LOGOUT_SUCCESS, AUTH_ACCOUNT_SUCCESS} from 'react-isomorphic-tools/constants'
+import {parse} from 'query-string'
 
-export const login = (form) => async(dispatch) => {
-    try {
-        const response = await fetcher('/login_check', {
-            params: form,
-            method: 'POST'
-        })
-        Auth.setToken(response.token)
-        Auth.setRefreshToken(response.refreshToken)
-        dispatch({
-            type: 'LOGIN_SUCCESS',
-            payload: await dispatch(getAccount())
-        })
-    }
-    catch (e) {
-        dispatch({
-            type: 'LOGIN_ERROR'
-        })
-        throw e
-    }
+
+const login = async(form, dispatch, props) => {
+    const {token, refreshToken} = await fetcher('/login_check', {
+        params: form,
+        method: 'POST'
+    })
+    Auth.setToken(token)
+    Auth.setRefreshToken(refreshToken)
+    await dispatch(loadAccount)
+    const query = parse(props.search)
+    dispatch(push(query.from ? query.from : '/'))
 }
 
-export const getAccount = () => async(dispatch) => {
-    if (!Auth.isAuthenticated()) {
-        return;
-    }
-    try {
-        const response = await fetcher('/accounts/')
-        dispatch({
-            type: 'ACCOUNT_SUCCESS',
-            payload: response
-        })
-        return response
-    }
-    catch (e) {
-        dispatch({
-            type: 'ACCOUNT_ERROR'
-        })
-        throw e
-    }
+const loadAccount = async(dispatch) => {
+    dispatch({
+        type: AUTH_ACCOUNT_SUCCESS,
+        payload: await fetcher('/profiles/own')
+    })
 }
 
-export const logout = () => (dispatch) => {
+
+const logout = () => (dispatch) => {
     Auth.logout()
     dispatch({
         type: AUTH_LOGOUT_SUCCESS
     })
     dispatch(push('/login'))
+}
+export {
+    login,
+    loadAccount,
+    logout
 }

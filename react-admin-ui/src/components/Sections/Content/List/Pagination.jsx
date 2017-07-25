@@ -36,12 +36,14 @@ export default (Component) => class Pagination extends React.Component {
         const countPages = Math.ceil(totalItems / itemsPerPage)
         let pages = []
 
+        const pathname = this.props.location.pathname
+
         for (let i = 1; i <= countPages; i++) {
             if (i >= currentPage - 1 && pages.length < visible) {
                 pages.push(
                     <Page key={i}>
                         <NavLink isActive={this.isActive(i)}
-                                 to={{pathname: this.props.url, query: {...query, [name]: i}}}>
+                                 to={{pathname: pathname, query: {...query, [name]: i}}}>
                             {i}
                         </NavLink>
                     </Page>
@@ -59,7 +61,7 @@ export default (Component) => class Pagination extends React.Component {
                             {countPages && currentPage != 1 &&
                             <Page>
                                 <Link to={{
-                                    pathname: this.props.url,
+                                    pathname: pathname,
                                     query: {...query, [name]: currentPage - 1 == 0 ? 1 : currentPage - 1}
                                 }}>
                                     {'<'}
@@ -68,7 +70,7 @@ export default (Component) => class Pagination extends React.Component {
                             {pages}
                             {countPages != currentPage &&
                             <Page>
-                                <Link to={{pathname: this.props.url, query: {...query, [name]: currentPage - 1 + 2}}}>
+                                <Link to={{pathname: pathname, query: {...query, [name]: currentPage - 1 + 2}}}>
                                     {'>'}
                                 </Link>
                             </Page>}

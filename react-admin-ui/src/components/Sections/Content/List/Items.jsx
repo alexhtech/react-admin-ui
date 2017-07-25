@@ -45,7 +45,7 @@ export default class Items extends React.Component {
                                         <TableRowColumn style={field.style || {}} key={key}>
                                             {field.component ?
                                                 <field.component
-                                                    data={showField(field.name, widgets)}/> : showField(field.name, item)
+                                                    data={showField(field.name, item)}/> : showField(field.name, item)
                                             }
                                         </TableRowColumn>
                                     )

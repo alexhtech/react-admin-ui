@@ -7,7 +7,17 @@ import {getEntity} from '../lib'
 
 
 const list = ({fetchToState, params, location:{query:{filters: queryFilters, ...query}}})=> {
-    const {url: baseUrl, actions:{list: {url: listUrl, params: listParams}}} = getEntity(params.name)
+    const entity = getEntity(params.name)
+
+    if(!entity){
+        throw {
+            code: '303',
+            to: '/',
+            type: 'redirect'
+        }
+    }
+
+    const {url: baseUrl, actions:{list: {url: listUrl, params: listParams}}} = entity
     let args = {}
 
     let filters = queryFilters && isJSON(queryFilters) ? JSON.parse(queryFilters) : undefined
@@ -44,6 +54,15 @@ const list = ({fetchToState, params, location:{query:{filters: queryFilters, ...
 
 const show = ({fetchToState, params, location:{query}})=> {
     const entity = getEntity(params.name)
+
+    if(!entity){
+        throw {
+            code: '303',
+            to: '/',
+            type: 'redirect'
+        }
+    }
+
     return fetchToState(typeof (entity.actions.show.url) == 'function' ? entity.actions.show.url(params) : `${entity.url}/${params.id}`, {
         params: Object.assign({...query.params}, entity.actions.show.params),
         key: `${params.name}Show`
