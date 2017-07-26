@@ -93,7 +93,7 @@ export default class List extends React.Component {
                                             }
                                         }
                                         return (
-                                            <TableRowColumn style={field.style || {}} key={key}>
+                                            <TableRowColumn style={field.style || {}} key={item.id || key}>
                                                 {field.component ?
                                                     <field.component
                                                         data={showField(field.name, item)}
@@ -135,30 +135,32 @@ export default class List extends React.Component {
                                             </TableRowColumn>
                                         }
                                     })()}
-                                    <TableRowColumn>
-                                        <div style={style}>
-                                            {edit && show &&
-                                            <Link to={{
-                                                    pathname: `/${getPrefix()}/${name}/edit/${item[id]}`,
+                                    {edit || show &&
+                                        <TableRowColumn>
+                                            <div style={style}>
+                                                {edit && show &&
+                                                <Link to={{
+                                                        pathname: `/${getPrefix()}/${name}/edit/${item[id]}`,
+                                                        query: {
+                                                            name: query.name,
+                                                            id: query.id
+                                                        }
+                                                    }}>
+                                                    <Edit/>
+                                                </Link>
+                                                }
+                                                {show &&
+                                                <Link to={{
+                                                    pathname: `/${getPrefix()}/${name}/show/${item[id]}`,
                                                     query: {
                                                         name: query.name,
                                                         id: query.id
                                                     }
-                                                }}>
-                                                <Edit/>
-                                            </Link>
-                                            }
-                                            {show &&
-                                            <Link to={{
-                                                pathname: `/${getPrefix()}/${name}/show/${item[id]}`,
-                                                query: {
-                                                    name: query.name,
-                                                    id: query.id
+                                                }}><ChevronRight/></Link>
                                                 }
-                                            }}><ChevronRight/></Link>
-                                            }
-                                        </div>
-                                    </TableRowColumn>
+                                            </div>
+                                        </TableRowColumn>
+                                    }
                                 </TableRow>
                             )
                         })}
