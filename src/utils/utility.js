@@ -22,7 +22,7 @@ const showField = (itemName, data) => {
             if (i == 0) {
                 name = data[field[i]]
             } else {
-                name = name[field[i]]
+                name = name && name[field[i]]
             }
         }
     }
