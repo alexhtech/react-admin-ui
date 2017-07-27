@@ -135,7 +135,7 @@ export default class List extends React.Component {
                                             </TableRowColumn>
                                         }
                                     })()}
-                                    {edit || show &&
+                                    {(edit || show) &&
                                         <TableRowColumn>
                                             <div style={style}>
                                                 {edit && show &&
