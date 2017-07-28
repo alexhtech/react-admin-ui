@@ -13,9 +13,10 @@ export default {
                 {
                     name: 'name',
                     component: 'material.TextField',
-                    underlineShow: false,
+                    underlineShow: true,
                     hintText: 'Search...',
-                    id: 'search'
+                    id: 'search',
+                    open: true
                 }
             ],
             url: ()=> {

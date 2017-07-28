@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import {getEntity, getPrefix} from '../lib'
 import {Divider, FlatButton} from 'material-ui'
 import Back from 'material-ui/svg-icons/action/assignment-return'
@@ -7,7 +6,8 @@ import EntityForm from '../components/Sections/Content/EntityForm'
 import queryString from 'query-string'
 import {Link} from 'react-isomorphic-tools'
 import {handleCreate, handleCreateSuccess, handleCreateFail} from '../actions'
-import {HeaderWrapper, ContentWrapper} from '../components/Sections'
+import {HeaderWrapper} from '../components/Sections'
+import validate from '../validate'
 
 export default class Create extends React.Component {
     render() {
@@ -45,6 +45,7 @@ export default class Create extends React.Component {
                     params={this.props.match.params}
                     prefix={prefix}
                     fields={fields}
+                    validate={validate}
                 />
             </div>
         )

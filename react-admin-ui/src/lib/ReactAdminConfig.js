@@ -14,13 +14,19 @@ class ReactAdminConfig {
 
     getEntities = () => this.entities
 
-    getEntity = (entityName) => {
+    getEntity = (entityName, entities = this.entities) => {
         let entity = false
-        for (let i in this.entities) {
-            if (this.entities.hasOwnProperty(i)) {
-                if (this.entities[i].name == entityName) {
-                    entity = this.entities[i]
+        for (let i in entities) {
+            if (entities.hasOwnProperty(i)) {
+                const element = entities[i]
+                if (element.name == entityName) {
+                    entity = element
                 }
+                if (element.hasOwnProperty('nestedItems')) {
+                    const result = this.getEntity(entityName, element.nestedItems)
+                    if (result) return result
+                }
+
             }
         }
         return entity

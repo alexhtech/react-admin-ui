@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {openModal, closeModal, Link} from 'react-isomorphic-tools'
+import {openModal, closeModal} from 'react-isomorphic-tools'
 import {RaisedButton, Dialog} from 'material-ui'
 import ActionButton from '../../../Common/ActionButton'
 import {handleDelete} from '../../../../actions'

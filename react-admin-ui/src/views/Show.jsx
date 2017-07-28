@@ -1,12 +1,12 @@
 import React from 'react'
 import {getEntity, getPrefix} from '../lib'
 import queryString from 'query-string'
-import {FlatButton, Divider} from 'material-ui'
+import {FlatButton, Divider, Chip} from 'material-ui'
 import Back from 'material-ui/svg-icons/action/assignment-return'
 import {Link} from 'react-isomorphic-tools'
 import {connect} from 'react-redux'
 import Show from '../components/Sections/Content/Show'
-import {HeaderWrapper, ContentWrapper} from '../components/Sections'
+import {HeaderWrapper} from '../components/Sections'
 
 @connect((state, props)=>({
     show: state.fetchData[`${props.match.params.name}Show`].response
@@ -19,7 +19,7 @@ export default class Edit extends React.Component {
         return (
             <div>
                 <HeaderWrapper>
-                    <span>Show item #{this.props.match.params.id} of {entity.title || entity.name}</span>
+                    <Chip style={{display: 'inline-block'}}>#{this.props.match.params.id}</Chip>
                     <FlatButton
                         icon={<Back/>}
                         label='Back to list'

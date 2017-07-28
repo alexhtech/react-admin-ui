@@ -1,9 +1,9 @@
-export const validate = (values, {fieldsValidate = []}) => {
+const validate = (values, {fieldsValidate = []}) => {
     let errors = {}
 
     const validateSingleField = (value, field, formValues) => {
 
-        const { isRequired = false, test = false, errorText } = field
+        const {isRequired = false, test = false, errorText} = field
 
         if (isRequired) {
             if (!value) {
@@ -31,9 +31,9 @@ export const validate = (values, {fieldsValidate = []}) => {
 
                     fieldsForm.map(fieldForm => {
                         const {name} = fieldForm
-                        const currentValue = name != '_error' ? item.get(name): item
+                        const currentValue = name != '_error' ? item.name : item
 
-                        const errorText = validateSingleField( currentValue, fieldForm, values)
+                        const errorText = validateSingleField(currentValue, fieldForm, values)
 
                         if (errorText) {
                             fieldsErrors[name] = errorText
@@ -50,9 +50,13 @@ export const validate = (values, {fieldsValidate = []}) => {
             }
         }
 
-        errors[field.name] = initValidate(values.get(field.name))
+        errors[field.name] = initValidate(values[field.name])
 
     })
 
     return errors
+}
+
+export {
+    validate as default
 }

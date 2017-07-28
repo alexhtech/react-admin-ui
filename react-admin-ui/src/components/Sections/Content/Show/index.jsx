@@ -1,16 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
-import {showField, groupFields} from '../../../../utils'
-// import {getWidgets, getPrefix} from '../../../utils'
+import {groupFields} from '../../../../utils'
 import {RaisedButton, Tabs, Tab} from 'material-ui'
 import HasMany from './HasMany'
-// import {withRouter} from 'react-router'
-// import {connect} from 'react-redux'
 import {Link} from 'react-isomorphic-tools'
-// import DeleteAction from './Delete'
-//
 import Fields from './Fields'
-// import Wrapper from '../Form/Wrapper'
 import Delete from '../Delete'
 import {Controls, ContentWrapper} from '../..'
 

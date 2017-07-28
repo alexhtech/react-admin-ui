@@ -118,5 +118,5 @@ const Pages = styled.div`
 
 const Info = styled.div`
     text-align: center;  
-    padding: 10px 0;
+    padding: 1rem 0;
 `

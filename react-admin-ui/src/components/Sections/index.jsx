@@ -5,11 +5,11 @@ const HeaderWrapper = styled.div`
     align-items: center;
     min-height: 48px;
     justify-content: ${(props)=>props.end ? 'flex-end' : 'space-between'};
-    padding: 0 10px;
+    padding: 0 1rem;
 `
 
 const ContentWrapper = styled.div`
-    padding: 10px;
+    padding: 1rem;
 `
 
 

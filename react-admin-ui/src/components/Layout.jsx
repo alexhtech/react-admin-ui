@@ -26,7 +26,7 @@ const Layout = styled.div`
 
 const ContentWrapper = styled.div`
     flex: 1 1 0%;
-    padding: 1em;
+    padding: 1rem;
 `
 
 export default class Entity extends React.Component {

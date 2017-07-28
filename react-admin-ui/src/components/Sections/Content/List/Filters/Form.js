@@ -1,6 +1,6 @@
 import React from 'react'
 import {reduxForm, Field, blur} from 'redux-form'
-import {FlatButton, Menu, MenuItem, IconMenu} from 'material-ui'
+import {FlatButton, MenuItem, IconMenu} from 'material-ui'
 import styled from 'styled-components'
 import {HeaderWrapper} from '../../../'
 import Close from 'material-ui/svg-icons/navigation/close'
@@ -11,6 +11,15 @@ import {showField} from '../../../../../utils'
 
 @reduxForm()
 export default class FiltersForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            filters: props.filters.filter((item=> {
+                return item.open || item.initiallyOpen
+            }))
+        }
+    }
+
     state = {
         filters: []
     }
@@ -21,11 +30,11 @@ export default class FiltersForm extends React.Component {
         })
     }
 
-    handleDeleteFilter = (name) => (e) => {
+    handleDeleteFilter = (name) => () => {
         this.props.dispatch(blur('reactAdminFilters', name, null))
         this.setState({
             filters: this.state.filters.filter(item=>
-                !item.name == name
+                !(item.name == name)
             )
         })
     }
@@ -35,32 +44,31 @@ export default class FiltersForm extends React.Component {
         return (
             <HeaderWrapper end>
                 <form onSubmit={handleSubmit} style={{width: '100%'}}>
-                    <StyledFilters className='row'>
-                        {this.state.filters.map(({component, name, ...rest}, index)=> {
-                            return <div className='col-3' key={index}>
-                                <StyledFilter key={index}>
-                                    <Close className='close' onClick={this.handleDeleteFilter(name)}/>
-                                    <Field
-                                        className='field'
-                                        name={name}
-                                        component={showField(component, getFilters())}
-                                        {...rest}
-                                    />
-                                </StyledFilter>
-                            </div>
+                    <Wrapper>
+                        <Filters>
+                            {this.state.filters.map(({component, name, open, ...rest}, index)=> {
+                                return (
+                                    <StyledFilter key={index}>
+                                        {!open && <Close className='close' onClick={this.handleDeleteFilter(name)}/>}
+                                        <Field
+                                            className='field'
+                                            name={name}
+                                            component={showField(component, getFilters())}
+                                            {...rest}
+                                        />
+                                    </StyledFilter>
+                                )
+                            })}
+                        </Filters>
 
-                        })}
-                        <div className='col-2'>
-
-                            <Controls>
-                                <AddFilter filters={filters} selectedFilters={this.state.filters}
-                                           handleAddFilter={this.handleAddFilter}/>
-                                <FlatButton type='submit'>
-                                    Apply
-                                </FlatButton>
-                            </Controls>
-                        </div>
-                    </StyledFilters>
+                        <Controls>
+                            <AddFilter filters={filters} selectedFilters={this.state.filters}
+                                       handleAddFilter={this.handleAddFilter}/>
+                            <FlatButton type='submit'>
+                                Apply
+                            </FlatButton>
+                        </Controls>
+                    </Wrapper>
                 </form>
             </HeaderWrapper>
         )
@@ -68,33 +76,36 @@ export default class FiltersForm extends React.Component {
 }
 
 const StyledFilter = styled.div`
+    position: relative;
     .close{
-        position: absolute;
-        left: -10px;
-        top: -10px;
+        width: 18px !important;
+        height: 18px !important;
+        margin: auto .4rem auto 0;
         background: #ffffff;
-        border-radius: 15px;
+        border-radius: 50%;
         border: 1px solid #e4e4e4;
-        opacity: 0;
         cursor: pointer;
     }
-    &:hover{
-        .close{
-            opacity: 1;
-        }
+`
+const Filters = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    > div{
+        margin-right: 1rem;
+        display: flex;
     }
+    margin: -.5rem 0;
 `
 
-const StyledFilters = styled.div`
+const Wrapper = styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    min-height: 48px;
+    padding: .5rem 0;
 `
 const Controls = styled.div`
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    align-self: flex-start;
 `
 
 class AddFilter extends React.Component {

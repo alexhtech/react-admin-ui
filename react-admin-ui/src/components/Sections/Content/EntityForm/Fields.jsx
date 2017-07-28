@@ -24,9 +24,9 @@ export default ({fields})=>
                             <Field {...item} id={`__${item.name}`} style={style}/>
                         </ItemWrapper>}
                         {fieldType == 'array' &&
-                        <StyledField>
+                        <div>
                             <FieldArray {...item} id={`__${item.name}`} style={style}/>
-                        </StyledField>}
+                        </div>}
                     </div>
                 )
             })}

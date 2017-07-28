@@ -5,8 +5,10 @@ import {showField} from '../../../../utils'
 import Header from './Header'
 import RelationsBody from './RelationsBody'
 import ChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
+// import Delete from 'material-ui/svg-icons/content/delete-sweep'
 import Edit from 'material-ui/svg-icons/image/edit'
 import {Link} from 'react-isomorphic-tools'
+import styled from 'styled-components'
 
 
 export default class Items extends React.Component {
@@ -54,7 +56,7 @@ export default class Items extends React.Component {
                                 <RelationsBody entityName={name} item={item} hasMany={hasMany} id={id} query={query}/>
 
                                 <TableRowColumn>
-                                    <div style={{float: 'right'}}>
+                                    <StyledListControls>
                                         {edit && show &&
                                         <Link to={{
                                             pathname: `${prefix}/${item[id]}/edit`,
@@ -69,7 +71,7 @@ export default class Items extends React.Component {
                                             query: {...query, page: undefined}
                                         }}><ChevronRight/></Link>
                                         }
-                                    </div>
+                                    </StyledListControls>
                                 </TableRowColumn>
                             </TableRow>
                         )
@@ -79,3 +81,10 @@ export default class Items extends React.Component {
         )
     }
 }
+
+const StyledListControls = styled.div`
+    float: right;
+    > a {
+        margin-left: .5rem;
+    }
+`

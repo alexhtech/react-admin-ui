@@ -1,10 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Drawler from 'material-ui/Drawer'
-import MenuItem from 'material-ui/MenuItem'
-import {getEntities, getPrefix} from '../../../lib'
+import {ListItem} from 'material-ui'
+import {getEntities, getPrefix, getEntity} from '../../../lib'
 import {Link, openModal, closeModal} from 'react-isomorphic-tools'
 import styled from 'styled-components'
+import {resolved} from 'react-isomorphic-tools/lib/loadData'
+import {withRouter} from 'react-router'
+import {matchRoutes} from 'react-router-config'
 
 
 const DrawlerStyled = styled(Drawler)`
@@ -22,6 +25,7 @@ const DrawlerStyled = styled(Drawler)`
     margin-left: ${props=>props.panel ? '0' : '-256px'};
 `
 
+@withRouter
 @connect((state=>({
     panel: state.modals.panel || false
 })), {openModal, closeModal})
@@ -47,16 +51,49 @@ export default class Panel extends React.Component {
             position: 'relative'
         }
 
+
         return (
             <DrawlerStyled open={true} panel={panel} containerStyle={style}>
                 {
-                    Object.values(this.entities).filter((item)=>!item.hidden).map((item, index)=>(
-                        <Link key={index} to={{pathname: `${getPrefix()}/${item.name}`}}>
-                            <MenuItem>{item.title || item.name}</MenuItem>
-                        </Link>
-                    ))
+                    this.renderList(this.entities)
                 }
             </DrawlerStyled>
         )
+    }
+
+    isOpen = (nestedItems) => {
+        const match = matchRoutes(resolved, this.props.location.pathname)
+        const entity = match[0] && match[0].match.params.name
+        return !!getEntity(entity, nestedItems)
+    }
+
+    renderList = (entities) => {
+        const match = matchRoutes(resolved, this.props.location.pathname)
+        const entity = match[0] && match[0].match.params.name
+
+        return Object.values(entities).filter((item)=>!item.hidden).map((item, index)=> {
+            if (item.nestedItems) {
+                return <ListItem
+                    primaryTogglesNestedList
+                    key={index}
+                    leftIcon={item.leftIcon ? <item.leftIcon/>: null}
+                    initiallyOpen={this.isOpen(item.nestedItems)}
+                    nestedItems={this.renderList(item.nestedItems)}
+                    primaryText={item.title}
+                />
+            } else {
+                return (
+                    <ListItem
+                        key={index}
+                        leftIcon={item.leftIcon ? <item.leftIcon/>: null}
+                        style={entity == item.name ? {backgroundColor: 'rgb(204, 204, 204)'} : {}}
+                        containerElement={<Link to={{pathname: `${getPrefix()}/${item.name}`}}/>}
+                        primaryText={item.title || item.name}
+                    />
+                )
+            }
+        })
+
+
     }
 }
