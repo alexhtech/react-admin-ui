@@ -29,7 +29,7 @@ const ContentWrapper = styled.div`
     padding: 1rem;
 `
 
-export default class Entity extends React.Component {
+class Entity extends React.Component {
     render() {
         return (
             <Layout>
@@ -46,4 +46,11 @@ export default class Entity extends React.Component {
             </Layout>
         )
     }
+}
+
+export {
+    Entity as default,
+    Layout,
+    Body,
+    ContentWrapper
 }

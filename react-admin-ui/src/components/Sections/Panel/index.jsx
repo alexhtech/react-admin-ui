@@ -5,10 +5,9 @@ import {ListItem, List, makeSelectable} from 'material-ui'
 import {getEntities, getPrefix, getEntity} from '../../../lib'
 import {Link, openModal, closeModal} from 'react-isomorphic-tools'
 import styled from 'styled-components'
-import {resolved} from 'react-isomorphic-tools/lib/loadData'
 import {withRouter} from 'react-router'
 import {matchRoutes} from 'react-router-config'
-
+import {routes} from 'react-isomorphic-tools/lib/resolveRoutes'
 
 const DrawlerStyled = styled(Drawler)`
     color: rgba(0, 0, 0, 0.87);
@@ -35,6 +34,7 @@ export default class Panel extends React.Component {
     constructor(props) {
         super(props);
         this.entities = getEntities()
+        this.entityName = this.getEntityNameByPathname(props.location.pathname)
     }
 
     componentDidMount() {
@@ -47,17 +47,27 @@ export default class Panel extends React.Component {
         this.props.closeModal('panel')
     }
 
+    componentWillReceiveProps = (nextProps) => {
+        this.entityName = this.getEntityNameByPathname(nextProps.location.pathname)
+    }
+
+    getEntityNameByPathname = (pathname) => {
+        const result = matchRoutes(routes, pathname).slice(-1)[0]
+        if (typeof result == 'object') {
+            return result.match.params.name
+        }
+        return null
+    }
+
     render() {
         const {panel} = this.props
         const style = {
             position: 'relative'
         }
-        const match = matchRoutes(resolved, this.props.location.pathname)
-        const entity = match[0] && match[0].match.params.name
 
         return (
             <DrawlerStyled open={true} panel={panel} containerStyle={style}>
-                <SelectableList value={entity}>
+                <SelectableList value={this.entityName}>
                     {
                         this.renderList(this.entities)
                     }
@@ -68,9 +78,7 @@ export default class Panel extends React.Component {
     }
 
     isOpen = (nestedItems) => {
-        const match = matchRoutes(resolved, this.props.location.pathname)
-        const entity = match[0] && match[0].match.params.name
-        return !!getEntity(entity, nestedItems)
+        return !!getEntity(this.entityName, nestedItems)
     }
 
     renderList = (entities) => {
@@ -84,6 +92,7 @@ export default class Panel extends React.Component {
                     initiallyOpen={this.isOpen(item.nestedItems)}
                     nestedItems={this.renderList(item.nestedItems)}
                     primaryText={item.title}
+                    value='group'
                 />
             } else {
                 return (

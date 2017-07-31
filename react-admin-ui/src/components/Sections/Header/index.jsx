@@ -27,6 +27,5 @@ export default class Header extends React.Component {
             iconElementRight={<UserMenu/>}
             style={{position: false}}
         />
-
     }
 }

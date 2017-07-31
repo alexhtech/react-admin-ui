@@ -32,7 +32,6 @@ export default [
                 exact: true,
                 strict: true
             },
-
             {
                 path: prefix + '/:name/:id/edit',
                 component: Edit,
