@@ -13,7 +13,7 @@ import styled from 'styled-components'
 
 export default class Items extends React.Component {
     render() {
-        const {entity:{id = 'id', name, actions:{list:{fields, hasMany}, create, edit, show}}, query, items} = this.props
+        const {entity:{id = 'id', name, actions:{list:{fields, hasMany}, create, edit, show}}, query, items, entityData} = this.props
         const prefix = getPrefix(name) + '/' + name
         const widgets = getWidgets()
         return (
@@ -47,7 +47,8 @@ export default class Items extends React.Component {
                                         <TableRowColumn style={field.style || {}} key={key}>
                                             {field.component ?
                                                 <field.component
-                                                    data={showField(field.name, item)}/> : showField(field.name, item)
+                                                    data={showField(field.name, item)}
+                                                    entityData={entityData}/> : showField(field.name, item)
                                             }
                                         </TableRowColumn>
                                     )

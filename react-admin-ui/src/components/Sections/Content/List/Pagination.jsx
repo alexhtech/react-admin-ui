@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom'
 import {parse} from 'query-string'
 import {getEntity} from '../../../../lib'
 import styled from 'styled-components'
+import {showField} from '../../../../utils'
 
 @withRouter
 export default (Component) => class Pagination extends React.Component {
@@ -16,20 +17,39 @@ export default (Component) => class Pagination extends React.Component {
 
     render() {
         const entity = getEntity(this.props.entityName)
-        const pagination = entity.pagination
+        const {pagination = {}} = entity
 
-        const itemsPerPage = pagination && pagination.itemsPerPage ? pagination.itemsPerPage : 10
-        const visible = pagination && pagination.visible ? pagination.visible : 4
-        const disable = pagination && pagination.disable
+        const {
+            itemsPerPage = 10,
+            visible = 4,
+            disable = false,
+            type = 'default',
+            totalItemsLink :customTotalItemsLink,
+            itemsLink :customItemsLink,
+            pageName :customPageName
+        } = pagination
 
         if (disable) return <Component {...this.props}/>
 
-        const name = 'page'
         const {response, request} = this.props.list
-        const currentPage = request.params.page || 1
 
-        const totalItems = response.totalItemCount || response.totalItems || response.total
-        const items = response.items || response.Items || response.data
+        switch (type) {
+            case 'jsonapi': {
+                this.pageName = 'page[number]'
+                this.totalItemsLink = 'meta.page.total'
+            }
+                break;
+            default: {
+                this.pageName = customPageName || 'page'
+                this.totalItemsLink = customTotalItemsLink || 'totalItemCount'
+                this.itemsLink = customItemsLink || 'items'
+            }
+        }
+
+
+        const currentPage = request.params[this.pageName] || 1
+        const totalItems = showField(this.totalItemsLink, response)
+        const items = showField(this.itemsLink, response)
 
         const query = parse(this.props.location.search)
 

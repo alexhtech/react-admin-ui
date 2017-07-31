@@ -16,9 +16,9 @@ class List extends React.Component {
 
     render() {
         const entity = getEntity(this.props.entityName)
-        const {items, query, location} = this.props
+        const {items, query, location, list} = this.props
 
-        return <Items entity={entity} items={items} query={query} location={location}/>
+        return <Items entity={entity} items={items} query={query} location={location} entityData={list}/>
 
     }
 }
