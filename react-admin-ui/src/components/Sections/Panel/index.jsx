@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Drawler from 'material-ui/Drawer'
-import {ListItem} from 'material-ui'
+import {ListItem, List, makeSelectable} from 'material-ui'
 import {getEntities, getPrefix, getEntity} from '../../../lib'
 import {Link, openModal, closeModal} from 'react-isomorphic-tools'
 import styled from 'styled-components'
@@ -24,6 +24,8 @@ const DrawlerStyled = styled(Drawler)`
     order: -1;
     margin-left: ${props=>props.panel ? '0' : '-256px'};
 `
+const SelectableList = makeSelectable(List)
+
 
 @withRouter
 @connect((state=>({
@@ -50,15 +52,19 @@ export default class Panel extends React.Component {
         const style = {
             position: 'relative'
         }
-
+        const match = matchRoutes(resolved, this.props.location.pathname)
+        const entity = match[0] && match[0].match.params.name
 
         return (
             <DrawlerStyled open={true} panel={panel} containerStyle={style}>
-                {
-                    this.renderList(this.entities)
-                }
+                <SelectableList value={entity}>
+                    {
+                        this.renderList(this.entities)
+                    }
+                </SelectableList>
             </DrawlerStyled>
         )
+
     }
 
     isOpen = (nestedItems) => {
@@ -68,15 +74,13 @@ export default class Panel extends React.Component {
     }
 
     renderList = (entities) => {
-        const match = matchRoutes(resolved, this.props.location.pathname)
-        const entity = match[0] && match[0].match.params.name
 
         return Object.values(entities).filter((item)=>!item.hidden).map((item, index)=> {
             if (item.nestedItems) {
                 return <ListItem
                     primaryTogglesNestedList
                     key={index}
-                    leftIcon={item.leftIcon ? <item.leftIcon/>: null}
+                    leftIcon={item.leftIcon ? <item.leftIcon/> : null}
                     initiallyOpen={this.isOpen(item.nestedItems)}
                     nestedItems={this.renderList(item.nestedItems)}
                     primaryText={item.title}
@@ -85,10 +89,10 @@ export default class Panel extends React.Component {
                 return (
                     <ListItem
                         key={index}
-                        leftIcon={item.leftIcon ? <item.leftIcon/>: null}
-                        style={entity == item.name ? {backgroundColor: 'rgb(204, 204, 204)'} : {}}
+                        leftIcon={item.leftIcon ? <item.leftIcon/> : null}
                         containerElement={<Link to={{pathname: `${getPrefix()}/${item.name}`}}/>}
                         primaryText={item.title || item.name}
+                        value={item.name}
                     />
                 )
             }
