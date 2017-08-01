@@ -48,5 +48,9 @@ export default {
         del: {
             url: ({id})=>'/products/' + id
         }
+    },
+    pagination:{
+        totalItemsLink: 'totalItems',
+        pageName: 'page'
     }
 }

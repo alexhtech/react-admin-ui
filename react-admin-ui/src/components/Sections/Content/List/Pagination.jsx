@@ -8,62 +8,68 @@ import {showField} from '../../../../utils'
 
 @withRouter
 export default (Component) => class Pagination extends React.Component {
-
     isActive = page => () => {
         const {page: currentPage = 1} = this.props.list.request.params
         return currentPage == page
     }
 
+    getPageNumber = (i) => {
+        if (this.settings.type == 'offset') {
+            return (i - 1) * this.settings.itemsPerPage
+        }
+        return i
+    }
+
+    getCurrentPage = (request) => {
+        if (this.settings.type == 'offset') {
+            return Math.round(request.params[this.settings.pageName] / this.settings.itemsPerPage) || 1
+        }
+        return request.params[this.settings.pageName] || 1
+    }
+
+    configure = ({itemsPerPage, visible, disable, totalItemsLink, itemsLink, pageName, type} = {}) => {
+        this.settings = {
+            itemsPerPage: itemsPerPage || 10,
+            visible: visible || 4,
+            disable: disable || false,
+            totalItemsLink: totalItemsLink || 'totalItemCount',
+            itemsLink: itemsLink || 'items',
+            pageName: pageName || 'page',
+            type: type || 'pages'
+        }
+    }
+
 
     render() {
         const entity = getEntity(this.props.entityName)
-        const {pagination = {}} = entity
+        //configure pagination settings
+        this.configure(entity.pagination)
 
-        const {
-            itemsPerPage = 10,
-            visible = 4,
-            disable = false,
-            type = 'default',
-            totalItemsLink :customTotalItemsLink,
-            itemsLink :customItemsLink,
-            pageName :customPageName
-        } = pagination
-
-        if (disable) return <Component {...this.props}/>
+        //give back Component if pagination is disabled
+        if (this.settings.disable) return <Component {...this.props}/>
 
         const {response, request} = this.props.list
 
-        switch (type) {
-            case 'jsonapi': {
-                this.pageName = 'page[number]'
-                this.totalItemsLink = 'meta.page.total'
-            }
-                break;
-            default: {
-                this.pageName = customPageName || 'page'
-                this.totalItemsLink = customTotalItemsLink || 'totalItemCount'
-                this.itemsLink = customItemsLink || 'items'
-            }
-        }
-
-
-        const currentPage = request.params[this.pageName] || 1
-        const totalItems = showField(this.totalItemsLink, response)
-        const items = showField(this.itemsLink, response)
-
+        //configure base constants
+        const currentPage = this.getCurrentPage(request)
+        const totalItems = showField(this.settings.totalItemsLink, response)
+        const items = showField(this.settings.itemsLink, response)
         const query = parse(this.props.location.search)
-
-        const countPages = Math.ceil(totalItems / itemsPerPage)
-        let pages = []
-
+        const countPages = Math.ceil(totalItems / this.settings.itemsPerPage)
         const pathname = this.props.location.pathname
 
+        let pages = []
+
+
         for (let i = 1; i <= countPages; i++) {
-            if (i >= currentPage - 1 && pages.length < visible) {
+            if (i >= currentPage - 1 && pages.length < this.settings.visible) {
                 pages.push(
                     <Page key={i}>
                         <NavLink isActive={this.isActive(i)}
-                                 to={{pathname: pathname, query: {...query, [name]: i}}}>
+                                 to={{
+                                     pathname: pathname,
+                                     query: {...query, [this.settings.pageName]: this.getPageNumber(i)}
+                                 }}>
                             {i}
                         </NavLink>
                     </Page>
@@ -72,7 +78,6 @@ export default (Component) => class Pagination extends React.Component {
         }
 
         return (
-
             <div>
                 <Component {...this.props} items={items} query={query}/>
                 {items.length > 0 ?
@@ -82,7 +87,11 @@ export default (Component) => class Pagination extends React.Component {
                             <Page>
                                 <Link to={{
                                     pathname: pathname,
-                                    query: {...query, [name]: currentPage - 1 == 0 ? 1 : currentPage - 1}
+                                    query: {
+                                        ...query, [this.settings.pageName]: currentPage - 1 == 0 ?
+                                            this.getPageNumber(1) :
+                                            this.getPageNumber(currentPage - 1)
+                                    }
                                 }}>
                                     {'<'}
                                 </Link>
@@ -90,7 +99,14 @@ export default (Component) => class Pagination extends React.Component {
                             {pages}
                             {countPages != currentPage &&
                             <Page>
-                                <Link to={{pathname: pathname, query: {...query, [name]: currentPage - 1 + 2}}}>
+                                <Link
+                                    to={{
+                                        pathname: pathname,
+                                        query: {
+                                            ...query,
+                                            [this.settings.pageName]: this.getPageNumber(parseInt(currentPage) + 1)
+                                        }
+                                    }}>
                                     {'>'}
                                 </Link>
                             </Page>}
