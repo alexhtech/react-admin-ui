@@ -15,7 +15,7 @@ import {setLocale, setUserAgent, errorHandler, resolveRoutes} from 'react-isomor
 
 import {ServerStyleSheet} from 'styled-components'
 import config from '../config'
-import queryString from 'query-string'
+import qs from 'qs'
 
 const {defaultLocale} = config()
 
@@ -23,10 +23,8 @@ const {defaultLocale} = config()
 const serverMiddleware = async(req, res)=> {
     try {
         const store = configureStore()
-        const searchString = queryString.stringify(req.query)
-        const search = searchString.length != 0 ? '?' + searchString : ''
         const history = createHistory({
-            initialEntries: [req.path + search]
+            initialEntries: [req.url]
         })
 
         store.dispatch(setUserAgent(req.get('user-agent')))
@@ -37,7 +35,7 @@ const serverMiddleware = async(req, res)=> {
             routes,
             location: {
                 pathname: req.path,
-                search
+                search: qs.stringify(req.query, {addQueryPrefix: true})
             },
             store
         })
@@ -64,7 +62,8 @@ const serverMiddleware = async(req, res)=> {
         unplug()
     }
     catch (error) {
-        errorHandler({error, res, req})
+        console.log(error)
+        // errorHandler({error, res, req})
     }
 
 

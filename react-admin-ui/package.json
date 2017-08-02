@@ -1,6 +1,6 @@
 {
   "name": "react-admin-ui",
-  "version": "3.0.0-beta.8",
+  "version": "3.0.0-beta.11",
   "description": "React Admin Panel based on material-ui interface Edit",
   "main": "lib/index.js",
   "scripts": {
@@ -33,5 +33,8 @@
   },
   "devDependencies": {
     "babel-cli": "^6.24.1"
+  },
+  "dependencies": {
+    "qs": "6.5.0"
   }
 }

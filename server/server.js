@@ -18,6 +18,7 @@ if (global.Intl) {
 } else {
     global.Intl = require('intl');
 }
+app.use('/service', proxy({target: 'http://api-backroom.edimia.net', changeOrigin: true}))
 
 app.use(cookieParser())
 app.use('/public', express.static(resolve(__dirname, '../public')))
@@ -26,6 +27,7 @@ app.get('/favicon:ext', (req, res)=> {
 })
 app.use('/uploads', proxy({target: origin, changeOrigin: true}))
 app.use(serverMiddleware)
+
 
 
 app.listen(3000, ()=> {

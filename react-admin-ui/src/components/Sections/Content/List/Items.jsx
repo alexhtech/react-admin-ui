@@ -48,6 +48,7 @@ export default class Items extends React.Component {
                                             {field.component ?
                                                 <field.component
                                                     data={showField(field.name, item)}
+                                                    item={item}
                                                     entityData={entityData}/> : showField(field.name, item)
                                             }
                                         </TableRowColumn>

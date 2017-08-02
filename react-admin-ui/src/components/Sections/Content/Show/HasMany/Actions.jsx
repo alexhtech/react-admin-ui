@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton'
 import Add from 'material-ui/svg-icons/action/note-add'
 import List from 'material-ui/svg-icons/action/list'
 import {getPrefix, getEntity} from '../../../../../lib'
-import queryString from 'query-string'
+import qs from 'qs'
 
 @connect(null, {
     push
@@ -16,14 +16,14 @@ export default class Actions extends React.Component {
     handleTouchTapAdd = () => {
         this.props.push({
             pathname: `${getPrefix()}/${this.props.name}/create`,
-            search: '?' + queryString.stringify(this.props.params)
+            search: qs.stringify(this.props.params, {addQueryPrefix: true})
         })
     }
 
     handleTouchTapList = () => {
         this.props.push({
             pathname: `${getPrefix()}/${this.props.name}`,
-            search: '?' + queryString.stringify(this.props.params)
+            search: qs.stringify(this.props.params, {addQueryPrefix: true})
         })
     }
 

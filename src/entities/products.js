@@ -51,6 +51,5 @@ export default {
     },
     pagination:{
         totalItemsLink: 'totalItems',
-        pageName: 'page'
     }
 }

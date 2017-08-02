@@ -1,6 +1,6 @@
 import React from 'react'
 import {getEntity, getPrefix} from '../lib'
-import queryString from 'query-string'
+import qs from 'qs'
 import {FlatButton, Divider, Chip} from 'material-ui'
 import Back from 'material-ui/svg-icons/action/assignment-return'
 import {Link} from 'react-isomorphic-tools'
@@ -15,7 +15,7 @@ export default class Edit extends React.Component {
     render() {
         const entity = getEntity(this.props.match.params.name)
         const prefix = getPrefix()
-        const query = queryString.parse(this.props.location.search)
+        const query = qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
         return (
             <div>
                 <HeaderWrapper>

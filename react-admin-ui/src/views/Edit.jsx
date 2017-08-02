@@ -4,7 +4,7 @@ import {showField} from '../utils'
 import {Divider, FlatButton, Chip} from 'material-ui'
 import Back from 'material-ui/svg-icons/action/assignment-return'
 import EntityForm from '../components/Sections/Content/EntityForm'
-import queryString from 'query-string'
+import qs from 'qs'
 import {Link} from 'react-isomorphic-tools'
 import {connect} from 'react-redux'
 import {handleEdit, handleEditSuccess, handleEditFail} from '../actions'
@@ -40,7 +40,7 @@ export default class Edit extends React.Component {
             }
         } = entity
         const prefix = getPrefix()
-        const query = queryString.parse(this.props.location.search)
+        const query = qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
         return (
             <div>
                 <HeaderWrapper>
