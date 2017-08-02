@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-isomorphic-tools'
 import {TableRowColumn} from 'material-ui'
 import {getEntity, getPrefix} from '../../../../lib'
+import {showField} from '../../../../utils'
 
 export default class RelationsBody extends React.Component {
     static propTypes = {
@@ -14,7 +15,10 @@ export default class RelationsBody extends React.Component {
             PropTypes.string,
             PropTypes.number
         ]),
-        item: PropTypes.object.isRequired,
+        item: PropTypes.oneOfType([
+            PropTypes.object,
+            PropTypes.string
+        ]),
         entityName: PropTypes.string.isRequired,
         query: PropTypes.object.isRequired
     }
@@ -30,7 +34,7 @@ export default class RelationsBody extends React.Component {
                         pathname: `${getPrefix()}/${item}`,
                         query: {
                             ...query,
-                            id: item[id],
+                            id: showField(id, item),
                             name: entityName
                         }
                     }}>List of {entity.title || entity.name}</Link>
@@ -45,7 +49,7 @@ export default class RelationsBody extends React.Component {
                     pathname: `${getPrefix()}/${hasMany}`,
                     query: {
                         ...query,
-                        id: item[id],
+                        id: showField(id, item),
                         name: entityName
                     }
                 }}>List of {entity.title || entity.name}</Link>

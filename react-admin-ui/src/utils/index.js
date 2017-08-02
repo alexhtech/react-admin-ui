@@ -1,4 +1,5 @@
 const showField = (itemName, data) => {
+    if (itemName.length == 0) return data
     let field = itemName.split('.')
     let name
     for (let i in field) {

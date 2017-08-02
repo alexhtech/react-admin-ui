@@ -62,7 +62,7 @@ export default class Items extends React.Component {
                                     <StyledListControls>
                                         {edit && show &&
                                         <Link to={{
-                                            pathname: `${prefix}/${item[id]}/edit`,
+                                            pathname: `${prefix}/${showField(id, item)}/edit`,
                                             query: {...query, page: undefined}
                                         }}>
                                             <Edit/>
@@ -70,7 +70,7 @@ export default class Items extends React.Component {
                                         }
                                         {show &&
                                         <Link to={{
-                                            pathname: `${prefix}/${item[id]}`,
+                                            pathname: `${prefix}/${showField(id, item)}`,
                                             query: {...query, page: undefined}
                                         }}><ChevronRight/></Link>
                                         }
