@@ -35,21 +35,22 @@ export default class Items extends React.Component {
                         return (
                             <TableRow key={key} hoverable={true}>
                                 {fields.map((field, key)=> {
-                                    let {component} = field
-                                    if (typeof (component) == 'string') {
-                                        let widget = showField(component, widgets)
+                                    let {component: Component} = field
+                                    if (typeof (Component) == 'string') {
+                                        let widget = showField(Component, widgets)
                                         if (widget) {
-                                            field = {...field, component: widget, id: `__${item.name}`}
+                                            Component = widget
+                                            field.id = `__${item.name}`
                                         }
                                     }
 
                                     return (
                                         <TableRowColumn style={field.style || {}} key={key}>
-                                            {field.component ?
-                                                <field.component
+                                            {Component ?
+                                                <Component
                                                     data={showField(field.name, item)}
                                                     item={item}
-                                                    entityData={entityData}/> : showField(field.name, item)
+                                                    entityData={entityData} {...field}/> : showField(field.name, item)
                                             }
                                         </TableRowColumn>
                                     )
