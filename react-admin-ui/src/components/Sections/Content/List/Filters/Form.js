@@ -1,5 +1,5 @@
 import React from 'react'
-import {reduxForm, Field, blur} from 'redux-form'
+import {reduxForm, Field, blur, destroy} from 'redux-form'
 import {FlatButton, MenuItem, IconMenu} from 'material-ui'
 import styled from 'styled-components'
 import {HeaderWrapper} from '../../../'
@@ -17,6 +17,16 @@ export default class FiltersForm extends React.Component {
             filters: props.filters.filter((item=> {
                 return item.open || item.initiallyOpen
             }))
+        }
+    }
+
+    componentWillReceiveProps = (nextState) => {
+        if (nextState.filters != this.props.filters) {
+            this.setState({
+                filters: nextState.filters.filter((item=> {
+                    return item.open || item.initiallyOpen
+                }))
+            })
         }
     }
 

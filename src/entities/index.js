@@ -6,8 +6,7 @@ export const Content = {
     title: 'Content',
     nestedItems: [
         products,
-        groups,
-        sections
+        groups
     ]
 
 

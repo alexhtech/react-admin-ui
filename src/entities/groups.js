@@ -7,6 +7,18 @@ export default {
             fields: [
                 {name: 'name'}
             ],
+
+            filters: [
+                {
+                    name: 'name1',
+                    component: 'material.TextField',
+                    underlineShow: true,
+                    hintText: 'Search1...',
+                    id: 'search',
+                    open: true
+                }
+            ],
+
             hasMany: 'products'
         },
         show: {
