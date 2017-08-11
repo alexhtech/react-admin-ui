@@ -49,7 +49,7 @@ export default (Component) => class Pagination extends React.Component {
         const entity = getEntity(this.props.entityName)
 
         //configure pagination settings
-        this.configure(entity.list.pagination)
+        this.configure(entity.actions.list.pagination)
 
         //give back Component if pagination is disabled
         if (this.settings.disable) return <Component {...this.props}/>
