@@ -16,7 +16,7 @@ class List extends React.Component {
 
     render() {
         const entity = getEntity(this.props.entityName)
-        const {list:{component: CustomList}} = entity
+        const {actions:{list:{component: CustomList}}} = entity
         const {items, query, location} = this.props
 
         const props = {entity, items, query, location}

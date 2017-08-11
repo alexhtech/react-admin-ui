@@ -16,6 +16,9 @@ export default class Edit extends React.Component {
         const entity = getEntity(this.props.match.params.name)
         const prefix = getPrefix()
         const query = qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
+        const {actions:{show:{component: CustomShow}}} = entity
+
+        const props = {query, prefix, entity, id: this.props.match.params.id}
         return (
             <div>
                 <HeaderWrapper>
@@ -27,7 +30,10 @@ export default class Edit extends React.Component {
                     />
                 </HeaderWrapper>
                 <Divider/>
-                <Show query={query} prefix={prefix} entity={entity} id={this.props.match.params.id}/>
+                {!!CustomShow ?
+                    <CustomShow {...props}/> :
+                    <Show {...props}/>
+                }
             </div>
         )
     }
