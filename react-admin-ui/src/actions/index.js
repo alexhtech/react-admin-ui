@@ -74,7 +74,7 @@ const handleCreate = (form, dispatch, props) => {
     const {wrapper, url, params = {}, result} = props.entity.actions.create
     let _params = wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params)
 
-    return fetcher(typeof (url) == 'function' ? url(props.params, props.query) : url, {
+    return fetcher(typeof (url) == 'function' ? url(props.params, props.query, {form, dispatch, props}) : url, {
         params: typeof result == 'function' ? result(_params) : _params,
         method: 'POST'
     })
@@ -152,7 +152,7 @@ const handleEdit = (form, dispatch, props) => {
 
     let _params = wrapper ? Object.assign(params, {[wrapper]: form}) : Object.assign(form, params)
 
-    return fetcher(typeof (url) == 'function' ? url(props.params, props.query) : `${props.entity.url}/${props.params.id}`, {
+    return fetcher(typeof (url) == 'function' ? url(props.params, props.query, {form, dispatch, props}) : `${props.entity.url}/${props.params.id}`, {
         params: typeof result == 'function' ? result(_params) : _params,
         method
     })
@@ -181,6 +181,7 @@ const handleEditSuccess = async(result, dispatch, props) => {
         await show({fetchToState: (url, params)=>dispatch(fetchToState(url, params)), location: {query}, params})
         await list({fetchToState: (url, params)=>dispatch(fetchToState(url, params)), location: {query}, params})
         dispatch(open('listUpdated', 'List and Show have been updated'))
+
 
         if (result[id]) {
             switch (redirect) {

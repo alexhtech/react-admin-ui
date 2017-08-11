@@ -27,8 +27,7 @@ export default class Edit extends React.Component {
                     />
                 </HeaderWrapper>
                 <Divider/>
-                <Show data={this.props.show} query={query} prefix={prefix} entity={entity}
-                      id={this.props.match.params.id}/>
+                <Show query={query} prefix={prefix} entity={entity} id={this.props.match.params.id}/>
             </div>
         )
     }

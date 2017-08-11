@@ -16,10 +16,12 @@ class List extends React.Component {
 
     render() {
         const entity = getEntity(this.props.entityName)
-        const {items, query, location, list} = this.props
+        const {component: CustomList} = entity
+        const {items, query, location} = this.props
 
-        return <Items entity={entity} items={items} query={query} location={location} entityData={list}/>
+        const props = {entity, items, query, location}
 
+        return !!CustomList ? <CustomList {...props}/> : <Items {...props}/>
     }
 }
 

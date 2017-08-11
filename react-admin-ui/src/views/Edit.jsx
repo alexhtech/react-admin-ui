@@ -35,12 +35,14 @@ export default class Edit extends React.Component {
             actions:{
                 edit:{
                     initFields,
-                    fields
+                    fields,
+                    component: CustomForm
                 }
             }
         } = entity
         const prefix = getPrefix()
         const query = qs.parse(this.props.location.search, {ignoreQueryPrefix: true})
+        const initialValues = this.getInitialValues(initFields)
         return (
             <div>
                 <HeaderWrapper>
@@ -52,20 +54,29 @@ export default class Edit extends React.Component {
                     />
                 </HeaderWrapper>
                 <Divider/>
-                <EntityForm
-                    onSubmit={handleEdit}
-                    onSubmitSuccess={handleEditSuccess}
-                    onSubmitFail={handleEditFail}
-                    initialValues={this.getInitialValues(initFields)}
-                    entity={entity}
-                    form={entity.name}
-                    submitLabel='Save'
-                    query={query}
-                    params={this.props.match.params}
-                    prefix={prefix}
-                    fields={fields}
-                    validate={validate}
-                />
+                {!!CustomForm ?
+                    <CustomForm initialValues={initialValues}
+                                entity={entity}
+                                form={entity.name}
+                                query={query}
+                                params={this.props.match.params}
+                                prefix={prefix}
+                    /> :
+                    <EntityForm onSubmit={handleEdit}
+                                onSubmitSuccess={handleEditSuccess}
+                                onSubmitFail={handleEditFail}
+                                initialValues={initialValues}
+                                entity={entity}
+                                form={entity.name}
+                                submitLabel='Save'
+                                query={query}
+                                params={this.props.match.params}
+                                prefix={prefix}
+                                fields={fields}
+                                validate={validate}
+                    />
+                }
+
             </div>
         )
     }

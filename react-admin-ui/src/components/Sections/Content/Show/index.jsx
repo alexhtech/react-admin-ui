@@ -19,7 +19,6 @@ export default class Show extends React.Component {
                     del
                 }
             },
-            data,
             prefix,
             id,
             query
@@ -32,12 +31,12 @@ export default class Show extends React.Component {
                     <Tabs>
                         {tabs.map((item, index)=>
                             <Tab label={item.name || 'noName'} key={index}>
-                                <Fields data={data} fields={item.fields}/>
+                                <Fields fields={item.fields}/>
                             </Tab>
                         )}
                     </Tabs>
                     :
-                    <Fields data={data} fields={tabs[0].fields}/>
+                    <Fields fields={tabs[0].fields}/>
                 }
 
                 <ContentWrapper>

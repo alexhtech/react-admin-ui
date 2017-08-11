@@ -16,7 +16,8 @@ export default class Create extends React.Component {
             actions:{
                 create:{
                     initialValues = {},
-                    fields
+                    fields,
+                    component: CustomForm
                 }
             }
         } = entity
@@ -33,20 +34,29 @@ export default class Create extends React.Component {
                     />
                 </HeaderWrapper>
                 <Divider/>
-                <EntityForm
-                    onSubmit={handleCreate}
-                    onSubmitSuccess={ handleCreateSuccess}
-                    onSubmitFail={handleCreateFail}
-                    initialValues={initialValues}
-                    entity={entity}
-                    form={entity.name}
-                    submitLabel='Create'
-                    query={query}
-                    params={this.props.match.params}
-                    prefix={prefix}
-                    fields={fields}
-                    validate={validate}
-                />
+                {!!CustomForm ?
+                    <CustomForm initialValues={initialValues}
+                                entity={entity}
+                                form={entity.name}
+                                query={query}
+                                params={this.props.match.params}
+                                prefix={prefix}
+                    /> :
+                    <EntityForm onSubmit={handleCreate}
+                                onSubmitSuccess={handleCreateSuccess}
+                                onSubmitFail={handleCreateFail}
+                                initialValues={initialValues}
+                                entity={entity}
+                                form={entity.name}
+                                submitLabel='Create'
+                                query={query}
+                                params={this.props.match.params}
+                                prefix={prefix}
+                                fields={fields}
+                                validate={validate}
+                    />
+                }
+
             </div>
         )
     }

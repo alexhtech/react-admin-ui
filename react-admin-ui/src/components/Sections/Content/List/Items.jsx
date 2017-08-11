@@ -11,9 +11,9 @@ import {Link} from 'react-isomorphic-tools'
 import styled from 'styled-components'
 
 
-export default class Items extends React.Component {
+class Items extends React.Component {
     render() {
-        const {entity:{id = 'id', name, actions:{list:{fields, hasMany}, create, edit, show}}, query, items, entityData} = this.props
+        const {entity:{id = 'id', name, actions:{list:{fields, hasMany}, create, edit, show}}, query, items} = this.props
         const prefix = getPrefix(name) + '/' + name
         const widgets = getWidgets()
         return (
@@ -40,17 +40,15 @@ export default class Items extends React.Component {
                                         let widget = showField(Component, widgets)
                                         if (widget) {
                                             Component = widget
-                                            field.id = `__${item.name}`
+                                            field.id = `__${field.name}`
                                         }
                                     }
 
                                     return (
                                         <TableRowColumn style={field.style || {}} key={key}>
                                             {Component ?
-                                                <Component
-                                                    data={showField(field.name, item)}
-                                                    item={item}
-                                                    entityData={entityData} {...field}/> : showField(field.name, item)
+                                                <Component data={showField(field.name, item)} {...field}/> :
+                                                showField(field.name, item)
                                             }
                                         </TableRowColumn>
                                     )
@@ -91,3 +89,7 @@ const StyledListControls = styled.div`
         margin-left: .5rem;
     }
 `
+
+export {
+    Items as default
+}
