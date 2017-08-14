@@ -17,7 +17,8 @@ export default class Create extends React.Component {
                 create:{
                     initialValues = {},
                     fields,
-                    component: CustomForm
+                    component: CustomForm,
+                    fieldsValidate
                 }
             }
         } = entity
@@ -54,6 +55,7 @@ export default class Create extends React.Component {
                                 prefix={prefix}
                                 fields={fields}
                                 validate={validate}
+                                fieldsValidate={fieldsValidate}
                     />
                 }
 

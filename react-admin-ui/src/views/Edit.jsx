@@ -36,7 +36,8 @@ export default class Edit extends React.Component {
                 edit:{
                     initFields,
                     fields,
-                    component: CustomForm
+                    component: CustomForm,
+                    fieldsValidate
                 }
             }
         } = entity
@@ -74,6 +75,7 @@ export default class Edit extends React.Component {
                                 prefix={prefix}
                                 fields={fields}
                                 validate={validate}
+                                fieldsValidate={fieldsValidate}
                     />
                 }
 
