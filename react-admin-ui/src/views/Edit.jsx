@@ -9,7 +9,6 @@ import {Link} from 'react-isomorphic-tools'
 import {connect} from 'react-redux'
 import {handleEdit, handleEditSuccess, handleEditFail} from '../actions'
 import {HeaderWrapper} from '../components/Sections'
-import validate from '../validate'
 
 @connect((state, props)=>({
     show: state.fetchData[`${props.match.params.name}Show`].response
@@ -37,7 +36,7 @@ export default class Edit extends React.Component {
                     initFields,
                     fields,
                     component: CustomForm,
-                    fieldsValidate
+                    validate
                 }
             }
         } = entity
@@ -55,7 +54,7 @@ export default class Edit extends React.Component {
                     />
                 </HeaderWrapper>
                 <Divider/>
-                {!!CustomForm ?
+                {CustomForm ?
                     <CustomForm initialValues={initialValues}
                                 entity={entity}
                                 form={entity.name}
@@ -75,7 +74,6 @@ export default class Edit extends React.Component {
                                 prefix={prefix}
                                 fields={fields}
                                 validate={validate}
-                                fieldsValidate={fieldsValidate}
                     />
                 }
 

@@ -35,6 +35,21 @@ export default {
             ],
             url: ()=>'/products',
             redirect: 'list',
+            fieldsValidate: [
+                {
+                    name: 'tickets',
+                    type: 'array',
+                    fieldsForm: [
+                        {
+                            name: 'name',
+                            isRequired: true,
+                            errorText: {
+                                isRequired: 'Обязательное поле',
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         edit: {
             fields: [
@@ -49,7 +64,7 @@ export default {
             url: ({id})=>'/products/' + id
         }
     },
-    pagination:{
+    pagination: {
         totalItemsLink: 'totalItems',
     }
 }

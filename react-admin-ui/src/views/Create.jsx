@@ -7,7 +7,6 @@ import qs from 'qs'
 import {Link} from 'react-isomorphic-tools'
 import {handleCreate, handleCreateSuccess, handleCreateFail} from '../actions'
 import {HeaderWrapper} from '../components/Sections'
-import validate from '../validate'
 
 export default class Create extends React.Component {
     render() {
@@ -18,7 +17,7 @@ export default class Create extends React.Component {
                     initialValues = {},
                     fields,
                     component: CustomForm,
-                    fieldsValidate
+                    validate
                 }
             }
         } = entity
@@ -35,7 +34,7 @@ export default class Create extends React.Component {
                     />
                 </HeaderWrapper>
                 <Divider/>
-                {!!CustomForm ?
+                {CustomForm ?
                     <CustomForm initialValues={initialValues}
                                 entity={entity}
                                 form={entity.name}
@@ -55,7 +54,6 @@ export default class Create extends React.Component {
                                 prefix={prefix}
                                 fields={fields}
                                 validate={validate}
-                                fieldsValidate={fieldsValidate}
                     />
                 }
 

@@ -30,7 +30,7 @@ export default class Edit extends React.Component {
                     />
                 </HeaderWrapper>
                 <Divider/>
-                {!!CustomShow ?
+                {CustomShow ?
                     <CustomShow {...props}/> :
                     <Show {...props}/>
                 }

@@ -21,7 +21,7 @@ class List extends React.Component {
 
         const props = {entity, items, query, location}
 
-        return !!CustomList ? <CustomList {...props}/> : <Items {...props}/>
+        return CustomList ? <CustomList {...props}/> : <Items {...props}/>
     }
 }
 
