@@ -4,7 +4,7 @@ import {getWidgets} from '../../../../lib'
 import Item from './Item'
 import {ItemWrapper, StyledLabel, ContentWrapper} from '../..'
 
-const Fields = ({fields}) => {
+const Fields = ({fields, data}) => {
     return <ContentWrapper>
         <div className='row'>
             {fields.map(({column = '12', ...item}, key)=> {
@@ -21,7 +21,7 @@ const Fields = ({fields}) => {
                             {item.title || item.name}
                         </StyledLabel>
                         <ItemWrapper>
-                            <Item key={key} item={item}/>
+                            <Item key={key} item={item} data={data}/>
                         </ItemWrapper>
                     </div>
                 )

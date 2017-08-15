@@ -5,6 +5,7 @@ import {parse} from 'qs'
 import {getEntity} from '../../../../lib'
 import styled from 'styled-components'
 import {showField, mergeDeep} from '../../../../utils'
+import {CircularProgress} from 'material-ui'
 
 @withRouter
 export default (Component) => class Pagination extends React.Component {
@@ -46,6 +47,8 @@ export default (Component) => class Pagination extends React.Component {
 
 
     render() {
+        if (this.props.list.isLoading) return <CircularProgress/>
+
         const entity = getEntity(this.props.entityName)
 
         //configure pagination settings

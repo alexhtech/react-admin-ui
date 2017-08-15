@@ -6,7 +6,7 @@ import Items from './Items'
 import Pagination from './Pagination'
 
 @connect((state, props)=>({
-    list: state.fetchData[`${props.entityName}List`]
+    list: state.fetchData[`${props.entityName}List`] || {isLoading: true}
 }))
 @Pagination
 class List extends React.Component {

@@ -26,7 +26,7 @@ export default {
         show: {
             fields: [
                 {name: 'name'},
-                {name: 'groupId', hasOne: 'groups'}
+                // {name: 'groupId', hasOne: 'groups'}
             ]
         },
         create: {
@@ -34,22 +34,7 @@ export default {
                 {name: 'name', title: 'Name'},
             ],
             url: ()=>'/products',
-            redirect: 'list',
-            fieldsValidate: [
-                {
-                    name: 'tickets',
-                    type: 'array',
-                    fieldsForm: [
-                        {
-                            name: 'name',
-                            isRequired: true,
-                            errorText: {
-                                isRequired: 'Обязательное поле',
-                            }
-                        }
-                    ]
-                }
-            ]
+            redirect: 'show'
         },
         edit: {
             fields: [

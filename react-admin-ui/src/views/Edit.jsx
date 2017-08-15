@@ -9,13 +9,12 @@ import {Link} from 'react-isomorphic-tools'
 import {connect} from 'react-redux'
 import {handleEdit, handleEditSuccess, handleEditFail} from '../actions'
 import {HeaderWrapper} from '../components/Sections'
+import {CircularProgress} from 'material-ui'
 
 @connect((state, props)=>({
-    show: state.fetchData[`${props.match.params.name}Show`].response
+    show: showField(`fetchData.${props.match.params.name}Show.response`, state) || {isLoading: true}
 }))
 export default class Edit extends React.Component {
-
-
     getInitialValues = (initFields, data = this.props.show) => {
         let values = {}
         for (let i in initFields) {
@@ -29,6 +28,8 @@ export default class Edit extends React.Component {
     }
 
     render() {
+        if (this.props.show.isLoading) return <CircularProgress/>
+
         const entity = getEntity(this.props.match.params.name)
         const {
             actions:{
@@ -76,7 +77,6 @@ export default class Edit extends React.Component {
                                 validate={validate}
                     />
                 }
-
             </div>
         )
     }

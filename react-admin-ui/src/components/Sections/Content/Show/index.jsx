@@ -21,7 +21,8 @@ export default class Show extends React.Component {
             },
             prefix,
             id,
-            query
+            query,
+            data
         } = this.props
 
         const tabs = groupFields(fields)
@@ -31,12 +32,12 @@ export default class Show extends React.Component {
                     <Tabs>
                         {tabs.map((item, index)=>
                             <Tab label={item.name || 'noName'} key={index}>
-                                <Fields fields={item.fields}/>
+                                <Fields fields={item.fields} data={data}/>
                             </Tab>
                         )}
                     </Tabs>
                     :
-                    <Fields fields={tabs[0].fields}/>
+                    <Fields fields={tabs[0].fields} data={data}/>
                 }
 
                 <ContentWrapper>

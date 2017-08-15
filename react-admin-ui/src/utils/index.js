@@ -1,14 +1,15 @@
 const showField = (itemName, data) => {
-    if (itemName.length == 0) return data
     let field = itemName.split('.')
-    let name
+    if (itemName == '') return data
+    let name = data
     for (let i in field) {
         if (field.hasOwnProperty(i)) {
-            if (i == 0) {
-                name = data[field[i]]
-            } else {
+            if (name.hasOwnProperty(field[i])) {
                 name = name[field[i]]
+            } else {
+                return undefined
             }
+
         }
     }
     return name
