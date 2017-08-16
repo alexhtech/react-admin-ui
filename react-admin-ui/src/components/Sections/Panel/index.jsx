@@ -22,6 +22,9 @@ const DrawlerStyled = styled(Drawler)`
     margin-left: 0px;
     order: -1;
     margin-left: ${props=>props.panel ? '0' : '-256px'};
+    > div {
+        box-shadow: none !important;
+    }
 `
 const SelectableList = makeSelectable(List)
 
