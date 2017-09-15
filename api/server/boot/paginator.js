@@ -10,8 +10,8 @@ export default (app)=>{
     }
     if(filter.paginator != false){
       const limit = filter.limit || ctx.req.query.limit || limitDefault
-      const page = filter.page || ctx.req.query.page || 1
-      const skip = limit*(page-1)
+      const page = filter.page || ctx.req.query.page || 0
+      const skip = limit*(page)
       ctx.args.filter = {...filter, limit, skip}
     }
   }

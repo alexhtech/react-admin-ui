@@ -17,14 +17,22 @@ export default (Component) => class Pagination extends React.Component {
         if (this.settings.type == 'offset') {
             return (i - 1) * this.settings.itemsPerPage
         }
-        return i
+        if (this.settings.startFrom == '0') {
+            return --i
+        } else {
+            return i
+        }
     }
 
     getCurrentPage = (request) => {
         if (this.settings.type == 'offset') {
             return Math.ceil(showField(this.settings.pageLink, request.params) / this.settings.itemsPerPage) + 1 || 1
         }
-        return showField(this.settings.pageLink, request.params) || 1
+        let page = showField(this.settings.pageLink, request.params) || this.settings.startFrom
+        if (this.settings.startFrom == '0') {
+            return ++page
+        }
+        return page
     }
 
     getQuery = (i) => {
@@ -32,7 +40,7 @@ export default (Component) => class Pagination extends React.Component {
             parse(`${this.settings.pageName}=${i}`, {ignoreQueryPrefix: true}))
     }
 
-    configure = ({itemsPerPage, visible, disable, totalItemsLink, itemsLink, pageName, type, pageLink} = {}) => {
+    configure = ({itemsPerPage, visible, disable, totalItemsLink, itemsLink, pageName, type, pageLink, start} = {}) => {
         this.settings = {
             itemsPerPage: itemsPerPage || 10,
             visible: visible || 4,
@@ -41,7 +49,8 @@ export default (Component) => class Pagination extends React.Component {
             itemsLink: itemsLink || 'items',
             pageName: pageName || 'page',
             pageLink: pageLink || 'page',
-            type: type || 'pages'
+            type: type || 'pages',
+            startFrom: typeof start != 'undefined' ? start : '1'
         }
     }
 

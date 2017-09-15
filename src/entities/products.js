@@ -21,6 +21,10 @@ export default {
             ],
             url: ()=> {
                 return '/products'
+            },
+            pagination: {
+                totalItemsLink: 'totalItems',
+                // start: 0
             }
         },
         show: {
@@ -48,8 +52,5 @@ export default {
         del: {
             url: ({id})=>'/products/' + id
         }
-    },
-    pagination: {
-        totalItemsLink: 'totalItems',
     }
 }
